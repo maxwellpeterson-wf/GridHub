@@ -6,6 +6,7 @@
 ## Setup
 
 Open command line to the root of this repo:
+
 1. `bower install`
 2. `pub get`
 3. Enjoy.
