@@ -1,0 +1,241 @@
+body {
+  margin: 0 10px;
+}
+
+.open.octicon {
+  color: #6cc644;
+}
+
+.closed.octicon, .reverted.octicon {
+  color: #bd2c00;
+}
+
+.merged.octicon {
+  color: #6e5494;
+}
+
+.github-author {
+  color: #666666;
+  font-weight: bold;
+}
+
+.text-muted .github-author {
+  color: #777777;
+}
+
+.github-author img {
+  display: inline-block;
+  overflow: hidden;
+  line-height: 1;
+  vertical-align: middle;
+  border-radius: 3px;
+}
+
+.panel-title a {
+  color: #595959;
+}
+
+.panel-title .octicon {
+  margin-right: 8px;
+}
+
+.panel-body {
+  padding: 0;
+}
+
+.repo-panel .panel-body {
+  height: 300px;
+}
+
+.tabs-right > .nav-tabs {
+  width: 38px;
+  /*border-bottom: 1px solid #b2b2b2;*/
+  height: 300px;
+}
+
+.tabs-right > .nav-tabs > li > .hitarea {
+  min-width: 40px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+.tabs-right > li:first-child {
+  margin-top: 14px;
+}
+
+.tab-pane {
+  padding-right: 40px;
+}
+
+.scrollable-pane {
+  overflow-y: auto;
+  height: 300px;
+  box-sizing: border-box;
+}
+
+.list-group-item-heading {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow-x: hidden;
+}
+
+.list-group-item-heading :hover {
+  white-space: normal;
+}
+
+h4.list-group-item-heading a {
+  color: #444;
+}
+
+.btn-group.no-radius > .btn {
+  border-radius: 0 !important;
+}
+
+.issues-pane .list-group-item {
+  padding-left: 7px;
+}
+
+.issues-pane .list-group-item-heading .octicon {
+  padding-right: 6px;
+}
+
+.issues-pane .list-group-item-text {
+  padding-left: 20px;
+}
+
+/* Github Markdown Readme */
+.readme .markdown-body, .readme .plain {
+  padding: 0 0 30px 30px;
+  word-wrap: break-word;
+}
+
+.markdown-body {
+  overflow: hidden;
+  font-family: "Helvetica Neue", Helvetica, "Segoe UI", Arial, freesans, sans-serif;
+  font-size: 16px;
+  line-height: 1.6;
+  word-wrap: break-word;
+}
+
+.markdown-body .anchor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: block;
+  padding-right: 6px;
+  padding-left: 30px;
+  margin-left: -30px;
+}
+
+.markdown-body h1 .anchor {
+  line-height: 1;
+}
+
+.markdown-body h2 .anchor {
+  line-height: 1;
+}
+
+.markdown-body h3 .anchor {
+  line-height: 1.2;
+}
+
+.markdown-body h4 .anchor {
+  line-height: 1.2;
+}
+
+.markdown-body h1, .markdown-body h2, .markdown-body h3, .markdown-body h4, .markdown-body h5, .markdown-body h6 {
+  position: relative;
+  margin-top: 1em;
+  margin-bottom: 16px;
+  font-weight: bold;
+  line-height: 1.4;
+}
+
+.markdown-body h1:hover .anchor, .markdown-body h2:hover .anchor, .markdown-body h3:hover .anchor, .markdown-body h4:hover .anchor, .markdown-body h5:hover .anchor, .markdown-body h6:hover .anchor {
+  padding-left: 8px;
+  margin-left: -30px;
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .anchor .octicon-link, .markdown-body h2:hover .anchor .octicon-link, .markdown-body h3:hover .anchor .octicon-link, .markdown-body h4:hover .anchor .octicon-link, .markdown-body h5:hover .anchor .octicon-link, .markdown-body h6:hover .anchor .octicon-link {
+  display: inline-block;
+}
+
+.markdown-body h1 .octicon-link, .markdown-body h2 .octicon-link, .markdown-body h3 .octicon-link, .markdown-body h4 .octicon-link, .markdown-body h5 .octicon-link, .markdown-body h6 .octicon-link {
+  display: none;
+  color: #000;
+  vertical-align: middle;
+}
+
+.octicon-link:before {
+  content: '\f05c';
+}
+
+.settings-icon {
+  color: #777;
+  margin-left: 15px;
+}
+
+.settings-popover {
+  width: 300px;
+  margin-top: 78px;
+}
+
+/* Web-skin fixes/hacks */
+.popover .content {
+  padding: 8px;
+  line-height: 1;
+}
+
+.popover.left .arrow {
+  top: 50%;
+  right: -11px;
+  margin-top: -11px;
+  border-color: transparent;
+  border-left-color: #8e8e8e;
+  border-style: solid;
+  border-width: 11px;
+  border-right-width: 0;
+}
+
+.popover.inner {
+  padding: 8px;
+}
+
+.popover .arrow {
+  position: absolute;
+  z-index: 1;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  -webkit-transition: border-color .15s linear;
+  -moz-transition: border-color .15s linear;
+  transition: border-color .15s linear;
+}
+
+.popover .title, .popover .title * {
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -moz-tap-highlight-color: transparent;
+  -ms-tap-highlight-color: transparent;
+  -o-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+.popover .title {
+  padding-top: 0px;
+  padding-bottom: 8px;
+  margin: 0 0 8px 0;
+  font-size: 16px;
+  line-height: 20px;
+  background-color: #fff;
+  border-bottom: 1px solid #b2b2b2;
+  -moz-border-radius-topright: 3px;
+  -webkit-border-top-right-radius: 3px;
+  border-top-right-radius: 3px;
+  -moz-border-radius-topleft: 3px;
+  -webkit-border-top-left-radius: 3px;
+  border-top-left-radius: 3px;
+}

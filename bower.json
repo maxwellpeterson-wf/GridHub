@@ -1,0 +1,22 @@
+{
+  "name": "GridHub",
+  "version": "0.0.1",
+  "homepage": "https://github.com/maxwellpeterson-wf/GridHub",
+  "authors": [
+    "Max Peterson"
+  ],
+  "description": "Multi-repository grid view",
+  "main": "web/index.html",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "octicons": "~2.1.2",
+    "web-skin": "git@github.com:Workiva/web-skin#~0.4.24"
+  }
+}
