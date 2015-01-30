@@ -12,6 +12,7 @@ void main() {
     reactClient.setClientConfiguration();
 
     var repos = [
+          new RepoDescriptor('maxwellpeterson-wf/GridHub'),
           new RepoDescriptor('Workiva/wGulp'),
           new RepoDescriptor('Workiva/karma-jspm'),
           new RepoDescriptor('Workiva/web-skin-react'),

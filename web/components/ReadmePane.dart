@@ -9,8 +9,10 @@ import '../services/githubService.dart' as githubService;
 import '../models/repo.dart';
 
 
+/**
+ * A pane containing the HTML version of the README for a repo
+ */
 var ReadmePane = react.registerComponent(() => new _ReadmePane());
-
 class _ReadmePane extends react.Component {
 
     getDefaultProps() {
