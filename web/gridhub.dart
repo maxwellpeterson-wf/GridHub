@@ -13,12 +13,15 @@ void main() {
 
     var repos = [
           new RepoDescriptor('maxwellpeterson-wf/GridHub'),
+          new RepoDescriptor('Workiva/wSession'),
+          new RepoDescriptor('Workiva/wSessionUI'),
+          new RepoDescriptor('Workiva/wTransport'),
+          new RepoDescriptor('Workiva/wService'),
+          new RepoDescriptor('Workiva/wAuth'),
+          new RepoDescriptor('Workiva/wSessionContext'),
           new RepoDescriptor('Workiva/wGulp'),
           new RepoDescriptor('Workiva/karma-jspm'),
           new RepoDescriptor('Workiva/web-skin-react'),
-          new RepoDescriptor('Workiva/wSession'),
-          new RepoDescriptor('Workiva/wTransport'),
-          new RepoDescriptor('Workiva/wService'),
       ];
 
     react.render(GridHubApp({'repos': repos}), querySelector('#app-container'));

@@ -7,6 +7,7 @@ import '../services/githubService.dart' as githubService;
 import '../models/repo.dart';
 
 import 'AuthorLink.dart';
+import 'NoResultsIcon.dart';
 
 
 var TagsPane = react.registerComponent(() => new _TagsPane());
@@ -48,7 +49,7 @@ class _TagsPane extends react.Component {
             releaseMap[release['tag_name']] = release;
         });
 
-        var contents = [];
+        var listItems = [];
 
         tags.forEach((tag) {
             var release = releaseMap[tag['name']];
@@ -67,7 +68,7 @@ class _TagsPane extends react.Component {
                     ])
                 ]);
 
-                contents.add(
+                listItems.add(
                     ListGroupItem({'header': header}, body)
                 );
             }
@@ -77,14 +78,23 @@ class _TagsPane extends react.Component {
                     react.a({'href': href, 'target': repo.name}, 'No release! Tag: ' + tag['name'])
                 ]);
 
-                contents.add(
+                listItems.add(
                     ListGroupItem({'header': header})
                 );
             }
 
         });
-        return react.div({'className': 'scrollable-pane'}, [
-            ListGroup({}, contents)
-        ]);
+
+        var content;
+        if (listItems.length > 0) {
+            content =         react.div({'className': 'scrollable-pane'}, [
+                ListGroup({}, listItems)
+            ]);
+        }
+        else {
+            content = NoResultsIcon({});
+        }
+
+        return content;
     }
 }

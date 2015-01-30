@@ -7,6 +7,7 @@ import '../services/githubService.dart' as githubService;
 import '../models/repo.dart';
 
 import 'IssueListItem.dart';
+import 'NoResultsIcon.dart';
 import 'Octicon.dart';
 
 
@@ -60,14 +61,14 @@ class _IssuesPane extends react.Component {
         var opened = this.state['opened'];
         var pullRequests = this.props['pullRequests'];
         var issues = this.state['issues'];
-        var contents = [];
+        var listItems = [];
 
         issues.forEach((issue) {
             if(!pullRequests && issue['pull_request'] != null) {
                 return;
             }
 
-            contents.add(
+            listItems.add(
                 IssueListItem({'repo': repo, 'issue': issue, 'pullRequests': pullRequests})
             );
         });
@@ -83,11 +84,19 @@ class _IssuesPane extends react.Component {
             ])
         ]);
 
+        var content;
+        if (listItems.length > 0) {
+            content = react.div({'className': 'scrollable-pane', 'style': {'height': '276px'}}, [
+                ListGroup({}, listItems)
+            ]);
+        }
+        else {
+            content = NoResultsIcon({});
+        }
+
         return react.div({'className': 'issues-pane'}, [
             openClosedButtons,
-            react.div({'className': 'scrollable-pane', 'style': {'height': '276px'}}, [
-                ListGroup({}, contents)
-            ])
+            content
         ]);
     }
 }

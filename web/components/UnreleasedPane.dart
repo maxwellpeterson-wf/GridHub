@@ -7,6 +7,7 @@ import '../services/githubService.dart' as githubService;
 import '../models/repo.dart';
 
 import 'IssueListItem.dart';
+import 'NoResultsIcon.dart';
 import 'Octicon.dart';
 
 
@@ -48,7 +49,7 @@ class _UnreleasedPane extends react.Component {
         RepoDescriptor repo = this.props['repo'];
         var commits = this.state['commits'] != null ? this.state['commits'] : [];
         var issues = this.state['issues'];
-        var contents = [];
+        var listItems = [];
 
         var prNumbers = {};
         commits.forEach((commit) {
@@ -62,14 +63,22 @@ class _UnreleasedPane extends react.Component {
 
         issues.forEach((issue) {
             if (prNumbers[issue['number'].toString()] == true) {
-                contents.add(
+                listItems.add(
                     IssueListItem({'repo': repo, 'issue': issue, 'pullRequests': true})
                 );
             }
         });
 
-        return react.div({'className': 'scrollable-pane'}, [
-            ListGroup({}, contents)
-        ]);
+        var content;
+        if (listItems.length > 0) {
+            content = react.div({'className': 'scrollable-pane'}, [
+                ListGroup({}, listItems)
+            ]);
+        }
+        else {
+            content = NoResultsIcon({});
+        }
+
+        return content;
     }
 }

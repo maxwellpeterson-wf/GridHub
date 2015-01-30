@@ -103,6 +103,12 @@ h4.list-group-item-heading a {
   padding-left: 20px;
 }
 
+.empty-results {
+  text-align: center;
+  padding-top: 100px;
+  color: #ccc;
+}
+
 /* Github Markdown Readme */
 .readme .markdown-body, .readme .plain {
   padding: 0 0 30px 30px;
