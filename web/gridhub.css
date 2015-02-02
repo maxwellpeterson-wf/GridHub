@@ -39,11 +39,17 @@ body {
   margin-right: 8px;
 }
 
-.panel-body {
-  padding: 0;
+.panel-title .remove-repo:hover {
+    color: #f03e3c;
+}
+
+.panel-title .remove-repo {
+    cursor: pointer;
+    float: right;
 }
 
 .repo-panel .panel-body {
+  padding: 0;
   height: 300px;
 }
 
@@ -64,7 +70,7 @@ body {
 }
 
 .tab-pane {
-  padding-right: 40px;
+  padding-right: 39px;
 }
 
 .scrollable-pane {
@@ -213,7 +219,6 @@ h4.list-group-item-heading a {
   z-index: 1;
   width: 0;
   height: 0;
-  border-color: transparent;
   border-style: solid;
   -webkit-transition: border-color .15s linear;
   -moz-transition: border-color .15s linear;
@@ -230,6 +235,7 @@ h4.list-group-item-heading a {
   -o-tap-highlight-color: transparent;
   tap-highlight-color: transparent;
 }
+
 .popover .title {
   padding-top: 0px;
   padding-bottom: 8px;

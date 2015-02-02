@@ -3,6 +3,7 @@ library RepoContainer;
 import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
 
+import '../actions/repoActions.dart' as repoActions;
 import '../constants.dart' as CONSTANTS;
 import '../models/repo.dart';
 
@@ -41,13 +42,19 @@ class _RepoContainer extends react.Component {
       this.setState({'activeKey': activeKey});
   }
 
+  removeRepo(event) {
+      RepoDescriptor repo = this.props['repo'];
+      repoActions.removeRepo(repo.name);
+  }
+
   render() {
       RepoDescriptor repo = this.props['repo'];
       var activeKey = this.state['activeKey'];
       var repoName = repo != null ? repo.name : 'Test Repo';
       var title = react.h3({}, [
           Octicon({'icon': 'repo'}),
-          react.a({'href': repo.url, 'target': repoName}, repoName)
+          react.a({'href': repo.url, 'target': repoName}, repoName),
+          react.a({'className': 'remove-repo', 'onClick': this.removeRepo}, Glyphicon({'glyph': 'trash'}))
       ]);
 
       var readmeIcon = Octicon({'icon': CONSTANTS.readmeIcon});
@@ -75,7 +82,7 @@ class _RepoContainer extends react.Component {
               ]),
               TabPane({'eventKey': '5', 'tab': unreleasedIcon}, [
                   UnreleasedPane({'repo': repo})
-              ])
+              ]),
           ])
       ]);
   }

@@ -8,6 +8,9 @@ import 'dart:convert';
 class RepoGridData {
     Storage localStorage = window.localStorage;
 
+    /**
+     * Authorization
+     */
     get githubUsername => localStorage['githubUsername'];
     set githubUsername(String username) {
         localStorage['githubUsername'] = username;
@@ -28,5 +31,22 @@ class RepoGridData {
         var bytes = UTF8.encode(githubUserNameAccessToken);
         var base64 = CryptoUtils.bytesToBase64(bytes);
         localStorage['githubAuthorization'] = base64;
+    }
+
+    /**
+     * Repo Data
+     */
+    get repos => JSON.decode(localStorage['repos'] != null ? localStorage['repos'] : '[]');
+
+    addRepo(String repoName) {
+        var _repos = repos;
+        _repos.add(repoName);
+        localStorage['repos'] = JSON.encode(_repos);
+    }
+
+    removeRepo(String repoName) {
+        var _repos = repos;
+        _repos.remove(repoName);
+        localStorage['repos'] = JSON.encode(_repos);
     }
 }
