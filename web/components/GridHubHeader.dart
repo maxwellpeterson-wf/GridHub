@@ -63,7 +63,7 @@ class _GridHubHeader extends react.Component {
         var tagIcon = Octicon({'icon': CONSTANTS.tagsIcon});
         var issueIcon = Octicon({'icon': CONSTANTS.issuesIcon});
         var pullRequestIcon = Octicon({'icon': CONSTANTS.pullRequestsIcon});
-        var pinIcon = Octicon({'icon': CONSTANTS.unreleasedIcon});
+        var unreleasedIcon = Octicon({'icon': CONSTANTS.unreleasedIcon});
         var addIcon = Octicon({'icon': 'plus'});
 
         return react.div({'className': 'page-header'}, [
@@ -87,11 +87,11 @@ class _GridHubHeader extends react.Component {
                     ])
                 ),
                 ButtonGroup({'bsSize': 'large'}, [
-                    Button({'onClick': globalButtonClickHandler('1')}, readmeIcon),
-                    Button({'onClick': globalButtonClickHandler('2')}, tagIcon),
-                    Button({'onClick': globalButtonClickHandler('3')}, issueIcon),
-                    Button({'onClick': globalButtonClickHandler('4')}, pullRequestIcon),
-                    Button({'onClick': globalButtonClickHandler('5')}, pinIcon)
+                    Button({'title': 'Readme', 'onClick': globalButtonClickHandler('1')}, readmeIcon),
+                    Button({'title': 'Tags/Releases', 'onClick': globalButtonClickHandler('2')}, tagIcon),
+                    Button({'title': 'Issues', 'onClick': globalButtonClickHandler('3')}, issueIcon),
+                    Button({'title': 'Pull Requests', 'onClick': globalButtonClickHandler('4')}, pullRequestIcon),
+                    Button({'title': 'Merged but not released', 'onClick': globalButtonClickHandler('5')}, unreleasedIcon)
                 ]),
                 // TODO Could not get this popover to work in its own component file. fix this
                 // For some reason if I create a new component that renders a Popover, and then pass
