@@ -1,5 +1,16 @@
 bower_components
-build
+build/web/bower_components/octicons/svg
+build/web/bower_components/web-skin/design-resources
+build/web/bower_components/web-skin/ide-resources
+build/web/bower_components/web-skin/lib
+build/web/bower_components/web-skin/packages
+build/web/bower_components/web-skin/project-config
+build/web/bower_components/web-skin/sass
+build/web/bower_components/web-skin/static
+build/web/bower_components/web-skin/
+!build/web/bower_components/web-skin/dist
+build/web/bower_components/wf-js-vendor
+
 packages
 web/bower_components
 web/packages
