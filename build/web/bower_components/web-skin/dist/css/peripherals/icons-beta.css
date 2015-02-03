@@ -1,0 +1,61 @@
+/*!
+ * Wdesk's Beta Icons
+ *
+ * DEPENDENCIES:
+ *   wdesk.css / wdesk_ie-lt9.css
+ *
+ * Copyright 2014 Workiva
+ *
+ */
+@keyframes rotate-counter-clockwise { /* line 495, ../../../../sass/_constants/_mixins.scss */
+  to { -ms-transform: rotate(-360deg); transform: rotate(-360deg); } }
+
+@keyframes rotate-clockwise { /* line 495, ../../../../sass/_constants/_mixins.scss */
+  to { -ms-transform: rotate(360deg); transform: rotate(360deg); } }
+
+/* line 24, ../../../../sass/peripherals/icons-beta.scss */
+.icon-file-dt-beta { *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe602;'); }
+/* line 29, ../../../../sass/_constants/_icon-reference.scss */
+.icon-file-dt-beta:before { content: "\e602"; }
+
+/* line 27, ../../../../sass/peripherals/icons-beta.scss */
+.icon-file-dc-beta { *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe603;'); }
+/* line 29, ../../../../sass/_constants/_icon-reference.scss */
+.icon-file-dc-beta:before { content: "\e603"; }
+
+/* line 32, ../../../../sass/peripherals/icons-beta.scss */
+.icon-twfr-workspaces { *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe674;'); }
+/* line 29, ../../../../sass/_constants/_icon-reference.scss */
+.icon-twfr-workspaces:before { content: "\e674"; }
+
+/* line 35, ../../../../sass/peripherals/icons-beta.scss */
+.icon-twfr-file-dt-beta { *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe604;'); }
+/* line 29, ../../../../sass/_constants/_icon-reference.scss */
+.icon-twfr-file-dt-beta:before { content: "\e604"; }
+
+/* line 38, ../../../../sass/peripherals/icons-beta.scss */
+.icon-twfr-file-dc-frozen-beta { *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe605;'); }
+/* line 29, ../../../../sass/_constants/_icon-reference.scss */
+.icon-twfr-file-dc-frozen-beta:before { content: "\e605"; }
+
+/* line 41, ../../../../sass/peripherals/icons-beta.scss */
+.icon-twfr-file-dc-draft-beta { *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe606;'); }
+/* line 29, ../../../../sass/_constants/_icon-reference.scss */
+.icon-twfr-file-dc-draft-beta:before { content: "\e606"; }
+
+/* line 44, ../../../../sass/peripherals/icons-beta.scss */
+.icon-twfr-file-dc-beta { *zoom: expression(this.runtimeStyle['zoom'] = '1', this.innerHTML = '&#xe607;'); }
+/* line 29, ../../../../sass/_constants/_icon-reference.scss */
+.icon-twfr-file-dc-beta:before { content: "\e607"; }
+
+/* line 61, ../../../../sass/peripherals/icons-beta.scss */
+.icon-two-color.icon-twfr-file-dc-frozen-beta:before { color: #42ad48; }
+/* line 64, ../../../../sass/peripherals/icons-beta.scss */
+.icon-two-color.icon-twfr-file-dc-frozen-beta:after { color: #595959; content: "\e633"; }
+/* line 70, ../../../../sass/peripherals/icons-beta.scss */
+.icon-two-color.icon-twfr-file-dc-draft-beta:before { color: #42ad48; }
+/* line 73, ../../../../sass/peripherals/icons-beta.scss */
+.icon-two-color.icon-twfr-file-dc-draft-beta:after { color: #595959; content: "\e634"; }
+
+/* line 83, ../../../../sass/peripherals/icons-beta.scss */
+.icon-color[class*="file-dc-beta"]:before, .icon-color[class*="file-dt-beta"]:before { color: #42ad48 !important; }

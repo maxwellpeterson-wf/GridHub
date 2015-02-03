@@ -1,0 +1,93 @@
+/*!
+ * Wdesk's Browser Upgrade Screen
+ *
+ * DEPENDENCIES:
+ *   wdesk.css / wdesk_ie-lt9.css
+ *   libs_ie.js
+ *
+ * Copyright 2014 Workiva
+ *
+ */
+@keyframes rotate-counter-clockwise { /* line 495, ../../../sass/_constants/_mixins.scss */
+  to { -ms-transform: rotate(-360deg); transform: rotate(-360deg); } }
+
+@keyframes rotate-clockwise { /* line 495, ../../../sass/_constants/_mixins.scss */
+  to { -ms-transform: rotate(360deg); transform: rotate(360deg); } }
+
+/* line 66, browser-upgrade/*.png */
+.browser-upgrade-sprite, .browser-link.chrome .browser-logo, .browser-link.firefox .browser-logo, .browser-link.safari .browser-logo, .browser-link.msie .browser-logo { background: url('../img/browser-upgrade-sb883924d89.png') no-repeat; }
+
+/* line 18, ../../../sass/_browser-upgrade-layout.scss */
+.browser-upgrade-container { margin-top: 1em; }
+
+/* line 22, ../../../sass/_browser-upgrade-layout.scss */
+.browser-upgrade-masthead .lead { padding: 0 15px; margin-bottom: 30px; font-size: 16px; clear: both; }
+
+/* line 29, ../../../sass/_browser-upgrade-layout.scss */
+.browser-upgrade-benefits { padding: 0 15px; max-width: 570px; margin: 0 auto; }
+
+/* line 35, ../../../sass/_browser-upgrade-layout.scss */
+.browser-upgrade-heading { padding: 0 15px; margin-bottom: 1em; font-size: 30px; color: #339900; }
+
+/* line 42, ../../../sass/_browser-upgrade-layout.scss */
+.browser-list { margin-top: 20px; margin-left: 0; margin-right: 0; }
+/* line 47, ../../../sass/_browser-upgrade-layout.scss */
+.browser-list .list-group-item { text-align: center; background: #f8f8f8; overflow: hidden; background-clip: padding-box; padding: 0; border-radius: 0 !important; }
+/* line 61, ../../../sass/_browser-upgrade-layout.scss */
+.browser-list .list-group-item.first-group-item { border-top-left-radius: 4px !important; border-top-right-radius: 4px !important; }
+/* line 64, ../../../sass/_browser-upgrade-layout.scss */
+.browser-list .list-group-item.last-group-item { border-bottom-left-radius: 4px !important; border-bottom-right-radius: 4px !important; }
+/* line 68, ../../../sass/_browser-upgrade-layout.scss */
+.browser-list .list-group-item.browsers-best { background: #f3f3f3; }
+
+/* line 74, ../../../sass/_browser-upgrade-layout.scss */
+.browser-group-heading { color: #66cc00; position: relative; }
+/* line 79, ../../../sass/_browser-upgrade-layout.scss */
+.browser-group-heading.is-empty { visibility: hidden; }
+
+/* line 84, ../../../sass/_browser-upgrade-layout.scss */
+.browser-link { display: block; padding-top: 66px; padding-bottom: 20px; margin-top: -56px; }
+/* line 91, ../../../sass/_browser-upgrade-layout.scss */
+.browser-link + .browser-link { padding-top: 10px; margin-top: 0; }
+/* line 96, ../../../sass/_browser-upgrade-layout.scss */
+.browser-link, .browser-link .browser-name { color: #595959; }
+/* line 100, ../../../sass/_browser-upgrade-layout.scss */
+.browser-link:hover, .browser-link:focus { background-color: #eeeeee; }
+/* line 102, ../../../sass/_browser-upgrade-layout.scss */
+.browser-link:hover, .browser-link:hover .browser-name, .browser-link:focus, .browser-link:focus .browser-name { color: #66cc00; text-decoration: none; }
+/* line 114, ../../../sass/_browser-upgrade-layout.scss */
+.browser-link.chrome .browser-logo { display: block; width: 124px; height: 124px; margin: 0 auto; text-align: center; background-position: 0 -248px; }
+/* line 114, ../../../sass/_browser-upgrade-layout.scss */
+.browser-link.firefox .browser-logo { display: block; width: 124px; height: 124px; margin: 0 auto; text-align: center; background-position: 0 -124px; }
+/* line 114, ../../../sass/_browser-upgrade-layout.scss */
+.browser-link.safari .browser-logo { display: block; width: 124px; height: 124px; margin: 0 auto; text-align: center; background-position: 0 0; }
+/* line 114, ../../../sass/_browser-upgrade-layout.scss */
+.browser-link.msie .browser-logo { display: block; width: 124px; height: 124px; margin: 0 auto; text-align: center; background-position: 0 -372px; }
+
+/* line 126, ../../../sass/_browser-upgrade-layout.scss */
+.browser-fine-print { color: #b2b2b2; }
+/* line 129, ../../../sass/_browser-upgrade-layout.scss */
+.browser-fine-print.is-empty { display: none; }
+
+@media screen and (max-width: 767px) { /* line 138, ../../../sass/_browser-upgrade-layout.scss */
+  .browser-list { max-width: 280px; margin-left: auto; margin-right: auto; } }
+@media screen and (min-width: 768px) { /* line 146, ../../../sass/_browser-upgrade-layout.scss */
+  .browser-upgrade-container { margin-top: 3em; }
+  /* line 150, ../../../sass/_browser-upgrade-layout.scss */
+  .browser-upgrade-masthead .lead { padding: 0; font-size: 18px; clear: both; }
+  /* line 156, ../../../sass/_browser-upgrade-layout.scss */
+  .browser-upgrade-heading { padding: 0; margin-bottom: 1em; font-size: 34px; }
+  /* line 162, ../../../sass/_browser-upgrade-layout.scss */
+  .browser-list { margin-right: -15px; margin-left: -15px; }
+  /* line 168, ../../../sass/_browser-upgrade-layout.scss */
+  .browser-list .list-group-item.first-group-item { border-radius: 0 !important; border-top-left-radius: 4px !important; border-bottom-left-radius: 4px !important; border-right-width: 0; }
+  /* line 174, ../../../sass/_browser-upgrade-layout.scss */
+  .browser-list .list-group-item.last-group-item { border-radius: 0 !important; border-top-right-radius: 4px !important; border-bottom-right-radius: 4px !important; border-left-width: 0; }
+  /* line 185, ../../../sass/_browser-upgrade-layout.scss */
+  .browser-link + .browser-link { padding-top: 66px; margin-top: -56px; }
+  /* line 191, ../../../sass/_browser-upgrade-layout.scss */
+  .browser-link.halved { float: left; width: 50%; *clear: right; *padding-right: 0; *padding-left: 0; *margin-bottom: -10px; }
+  /* line 204, ../../../sass/_browser-upgrade-layout.scss */
+  .browser-fine-print.is-empty { display: block; } }
+@media screen and (min-width: 992px) { /* line 210, ../../../sass/_browser-upgrade-layout.scss */
+  .browser-upgrade-heading { font-size: 36px; } }
