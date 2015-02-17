@@ -31,13 +31,13 @@ class _UnreleasedPane extends react.Component {
     componentWillMount() {
         RepoDescriptor repo = this.props['repo'];
         if (repo != null) {
-            githubService.getIssues(repo, 'pulls', 'closed', (responseJson) {
+            githubService.getIssues(repo, 'pulls', 'closed').then((responseJson) {
                 this.setState({
                     'issues': responseJson
                 });
             });
 
-            githubService.getCommitsSinceLastTag(repo, (commits) {
+            githubService.getCommitsSinceLastTag(repo).then((commits) {
                 this.setState({
                     'commits': commits['commits']
                 });

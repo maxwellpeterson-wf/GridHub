@@ -34,7 +34,7 @@ class _IssuesPane extends react.Component {
         RepoDescriptor repo = this.props['repo'];
         if (repo != null) {
             var type = this.props['pullRequests'] ? 'pulls' : 'issues';
-            githubService.getIssues(repo, type, state, (responseJson) {
+            githubService.getIssues(repo, type, state).then((responseJson) {
                 this.setState({
                     'issues': responseJson,
                     'currentlyRenderedState': state

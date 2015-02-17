@@ -43,8 +43,8 @@ body {
     color: #f03e3c;
 }
 
-.panel-title .remove-repo {
-    cursor: pointer;
+.panel-title .title-right {
+    /*cursor: pointer;*/
     float: right;
 }
 
@@ -113,6 +113,40 @@ h4.list-group-item-heading a {
   text-align: center;
   padding-top: 100px;
   color: #ccc;
+}
+
+.list-item-container {
+    border-top: 1px solid #e3e3e3;
+    cursor: pointer;
+}
+
+.list-item-container:first-child {
+    border-top-color: transparent;
+}
+
+.list-item-container .list-group-item {
+    border-top: none;
+    margin-bottom: 0;
+}
+
+.list-item-expanded-content {
+    display: none;
+}
+
+.list-item-expanded-content.show {
+    display: block;
+    border-top: 1px dashed #e3e3e3;
+    background-color: #f9f9f9;
+    padding: 10px;
+}
+
+.list-item-expanded-content .btn-xs {
+    margin-left: 4px;
+    opacity: .45 !important;
+}
+
+.list-item-expanded-content .btn-xs:hover {
+    opacity: 1 !important;
 }
 
 /* Github Markdown Readme */

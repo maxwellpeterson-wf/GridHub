@@ -28,9 +28,17 @@ class _ReadmePane extends react.Component {
     }
 
     componentWillMount() {
+        this.getData();
+    }
+
+    componentWillUpdate(nextProps, nextState) {
+        this.getData();
+    }
+
+    getData() {
         RepoDescriptor repo = this.props['repo'];
         if (repo != null) {
-            githubService.getReadme(repo, (responseString) {
+            githubService.getReadme(repo).then((responseString) {
                 this.setState({
                     'readmeHtml': responseString
                 });

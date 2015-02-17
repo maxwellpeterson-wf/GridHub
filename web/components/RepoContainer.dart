@@ -54,7 +54,9 @@ class _RepoContainer extends react.Component {
       var title = react.h3({}, [
           Octicon({'icon': 'repo'}),
           react.a({'href': repo.url, 'target': repoName}, repoName),
-          react.a({'className': 'remove-repo', 'onClick': this.removeRepo}, Glyphicon({'glyph': 'trash'}))
+          react.span({'className': 'pull-right'}, [
+              react.a({'className': 'remove-repo', 'onClick': this.removeRepo}, Glyphicon({'glyph': 'trash'}))
+          ])
       ]);
 
       var readmeIcon = Octicon({'icon': CONSTANTS.readmeIcon});

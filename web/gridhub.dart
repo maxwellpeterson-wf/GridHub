@@ -17,14 +17,23 @@ void main() {
     renderApp();
     Pubsub.subscribe('repo.added', renderApp);
     Pubsub.subscribe('repo.removed', renderApp);
+    Pubsub.subscribe('page.added', renderApp);
+    Pubsub.subscribe('page.switch', renderApp);
 }
 
 void renderApp([msg=null]) {
+    var page = storage.currentPage;
+    var pageNames = storage.pageNames;
+
     var repos = [];
-    var storedRepos = storage.repos;
+    var storedRepos = storage.getRepos(page);
     storedRepos.forEach((repoName) {
         repos.add(new RepoDescriptor(repoName));
     });
 
-    react.render(GridHubApp({'repos': repos}), querySelector('#app-container'));
+    react.render(GridHubApp({
+        'currentPage': page,
+        'pageNames': pageNames,
+        'repos': repos
+    }), querySelector('#app-container'));
 }

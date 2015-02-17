@@ -30,10 +30,10 @@ class _TagsPane extends react.Component {
     componentWillMount() {
         RepoDescriptor repo = this.props['repo'];
         if (repo != null) {
-            githubService.getTags(repo, (responseJson) {
+            githubService.getTags(repo).then((responseJson) {
                 this.setState({'tags': responseJson});
             });
-            githubService.getReleases(repo, (responseJson) {
+            githubService.getReleases(repo).then((responseJson) {
                 this.setState({'releases': responseJson});
             });
         }

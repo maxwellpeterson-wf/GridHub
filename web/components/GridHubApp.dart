@@ -17,6 +17,8 @@ class _GridHubApp extends react.Component {
 
     getDefaultProps() {
         return {
+            'currentPage': '',
+            'pageNames': [],
             'repos': []
         };
     }
@@ -58,7 +60,11 @@ class _GridHubApp extends react.Component {
         }
 
         return react.div({'className': 'container-fluid'}, [
-            GridHubHeader({'globalButtonClickHandler': this.globalButtonClicked}),
+            GridHubHeader({
+                'currentPage': this.props['currentPage'],
+                'globalButtonClickHandler': this.globalButtonClicked,
+                'pageNames': this.props['pageNames']
+            }),
             react.div({}, rows),
         ]);
     }

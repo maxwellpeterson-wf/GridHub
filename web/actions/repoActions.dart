@@ -16,3 +16,14 @@ void removeRepo(String repoName) {
     storage.removeRepo(repoName);
     Pubsub.publish('repo.removed', repoName);
 }
+
+void addPage(String pageName) {
+    storage.addPage(pageName);
+//    Pubsub.publish('page.added');
+    switchPage(pageName);
+}
+
+void switchPage(String pageName) {
+    storage.currentPage = pageName;
+    Pubsub.publish('page.switch');
+}
