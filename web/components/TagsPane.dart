@@ -3,7 +3,6 @@ library TagsPane;
 import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
 
-import '../services/githubService.dart' as githubService;
 import '../models/repo.dart';
 
 import 'AuthorLink.dart';
@@ -20,29 +19,10 @@ class _TagsPane extends react.Component {
         };
     }
 
-    getInitialState() {
-        return {
-            'releases': [],
-            'tags': []
-        };
-    }
-
-    componentWillMount() {
-        RepoDescriptor repo = this.props['repo'];
-        if (repo != null) {
-            githubService.getTags(repo).then((responseJson) {
-                this.setState({'tags': responseJson});
-            });
-            githubService.getReleases(repo).then((responseJson) {
-                this.setState({'releases': responseJson});
-            });
-        }
-    }
-
     render() {
-        RepoDescriptor repo = this.props['repo'];
-        var tags = this.state['tags'];
-        var releases = this.state['releases'];
+        Repository repo = this.props['repo'];
+        var tags = repo.tagsData;
+        var releases = repo.releasesData;
 
         var releaseMap = {};
         releases.forEach((release) {
@@ -87,7 +67,7 @@ class _TagsPane extends react.Component {
 
         var content;
         if (listItems.length > 0) {
-            content =         react.div({'className': 'scrollable-pane'}, [
+            content = react.div({'className': 'scrollable-pane'}, [
                 ListGroup({}, listItems)
             ]);
         }

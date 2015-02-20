@@ -7,18 +7,20 @@ import 'package:pubsub/pubsub.dart';
 import 'components/GridHubApp.dart' show GridHubApp;
 import 'models/repo.dart';
 import 'services/localStorageService.dart' as localStorageService;
+import 'stores/ReposStore.dart';
 
 
-var storage = new localStorageService.RepoGridData();
+var storage;
+var store;
 
 void main() {
     reactClient.setClientConfiguration();
 
+    storage = new localStorageService.RepoGridData();
+    store = new ReposStore(storage);
+
     renderApp();
-    Pubsub.subscribe('repo.added', renderApp);
-    Pubsub.subscribe('repo.removed', renderApp);
-    Pubsub.subscribe('page.added', renderApp);
-    Pubsub.subscribe('page.switch', renderApp);
+    Pubsub.subscribe('repos', renderApp);
 }
 
 void renderApp([msg=null]) {
@@ -26,10 +28,15 @@ void renderApp([msg=null]) {
     var pageNames = storage.pageNames;
 
     var repos = [];
-    var storedRepos = storage.getRepos(page);
-    storedRepos.forEach((repoName) {
-        repos.add(new RepoDescriptor(repoName));
-    });
+    if (msg != null) {
+        repos = msg.args[0];
+        print(repos);
+    } else {
+        var storedRepos = storage.getRepos(page);
+        storedRepos.forEach((repoName) {
+            repos.add(new Repository(repoName));
+        });
+    }
 
     react.render(GridHubApp({
         'currentPage': page,

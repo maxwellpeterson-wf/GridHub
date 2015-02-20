@@ -48,7 +48,7 @@ class _RepoContainer extends react.Component {
   }
 
   render() {
-      RepoDescriptor repo = this.props['repo'];
+      Repository repo = this.props['repo'];
       var activeKey = this.state['activeKey'];
       var repoName = repo != null ? repo.name : 'Test Repo';
       var title = react.h3({}, [

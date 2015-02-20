@@ -3,7 +3,6 @@ library UnreleasedPane;
 import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
 
-import '../services/githubService.dart' as githubService;
 import '../models/repo.dart';
 
 import 'IssueListItem.dart';
@@ -21,34 +20,10 @@ class _UnreleasedPane extends react.Component {
         };
     }
 
-    getInitialState() {
-        return {
-            'issues': [],
-            'commits': []
-        };
-    }
-
-    componentWillMount() {
-        RepoDescriptor repo = this.props['repo'];
-        if (repo != null) {
-            githubService.getIssues(repo, 'pulls', 'closed').then((responseJson) {
-                this.setState({
-                    'issues': responseJson
-                });
-            });
-
-            githubService.getCommitsSinceLastTag(repo).then((commits) {
-                this.setState({
-                    'commits': commits['commits']
-                });
-            });
-        }
-    }
-
     render() {
-        RepoDescriptor repo = this.props['repo'];
-        var commits = this.state['commits'] != null ? this.state['commits'] : [];
-        var issues = this.state['issues'];
+        Repository repo = this.props['repo'];
+        var commits = repo.commitsData;
+        var pulls = repo.pullRequestsData;
         var listItems = [];
 
         var prNumbers = {};
@@ -61,7 +36,7 @@ class _UnreleasedPane extends react.Component {
             }
         });
 
-        issues.forEach((issue) {
+        pulls.forEach((issue) {
             if (prNumbers[issue['number'].toString()] == true) {
                 listItems.add(
                     IssueListItem({'repo': repo, 'issue': issue, 'pullRequests': true})

@@ -3,6 +3,8 @@ library GridHubApp;
 import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
 
+import '../models/repo.dart';
+
 import 'Octicon.dart';
 import 'RepoContainer.dart';
 import 'GridHubHeader.dart';
@@ -42,8 +44,8 @@ class _GridHubApp extends react.Component {
         var rows = [];
         var rowItems = [];
 
-        var repos = this.props['repos'];
-        repos.forEach((repo) {
+        List<Repository> repos = this.props['repos'];
+        repos.forEach((Repository repo) {
             rowItems.add(
                 Col({'sm': 4}, [
                     RepoContainer({'repo': repo, 'globalActiveKey': globalActiveKey})

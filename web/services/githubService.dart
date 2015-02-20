@@ -39,10 +39,10 @@ getReadme(RepoDescriptor repo) {
 
 getIssues(RepoDescriptor repo, String type, [String state = null]) {
     var stateString = '';
-    if (state != null) {
-        stateString = '?state=${state}';
+    if (state == null) {
+        state = 'all';
     }
-    return githubApiRequest(repo, '${type}${stateString}');
+    return githubApiRequest(repo, '${type}${stateString}?state=${state}');
 }
 
 getTags(RepoDescriptor repo) {
@@ -61,7 +61,9 @@ getCommitsSinceLastTag(RepoDescriptor repo) {
         }
         else {
             print("NO TAGS!");
-            return [];
+            return {
+                'commits': []
+            };
         }
     });
 }
