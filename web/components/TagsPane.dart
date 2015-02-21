@@ -35,9 +35,7 @@ class _TagsPane extends react.Component {
         tags.forEach((tag) {
             var release = releaseMap[tag['name']];
             if (release != null) {
-                var header = react.h4({}, [
-                    react.a({'href': release['html_url'], 'target': repo.name}, release['name'])
-                ]);
+                var header = react.a({'href': release['html_url'], 'target': repo.name}, release['name']);
 //                var publishDate = DateTime.parse(release['published_at']);
                 var body = react.span({}, [
                     react.div({}, [
