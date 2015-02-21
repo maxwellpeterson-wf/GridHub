@@ -3,6 +3,7 @@ library IssueListItem;
 import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
 
+import '../components/FancyListGroupItem.dart';
 import '../models/repo.dart';
 
 import 'AuthorLink.dart';
@@ -43,10 +44,10 @@ class _IssueListItem extends react.Component {
         }
 
         var href = issue['html_url'];
-        var header = react.h4({}, [
+        var header = [
             icon,
             react.a({'href': href, 'target': repo.name}, issue['title'])
-        ]);
+        ];
 
         var number = issue['number'];
         var body = react.span({'className': 'text-muted text-md'}, [
@@ -54,7 +55,9 @@ class _IssueListItem extends react.Component {
             AuthorLink({'author': issue['user']})
         ]);
 
-        return ListGroupItem({'header': header}, body);
+        return FancyListGroupItem({'header': header}, [
+            body
+        ]);
     }
 
 }

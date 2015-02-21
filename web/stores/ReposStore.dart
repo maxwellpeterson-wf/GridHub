@@ -33,6 +33,8 @@ class ReposStore {
             repos.add(repo);
             futures.add(repo.initializeData());
         });
+        // Trigger immediately, and also when the data is done loading
+        this.trigger(repos);
 
         this.allRepos[this.storage.currentPage] = repos;
         Future.wait(futures).then((futures) {
@@ -44,6 +46,8 @@ class ReposStore {
         var pageRepos = this.allRepos[this.storage.currentPage];
         var repo = new Repository(repoName);
         pageRepos.add(repo);
+
+        this.trigger(pageRepos);
         repo.initializeData().then((futures) {
             this.trigger(pageRepos);
         });
@@ -77,7 +81,8 @@ class ReposStore {
     }
 
     trigger(List<Repository> repos) {
-        Pubsub.publish('repos', repos);
+        // Broadcast repos, current page, and page names
+        Pubsub.publish('repos', repos, this.storage.currentPage, this.storage.pageNames);
     }
 
     _getPayload(toCall) {

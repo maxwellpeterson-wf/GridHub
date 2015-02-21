@@ -3,6 +3,7 @@ library TagsPane;
 import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
 
+import '../components/FancyListGroupItem.dart';
 import '../models/repo.dart';
 
 import 'AuthorLink.dart';
@@ -49,7 +50,7 @@ class _TagsPane extends react.Component {
                 ]);
 
                 listItems.add(
-                    ListGroupItem({'header': header}, body)
+                    FancyListGroupItem({'header': header}, [body])
                 );
             }
             else {
@@ -59,7 +60,7 @@ class _TagsPane extends react.Component {
                 ]);
 
                 listItems.add(
-                    ListGroupItem({'header': header})
+                    FancyListGroupItem({'header': header})
                 );
             }
 
