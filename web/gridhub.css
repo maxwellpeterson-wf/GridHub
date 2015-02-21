@@ -217,6 +217,14 @@ h4.list-group-item-heading a {
   content: '\f05c';
 }
 
+.add-page-popover {
+    margin-top: 49px;
+}
+
+.add-repo-popover {
+    margin-top: 49px;
+}
+
 .settings-icon {
   color: #777;
   margin-left: 15px;
@@ -224,7 +232,7 @@ h4.list-group-item-heading a {
 
 .settings-popover {
   width: 300px;
-  margin-top: 92px;
+  margin-top: 86px;
 }
 
 /* Web-skin fixes/hacks */

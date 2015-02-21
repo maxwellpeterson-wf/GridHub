@@ -87,7 +87,7 @@ class RepoGridData {
         if (storedDefaultPage != null) {
             return storedDefaultPage;
         }
-        return 'default';
+        return 'Default Page';
     }
     set defaultPage(String pageName) {
         localStorage['defaultPage'] = pageName;

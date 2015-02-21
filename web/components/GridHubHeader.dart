@@ -86,24 +86,24 @@ class _GridHubHeader extends react.Component {
         var addIcon = Octicon({'icon': 'plus'});
 
         var pageButtons = [];
-        if (pageNames.length > 1) {
-            pageNames.forEach((pageName) {
-                pageSwitch(event) {
-                    repoActions.switchPage(pageName);
-                }
-                var activeClass = '';
-                if (currentPage == pageName) {
-                    activeClass += 'active';
-                }
-                pageButtons.add(react.li({'className': activeClass}, [
-                    react.a({'className': 'hitarea', 'onClick': pageSwitch}, pageName)
-                ]));
-            });
+        pageNames.forEach((pageName) {
+            pageSwitch(event) {
+                repoActions.switchPage(pageName);
+            }
+            var activeClass = '';
+            if (currentPage == pageName) {
+                activeClass += 'active';
+            }
+            pageButtons.add(react.li({'className': activeClass}, [
+                react.a({'className': 'hitarea', 'onClick': pageSwitch}, pageName)
+            ]));
+        });
 
-            // ADD NEW PAGE BUTTON
+        // ADD NEW PAGE BUTTON
+        if (pageButtons.length > 0) {
             pageButtons.add(react.li({}, [
-                OverlayTrigger({'trigger': 'click', 'placement': 'bottom', 'overlay': Popover(
-                    {'className': 'inner', 'title': 'Add Page'}, [
+                OverlayTrigger({'trigger': 'click', 'placement': 'right', 'overlay': Popover(
+                    {'className': 'inner add-page-popover', 'arrowOffsetTop': 18, 'title': 'Add Page'}, [
                         react.form({'onSubmit': this.addPage}, [
                             Input({'type': 'text', 'label': 'Page Name',
                                 'value': newPageName,
@@ -111,7 +111,7 @@ class _GridHubHeader extends react.Component {
                             }),
                         ])
                     ])},
-                    react.a({'className': 'hitarea', 'onClick': null}, addIcon)
+                react.a({'className': 'hitarea', 'onClick': null}, addIcon)
                 ),
             ]));
         }
@@ -123,8 +123,8 @@ class _GridHubHeader extends react.Component {
             Nav({'className': 'pull-right'}, [
 
                 // ADD REPO BUTTON
-                OverlayTrigger({'trigger': 'click', 'placement': 'bottom', 'overlay': Popover(
-                    {'className': 'inner', 'title': 'Add Repository'}, [
+                OverlayTrigger({'trigger': 'click', 'placement': 'left', 'overlay': Popover(
+                    {'className': 'inner add-repo-popover', 'arrowOffsetTop': 18, 'title': 'Add Repository'}, [
                         react.form({'onSubmit': this.addRepo}, [
                             Input({'type': 'text', 'label': 'Repo Path',
                                 'placeholder': 'Workiva/wGulp',
@@ -148,7 +148,7 @@ class _GridHubHeader extends react.Component {
                 // For some reason if I create a new component that renders a Popover, and then pass
                 // that in as a prop to OverlayTrigger - it breaks. I assume it is dart interop issues
                 OverlayTrigger({'trigger': 'click', 'placement': 'left', 'overlay': Popover(
-                    {'title': 'Settings', 'arrowOffsetTop': 25, 'className': 'inner settings-popover'}, [
+                    {'title': 'Settings', 'arrowOffsetTop': 18, 'className': 'inner settings-popover'}, [
                         Input({'type': 'text', 'label': 'Github Username',
                             'value': githubUsername,
                             'onChange': this.onGithubUsernameChange}),
