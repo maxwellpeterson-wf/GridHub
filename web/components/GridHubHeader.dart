@@ -19,14 +19,18 @@ class _GridHubHeader extends react.Component {
 
     getDefaultProps() {
         return {
-            'globalButtonClickHandler': (){}
+            'currentPage': '',
+            'globalButtonClickHandler': (){},
+            'pageNames': []
         };
     }
 
     getInitialState() {
         return {
+            'editPageName': '',
             'githubUsername': storage.githubUsername,
             'githubAccessToken': storage.githubAccessToken,
+            'newPageName': '',
             'newRepoName': ''
         };
     }
@@ -41,8 +45,37 @@ class _GridHubHeader extends react.Component {
         storage.githubAccessToken = event.target.value;
     }
 
+    onNewPageNameChange(event) {
+        this.setState({'newPageName': event.target.value});
+    }
+
+    onEditPageNameChange(event) {
+        this.setState({'editPageName': event.target.value});
+    }
+
     onNewRepoNameChange(event) {
         this.setState({'newRepoName': event.target.value});
+    }
+
+    addPage(event) {
+        event.preventDefault();
+        if (!this.state['newPageName'].isEmpty) {
+            repoActions.addPage(this.state['newPageName']);
+            this.setState({'newPageName': ''});
+        }
+    }
+
+    deletePage(event) {
+        event.preventDefault();
+        repoActions.deletePage(this.props['currentPage']);
+    }
+
+    editPage(event) {
+        event.preventDefault();
+        if (!this.state['editPageName'].isEmpty) {
+            repoActions.editPage(this.state['editPageName']);
+            this.setState({'editPageName': ''});
+        }
     }
 
     addRepo(event) {
@@ -54,50 +87,109 @@ class _GridHubHeader extends react.Component {
     }
 
     render() {
+        var currentPage = this.props['currentPage'];
+        var editPageName = this.state['editPageName'];
+        if (editPageName == '') {
+            editPageName = currentPage;
+        }
         var globalButtonClickHandler = this.props['globalButtonClickHandler'];
         var githubUsername = this.state['githubUsername'];
         var githubAccessToken = this.state['githubAccessToken'];
+        var newPageName = this.state['newPageName'];
         var newRepoName = this.state['newRepoName'];
+        var pageNames = this.props['pageNames'];
 
         var readmeIcon = Octicon({'icon': CONSTANTS.readmeIcon});
         var tagIcon = Octicon({'icon': CONSTANTS.tagsIcon});
         var issueIcon = Octicon({'icon': CONSTANTS.issuesIcon});
         var pullRequestIcon = Octicon({'icon': CONSTANTS.pullRequestsIcon});
         var unreleasedIcon = Octicon({'icon': CONSTANTS.unreleasedIcon});
+        var settingsIcon = Glyphicon({'glyph': 'cog'});
+        var trashIcon = Glyphicon({'glyph': 'trash'});
         var addIcon = Octicon({'icon': 'plus'});
 
-        return react.div({'className': 'page-header'}, [
-            react.h1({'style': {'display': 'inline'}}, 'GridHub'),
-            ButtonToolbar({'className': 'pull-right'}, [
-                OverlayTrigger({'trigger': 'click', 'placement': 'bottom', 'overlay': Popover(
-                    {'className': 'inner'}, [
+        var pageButtons = [];
+        pageNames.forEach((pageName) {
+            pageSwitch(event) {
+                repoActions.switchPage(pageName);
+            }
+            if (currentPage == pageName) {
+                var title = react.span({}, [
+                    react.span({}, 'Edit Page'),
+                    react.a({'className': 'pull-right', 'style': {'color': '#f03e3c'}, 'onClick': this.deletePage}, trashIcon)
+                ]);
+                pageButtons.add(react.li({'className': 'active'}, [
+                    OverlayTrigger({'trigger': 'click', 'placement': 'bottom', 'overlay': Popover(
+                        {'className': 'inner', 'title': title}, [
+                            react.form({'onSubmit': this.editPage}, [
+                                Input({'type': 'text', 'label': 'Page Name',
+                                    'value': editPageName,
+                                    'onChange': this.onEditPageNameChange,
+                                })
+                            ])
+                        ])},
+                    react.a({'className': 'hitarea', 'onClick': null, 'style': {'cursor': 'pointer'}}, pageName)
+                    ),
+                ]));
+
+            } else {
+                pageButtons.add(react.li({}, [
+                    react.a({'className': 'hitarea', 'onClick': pageSwitch}, pageName)
+                ]));
+            }
+
+        });
+
+        // ADD NEW PAGE BUTTON
+        if (pageButtons.length > 0) {
+            pageButtons.add(react.li({}, [
+                OverlayTrigger({'trigger': 'click', 'placement': 'right', 'overlay': Popover(
+                    {'className': 'inner add-page-popover', 'arrowOffsetTop': 18, 'title': 'Add Page'}, [
+                        react.form({'onSubmit': this.addPage}, [
+                            Input({'type': 'text', 'label': 'Page Name',
+                                'value': newPageName,
+                                'onChange': this.onNewPageNameChange,
+                            }),
+                        ])
+                    ])},
+                react.a({'className': 'hitarea', 'onClick': null}, addIcon)
+                ),
+            ]));
+        }
+
+        var brand = react.h3({'style': {'display': 'inline', 'marginTop': '2px'}}, 'GridHub');
+        var navBarStyle = {'borderWidth': '0 0 1px', 'borderRadius': 0, 'paddingRight': '3px', 'paddingLeft': '12px'};
+        return Navbar({'fixedTop': true, 'fluid': true, 'brand': brand, 'style': navBarStyle}, [
+            react.ul({'className': 'nav navbar-nav'}, pageButtons),
+            Nav({'className': 'pull-right'}, [
+
+                // ADD REPO BUTTON
+                OverlayTrigger({'trigger': 'click', 'placement': 'left', 'overlay': Popover(
+                    {'className': 'inner add-repo-popover', 'arrowOffsetTop': 18, 'title': 'Add Repository'}, [
                         react.form({'onSubmit': this.addRepo}, [
                             Input({'type': 'text', 'label': 'Repo Path',
                                 'placeholder': 'Workiva/wGulp',
                                 'value': newRepoName,
                                 'onChange': this.onNewRepoNameChange,
-
                             }),
                         ])
-//                        Button({'type': 'submit', 'onClick': this.addRepo, 'bsStyle': 'primary'}, 'Add')
                     ])},
-                    Button({'bsStyle': 'primary'}, [
-                        Glyphicon({'glyph': 'plus'}),
-                        react.span({}, ' Add Repository')
-                    ])
+                    NavItem({'style': {'marginRight': '20px'}}, addIcon)
                 ),
-                ButtonGroup({'bsSize': 'large'}, [
-                    Button({'title': 'Readme', 'onClick': globalButtonClickHandler('1')}, readmeIcon),
-                    Button({'title': 'Tags/Releases', 'onClick': globalButtonClickHandler('2')}, tagIcon),
-                    Button({'title': 'Issues', 'onClick': globalButtonClickHandler('3')}, issueIcon),
-                    Button({'title': 'Pull Requests', 'onClick': globalButtonClickHandler('4')}, pullRequestIcon),
-                    Button({'title': 'Merged but not released', 'onClick': globalButtonClickHandler('5')}, unreleasedIcon)
-                ]),
+
+                // GLOBAL STATE BUTTONS
+                NavItem({'onClick': globalButtonClickHandler('1')}, readmeIcon),
+                NavItem({'onClick': globalButtonClickHandler('2')}, tagIcon),
+                NavItem({'onClick': globalButtonClickHandler('3')}, issueIcon),
+                NavItem({'onClick': globalButtonClickHandler('4')}, pullRequestIcon),
+                NavItem({'onClick': globalButtonClickHandler('5')}, unreleasedIcon),
+
+                // SETTINGS BUTTON
                 // TODO Could not get this popover to work in its own component file. fix this
                 // For some reason if I create a new component that renders a Popover, and then pass
                 // that in as a prop to OverlayTrigger - it breaks. I assume it is dart interop issues
                 OverlayTrigger({'trigger': 'click', 'placement': 'left', 'overlay': Popover(
-                    {'title': 'Settings', 'arrowOffsetTop': 25, 'className': 'inner settings-popover'}, [
+                    {'title': 'Settings', 'arrowOffsetTop': 18, 'className': 'inner settings-popover'}, [
                         Input({'type': 'text', 'label': 'Github Username',
                             'value': githubUsername,
                             'onChange': this.onGithubUsernameChange}),
@@ -105,11 +197,9 @@ class _GridHubHeader extends react.Component {
                             'value': githubAccessToken,
                             'onChange': this.onGithubAccessTokenChange})
                     ])},
-                Button({'className': 'settings-icon', 'bsStyle': 'link'}, [
-                    Glyphicon({'glyph': 'cog', 'bsSize': 'large'})
-                ])
+                    NavItem({'style': {'marginLeft': '20px'}}, settingsIcon)
                 ),
-            ]),
+            ])
         ]);
     }
 }

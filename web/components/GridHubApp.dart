@@ -1,7 +1,10 @@
 library GridHubApp;
 
+import 'package:pubsub/pubsub.dart';
 import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
+
+import '../models/repo.dart';
 
 import 'Octicon.dart';
 import 'RepoContainer.dart';
@@ -14,16 +17,12 @@ import 'GridHubHeader.dart';
 var GridHubApp = react.registerComponent(() => new _GridHubApp());
 class _GridHubApp extends react.Component {
 
-
-    getDefaultProps() {
-        return {
-            'repos': []
-        };
-    }
-
     getInitialState() {
         return {
-            'globalActiveKey': '1'
+            'currentPage': '',
+            'globalActiveKey': '1',
+            'pageNames': [],
+            'repos': []
         };
     }
 
@@ -33,6 +32,14 @@ class _GridHubApp extends react.Component {
         };
     }
 
+    componentWillMount() {
+        Pubsub.subscribe('repos', (msg) {
+            this.setState({'repos': msg.args[0]});
+            this.setState({'currentPage': msg.args[1]});
+            this.setState({'pageNames': msg.args[2]});
+        });
+    }
+
     render() {
         var globalActiveKey = this.state['globalActiveKey'];
         var githubUsername = this.state['githubUsername'];
@@ -40,8 +47,8 @@ class _GridHubApp extends react.Component {
         var rows = [];
         var rowItems = [];
 
-        var repos = this.props['repos'];
-        repos.forEach((repo) {
+        List<Repository> repos = this.state['repos'];
+        repos.forEach((Repository repo) {
             rowItems.add(
                 Col({'sm': 4}, [
                     RepoContainer({'repo': repo, 'globalActiveKey': globalActiveKey})
@@ -58,8 +65,12 @@ class _GridHubApp extends react.Component {
         }
 
         return react.div({'className': 'container-fluid'}, [
-            GridHubHeader({'globalButtonClickHandler': this.globalButtonClicked}),
-            react.div({}, rows),
+            GridHubHeader({
+                'currentPage': this.state['currentPage'],
+                'globalButtonClickHandler': this.globalButtonClicked,
+                'pageNames': this.state['pageNames']
+            }),
+            react.div({'style': {'marginTop': '45px'}}, rows),
         ]);
     }
 }

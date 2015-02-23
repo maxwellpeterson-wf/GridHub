@@ -3,7 +3,6 @@ library IssuesPane;
 import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
 
-import '../services/githubService.dart' as githubService;
 import '../models/repo.dart';
 
 import 'IssueListItem.dart';
@@ -24,50 +23,28 @@ class _IssuesPane extends react.Component {
 
     getInitialState() {
         return {
-            'issues': [],
             'opened': true,
             'currentlyRenderedState': 'opened'
         };
     }
 
-    getIssues(state) {
-        RepoDescriptor repo = this.props['repo'];
-        if (repo != null) {
-            var type = this.props['pullRequests'] ? 'pulls' : 'issues';
-            githubService.getIssues(repo, type, state, (responseJson) {
-                this.setState({
-                    'issues': responseJson,
-                    'currentlyRenderedState': state
-                });
-            });
-        }
-    }
-
-    componentWillMount() {
-        this.getIssues('open');
-    }
-
-    componentWillUpdate(nextProps, nextState) {
-        if (nextState['opened'] == true && nextState['currentlyRenderedState'] != 'open') {
-            this.getIssues('open');
-        }
-        else if (nextState['opened'] == false && nextState['currentlyRenderedState'] != 'closed') {
-            this.getIssues('closed');
-        }
-    }
-
     render() {
-        RepoDescriptor repo = this.props['repo'];
+        Repository repo = this.props['repo'];
         var opened = this.state['opened'];
         var pullRequests = this.props['pullRequests'];
-        var issues = this.state['issues'];
+        var allIssues = pullRequests ? repo.pullRequestsData : repo.issuesData;
+        var issues = [];
         var listItems = [];
 
-        issues.forEach((issue) {
-            if(!pullRequests && issue['pull_request'] != null) {
-                return;
+        allIssues.forEach((issue) {
+            if (!opened && issue['state'] != 'open') {
+                issues.add(issue);
+            } else if (opened && issue['state'] == 'open') {
+                issues.add(issue);
             }
+        });
 
+        issues.forEach((issue) {
             listItems.add(
                 IssueListItem({'repo': repo, 'issue': issue, 'pullRequests': pullRequests})
             );
