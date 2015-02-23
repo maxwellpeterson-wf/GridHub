@@ -21,6 +21,8 @@ class ReposStore {
         // Subscriptions
         Pubsub.subscribe('repo.added', this._getPayload(this.onAddRepo));
         Pubsub.subscribe('repo.removed', this._getPayload(this.onRemoveRepo));
+        Pubsub.subscribe('page.deleted', this._getPayload(this.onDeletePage));
+        Pubsub.subscribe('page.edited', this._getPayload(this.onEditPage));
         Pubsub.subscribe('page.switch', this._getPayload(this.onSwitchPage));
     }
 
@@ -68,6 +70,20 @@ class ReposStore {
 
         this.trigger(pageRepos);
         storage.removeRepo(repoName);
+    }
+
+    onDeletePage(String pageName) {
+        this.allRepos.remove(this.storage.currentPage);
+        storage.deletePage(pageName);
+        this.onSwitchPage(this.storage.currentPage);
+    }
+
+    onEditPage(String pageName) {
+        var pageRepos = this.allRepos[this.storage.currentPage];
+        this.allRepos[pageName] = pageRepos;
+        this.allRepos.remove(this.storage.currentPage);
+        storage.editPage(pageName);
+        this.trigger(this.allRepos[pageName]);
     }
 
     onSwitchPage(String pageName) {

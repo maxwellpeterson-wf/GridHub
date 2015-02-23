@@ -27,6 +27,7 @@ class _GridHubHeader extends react.Component {
 
     getInitialState() {
         return {
+            'editPageName': '',
             'githubUsername': storage.githubUsername,
             'githubAccessToken': storage.githubAccessToken,
             'newPageName': '',
@@ -48,6 +49,10 @@ class _GridHubHeader extends react.Component {
         this.setState({'newPageName': event.target.value});
     }
 
+    onEditPageNameChange(event) {
+        this.setState({'editPageName': event.target.value});
+    }
+
     onNewRepoNameChange(event) {
         this.setState({'newRepoName': event.target.value});
     }
@@ -57,6 +62,19 @@ class _GridHubHeader extends react.Component {
         if (!this.state['newPageName'].isEmpty) {
             repoActions.addPage(this.state['newPageName']);
             this.setState({'newPageName': ''});
+        }
+    }
+
+    deletePage(event) {
+        event.preventDefault();
+        repoActions.deletePage(this.props['currentPage']);
+    }
+
+    editPage(event) {
+        event.preventDefault();
+        if (!this.state['editPageName'].isEmpty) {
+            repoActions.editPage(this.state['editPageName']);
+            this.setState({'editPageName': ''});
         }
     }
 
@@ -70,6 +88,10 @@ class _GridHubHeader extends react.Component {
 
     render() {
         var currentPage = this.props['currentPage'];
+        var editPageName = this.state['editPageName'];
+        if (editPageName == '') {
+            editPageName = currentPage;
+        }
         var globalButtonClickHandler = this.props['globalButtonClickHandler'];
         var githubUsername = this.state['githubUsername'];
         var githubAccessToken = this.state['githubAccessToken'];
@@ -83,6 +105,7 @@ class _GridHubHeader extends react.Component {
         var pullRequestIcon = Octicon({'icon': CONSTANTS.pullRequestsIcon});
         var unreleasedIcon = Octicon({'icon': CONSTANTS.unreleasedIcon});
         var settingsIcon = Glyphicon({'glyph': 'cog'});
+        var trashIcon = Glyphicon({'glyph': 'trash'});
         var addIcon = Octicon({'icon': 'plus'});
 
         var pageButtons = [];
@@ -90,13 +113,31 @@ class _GridHubHeader extends react.Component {
             pageSwitch(event) {
                 repoActions.switchPage(pageName);
             }
-            var activeClass = '';
             if (currentPage == pageName) {
-                activeClass += 'active';
+                var title = react.span({}, [
+                    react.span({}, 'Edit Page'),
+                    react.a({'className': 'pull-right', 'style': {'color': '#f03e3c'}, 'onClick': this.deletePage}, trashIcon)
+                ]);
+                pageButtons.add(react.li({'className': 'active'}, [
+                    OverlayTrigger({'trigger': 'click', 'placement': 'bottom', 'overlay': Popover(
+                        {'className': 'inner', 'title': title}, [
+                            react.form({'onSubmit': this.editPage}, [
+                                Input({'type': 'text', 'label': 'Page Name',
+                                    'value': editPageName,
+                                    'onChange': this.onEditPageNameChange,
+                                })
+                            ])
+                        ])},
+                    react.a({'className': 'hitarea', 'onClick': null, 'style': {'cursor': 'pointer'}}, pageName)
+                    ),
+                ]));
+
+            } else {
+                pageButtons.add(react.li({}, [
+                    react.a({'className': 'hitarea', 'onClick': pageSwitch}, pageName)
+                ]));
             }
-            pageButtons.add(react.li({'className': activeClass}, [
-                react.a({'className': 'hitarea', 'onClick': pageSwitch}, pageName)
-            ]));
+
         });
 
         // ADD NEW PAGE BUTTON

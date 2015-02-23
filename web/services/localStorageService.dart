@@ -71,9 +71,28 @@ class RepoGridData {
         this.pages = pagesData;
     }
 
+    deletePage(String pageName) {
+        var pagesData = this.pages;
+        pagesData.remove(pageName);
+        this.pages = pagesData;
+        if (this.pageNames.length > 0) {
+            this.currentPage = this.pageNames.elementAt(0);
+        } else {
+            this.currentPage = '';
+        }
+    }
+
+    editPage(String pageName) {
+        var pagesData = this.pages;
+        pagesData[pageName] = pagesData[this.currentPage];
+        pagesData.remove(this.currentPage);
+        this.pages = pagesData;
+        this.currentPage = pageName;
+    }
+
     get currentPage {
         var storedCurrentPage = localStorage['currentPage'];
-        if (storedCurrentPage != null) {
+        if (storedCurrentPage != null && storedCurrentPage != '') {
             return storedCurrentPage;
         }
         return this.defaultPage;

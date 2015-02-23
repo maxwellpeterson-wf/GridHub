@@ -21,6 +21,14 @@ void addPage(String pageName) {
     switchPage(pageName);
 }
 
+void deletePage(String pageName) {
+    Pubsub.publish('page.deleted', pageName);
+}
+
+void editPage(String pageName) {
+    Pubsub.publish('page.edited', pageName);
+}
+
 void switchPage(String pageName) {
     Pubsub.publish('page.switch', pageName);
 }
