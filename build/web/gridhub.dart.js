@@ -7370,12 +7370,10 @@ z=this.Oh
 y=J.U6(z)
 x=J.WB(J.WB(J.AG(y.t(z,"githubUsername")),":"),J.AG(y.t(z,"githubAccessToken")))
 y.u(z,"githubAuthorization",M.Ob(C.dy.gZE().WJ(x),!1,!1))},"$0","gVe",0,0,24,"setGithubAuthorization"],
-nM:[function(a){var z,y,x
-z=J.UQ(this.py("pages"),a)
-if(z==null){y=this.Oh
-x=J.U6(y)
-if(x.t(y,"repos")!=null){J.kW(this.py("pages"),this.gOb(),x.t(y,"repos"))
-z=J.UQ(this.py("pages"),this.gOb())}else z=[]}return z},"$1","gky",2,0,101,269,"getRepos"],
+nM:[function(a){var z=J.UQ(this.py("pages"),a)
+if(z==null)if(J.UQ(this.Oh,"repos")!=null){J.kW(this.py("pages"),this.gOb(),this.ut("repos","[]"))
+z=J.UQ(this.py("pages"),this.gOb())}else z=[]
+return z},"$1","gky",2,0,101,269,"getRepos"],
 na:[function(a){var z,y
 z=this.nM(this.gtZ())
 J.bi(z,a)
