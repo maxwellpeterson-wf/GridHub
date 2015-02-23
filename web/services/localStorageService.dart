@@ -44,7 +44,13 @@ class RepoGridData {
     getRepos(String pageName) {
         var repos = this.pages[pageName];
         if (repos == null) {
-            repos = [];
+            // TEMP FIX FOR UPGRADE
+            if(localStorage['repos'] != null) {
+                this.pages[this.defaultPage] = localStorage['repos'];
+                repos = this.pages[this.defaultPage];
+            } else {
+                repos = [];
+            }
         }
         return repos;
     }
