@@ -15,6 +15,7 @@ import 'Octicon.dart';
 var GridHubHeader = react.registerComponent(() => new _GridHubHeader());
 class _GridHubHeader extends react.Component {
 
+    // TODO this is bad. Antipattern.
     var storage = new localStorageService.RepoGridData();
 
     getDefaultProps() {
@@ -78,6 +79,11 @@ class _GridHubHeader extends react.Component {
         }
     }
 
+    refreshPage(event) {
+        event.preventDefault();
+        repoActions.refreshPage(this.props['currentPage']);
+    }
+
     addRepo(event) {
         event.preventDefault();
         if (!this.state['newRepoName'].isEmpty) {
@@ -107,6 +113,7 @@ class _GridHubHeader extends react.Component {
         var settingsIcon = Glyphicon({'glyph': 'cog'});
         var trashIcon = Glyphicon({'glyph': 'trash'});
         var addIcon = Octicon({'icon': 'plus'});
+        var refreshIcon = Octicon({'icon': 'sync'});
 
         var pageButtons = [];
         pageNames.forEach((pageName) {
@@ -156,6 +163,10 @@ class _GridHubHeader extends react.Component {
                 ),
             ]));
         }
+
+        pageButtons.add(react.li({}, [
+            react.a({'className': 'hitarea', 'onClick': refreshPage}, refreshIcon)
+        ]));
 
         var brand = react.h3({'style': {'display': 'inline', 'marginTop': '2px'}}, 'GridHub');
         var navBarStyle = {'borderWidth': '0 0 1px', 'borderRadius': 0, 'paddingRight': '3px', 'paddingLeft': '12px'};
