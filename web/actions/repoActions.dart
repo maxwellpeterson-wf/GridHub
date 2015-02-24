@@ -29,6 +29,10 @@ void editPage(String pageName) {
     Pubsub.publish('page.edited', pageName);
 }
 
+void refreshPage(String pageName) {
+    Pubsub.publish('page.refresh', pageName);
+}
+
 void switchPage(String pageName) {
     Pubsub.publish('page.switch', pageName);
 }

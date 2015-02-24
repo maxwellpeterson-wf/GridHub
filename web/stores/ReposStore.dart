@@ -46,10 +46,11 @@ class ReposStore extends Store {
         Pubsub.subscribe('repo.removed', _getPayload(onRemoveRepo));
         Pubsub.subscribe('page.deleted', _getPayload(onDeletePage));
         Pubsub.subscribe('page.edited', _getPayload(onEditPage));
+        Pubsub.subscribe('page.refresh', _getPayload(onRefreshPage));
         Pubsub.subscribe('page.switch', _getPayload(onSwitchPage));
     }
 
-    initializeCurrentPageRepos() {
+    Future initializeCurrentPageRepos() {
         var currentPageRepos = _storage.getRepos(_storage.currentPage);
         List<Future> futures = [];
         List<Repository> repos = [];
@@ -62,7 +63,7 @@ class ReposStore extends Store {
         _allRepos[_storage.currentPage] = repos;
         trigger();
 
-        Future.wait(futures).then((futures) {
+        return Future.wait(futures).then((futures) {
             _allRepos[_storage.currentPage] = repos;
             trigger();
         });
@@ -108,6 +109,10 @@ class ReposStore extends Store {
         _allRepos.remove(_storage.currentPage);
         _storage.editPage(pageName);
         trigger('page.edited');
+    }
+
+    onRefreshPage(String pageName) {
+        initializeCurrentPageRepos();
     }
 
     onSwitchPage(String pageName) {
