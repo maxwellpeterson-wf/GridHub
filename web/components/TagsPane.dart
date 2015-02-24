@@ -5,6 +5,7 @@ import 'package:web_skin_react/web_skin_react.dart';
 
 import '../components/FancyListGroupItem.dart';
 import '../models/repo.dart';
+import '../utils/date_utils.dart';
 
 import 'AuthorLink.dart';
 import 'NoResultsIcon.dart';
@@ -36,11 +37,12 @@ class _TagsPane extends react.Component {
             var release = releaseMap[tag['name']];
             if (release != null) {
                 var header = react.a({'href': release['html_url'], 'target': repo.name}, release['name']);
-//                var publishDate = DateTime.parse(release['published_at']);
+
+                String relativeDate = getRelativeDate(DateTime.parse(release['published_at']));
                 var body = react.span({}, [
                     react.div({}, [
                         AuthorLink({'author': release['author'], 'includePicture': true}),
-                        react.span({'className': 'text-muted'}, ' released this on ' + release['published_at'])
+                        react.span({'className': 'text-muted'}, ' released this ${relativeDate}')
                     ]),
                     react.div({}, [
 //                        react.span({}, release['body'])
