@@ -1,7 +1,7 @@
 # GridHub
 > Multi-repository grid view
 
-Currently hosted at [http://maxwellpeterson-wf.github.io/GridHub/](http://maxwellpeterson-wf.github.io/GridHub/). Uses local storage, so no GridHub data persists beyond your browser. 
+Currently hosted at [http://gridhub.club](http://gridhub.club). Uses local storage, so no GridHub data persists beyond your browser. 
 
 _Will need a Github username and access token to access private repositories._
 
