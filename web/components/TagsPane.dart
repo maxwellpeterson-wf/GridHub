@@ -53,9 +53,9 @@ class _TagsPane extends react.Component {
             }
             else {
                 var href = repo.url + '/releases/tag/' + tag['name'];
-                var header = react.h4({}, [
+                var header = [
                     react.a({'href': href, 'target': repo.name}, 'No release! Tag: ' + tag['name'])
-                ]);
+                ];
 
                 listItems.add(
                     FancyListGroupItem({'header': header})

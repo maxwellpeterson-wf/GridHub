@@ -5,6 +5,7 @@ import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
 
 import '../models/repo.dart';
+import '../stores/ReposStore.dart';
 
 import 'Octicon.dart';
 import 'RepoContainer.dart';
@@ -16,6 +17,16 @@ import 'GridHubHeader.dart';
  */
 var GridHubApp = react.registerComponent(() => new _GridHubApp());
 class _GridHubApp extends react.Component {
+
+    ReposStore get reposStore {
+        return this.props['reposStore'];
+    }
+
+    getDefaultProps() {
+        return {
+            'reposStore': null
+        };
+    }
 
     getInitialState() {
         return {
@@ -33,10 +44,12 @@ class _GridHubApp extends react.Component {
     }
 
     componentWillMount() {
-        Pubsub.subscribe('repos', (msg) {
-            this.setState({'repos': msg.args[0]});
-            this.setState({'currentPage': msg.args[1]});
-            this.setState({'pageNames': msg.args[2]});
+        reposStore.subscribe((actionName) {
+            this.setState({
+                'repos': reposStore.currentPageRepos,
+                'currentPage': reposStore.currentPage,
+                'pageNames': reposStore.pageNames
+            });
         });
     }
 

@@ -7,27 +7,50 @@ import '../models/repo.dart';
 import '../services/localStorageService.dart';
 
 
-class ReposStore {
+class Store {
 
-    RepoGridData storage;
-    Map<String, List<Repository>> allRepos;
+    List<Function> _subscribers = [];
+
+    subscribe(Function callback) {
+        _subscribers.add(callback);
+    }
+
+    trigger([String actionName = '']) {  // TODO do we need action name?
+        _subscribers.forEach((Function subscription) {
+            subscription(actionName);
+        });
+    }
+}
+
+
+class ReposStore extends Store {
+
+    // Private data
+    Map<String, List<Repository>> _allRepos;
+    RepoGridData _storage;
+
+    // Public data
+    String get currentPage => _storage.currentPage;
+    List<Repository> get currentPageRepos => _allRepos[currentPage];
+    List<String> get pageNames => _storage.pageNames;
+
 
     ReposStore(storage) {
-        this.storage = storage;
-        this.allRepos = {};
+        _storage = storage;
+        _allRepos = {};
 
         initializeCurrentPageRepos();
 
         // Subscriptions
-        Pubsub.subscribe('repo.added', this._getPayload(this.onAddRepo));
-        Pubsub.subscribe('repo.removed', this._getPayload(this.onRemoveRepo));
-        Pubsub.subscribe('page.deleted', this._getPayload(this.onDeletePage));
-        Pubsub.subscribe('page.edited', this._getPayload(this.onEditPage));
-        Pubsub.subscribe('page.switch', this._getPayload(this.onSwitchPage));
+        Pubsub.subscribe('repo.added', _getPayload(onAddRepo));
+        Pubsub.subscribe('repo.removed', _getPayload(onRemoveRepo));
+        Pubsub.subscribe('page.deleted', _getPayload(onDeletePage));
+        Pubsub.subscribe('page.edited', _getPayload(onEditPage));
+        Pubsub.subscribe('page.switch', _getPayload(onSwitchPage));
     }
 
     initializeCurrentPageRepos() {
-        var currentPageRepos = this.storage.getRepos(this.storage.currentPage);
+        var currentPageRepos = _storage.getRepos(_storage.currentPage);
         List<Future> futures = [];
         List<Repository> repos = [];
         currentPageRepos.forEach((repoName) {
@@ -36,28 +59,29 @@ class ReposStore {
             futures.add(repo.initializeData());
         });
         // Trigger immediately, and also when the data is done loading
-        this.trigger(repos);
+        _allRepos[_storage.currentPage] = repos;
+        trigger();
 
-        this.allRepos[this.storage.currentPage] = repos;
         Future.wait(futures).then((futures) {
-            this.trigger(repos);
+            _allRepos[_storage.currentPage] = repos;
+            trigger();
         });
     }
 
     onAddRepo(String repoName) {
-        var pageRepos = this.allRepos[this.storage.currentPage];
+        var pageRepos = _allRepos[_storage.currentPage];
         var repo = new Repository(repoName);
         pageRepos.add(repo);
 
-        this.trigger(pageRepos);
+        trigger('repo.added');
         repo.initializeData().then((futures) {
-            this.trigger(pageRepos);
+            trigger('repo.added');
         });
-        storage.addRepo(repoName);
+        _storage.addRepo(repoName);
     }
 
     onRemoveRepo(String repoName) {
-        var pageRepos = this.allRepos[this.storage.currentPage];
+        var pageRepos = _allRepos[_storage.currentPage];
 
         // TODO clean this up
         var repoToRemove = null;
@@ -68,37 +92,31 @@ class ReposStore {
         });
         pageRepos.remove(repoToRemove);
 
-        this.trigger(pageRepos);
-        storage.removeRepo(repoName);
+        trigger('repo.removed');
+        _storage.removeRepo(repoName);
     }
 
     onDeletePage(String pageName) {
-        this.allRepos.remove(this.storage.currentPage);
-        storage.deletePage(pageName);
-        this.onSwitchPage(this.storage.currentPage);
+        _allRepos.remove(_storage.currentPage);
+        _storage.deletePage(pageName);
+        onSwitchPage(_storage.currentPage);
     }
 
     onEditPage(String pageName) {
-        var pageRepos = this.allRepos[this.storage.currentPage];
-        this.allRepos[pageName] = pageRepos;
-        this.allRepos.remove(this.storage.currentPage);
-        storage.editPage(pageName);
-        this.trigger(this.allRepos[pageName]);
+        var pageRepos = _allRepos[_storage.currentPage];
+        _allRepos[pageName] = pageRepos;
+        _allRepos.remove(_storage.currentPage);
+        _storage.editPage(pageName);
+        trigger('page.edited');
     }
 
     onSwitchPage(String pageName) {
-        storage.currentPage = pageName;
-        var pageRepos = this.allRepos[pageName];
-        if (pageRepos == null) {
+        _storage.currentPage = pageName;
+        if (currentPageRepos == null) {
             initializeCurrentPageRepos();
         } else {
-            this.trigger(pageRepos);
+            trigger('page.switched');
         }
-    }
-
-    trigger(List<Repository> repos) {
-        // Broadcast repos, current page, and page names
-        Pubsub.publish('repos', repos, this.storage.currentPage, this.storage.pageNames);
     }
 
     _getPayload(toCall) {
