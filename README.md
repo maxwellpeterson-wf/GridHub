@@ -1,6 +1,10 @@
 # GridHub
 > Multi-repository grid view
 
+Currently hosted at [http://maxwellpeterson-wf.github.io/GridHub/](http://maxwellpeterson-wf.github.io/GridHub/). Uses local storage, so no GridHub data persists beyond your browser. 
+
+_Will need a Github username and access token to access private repositories._
+
 ![screenshot](https://www.dropbox.com/s/9duh4v49mm4dedo/Screenshot%202015-01-30%2013.46.05.png?dl=1)
 
 ## Setup
