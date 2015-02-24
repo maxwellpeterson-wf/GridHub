@@ -7,6 +7,8 @@ build/web/bower_components/web-skin
 build/web/bower_components/wf-js-vendor
 build/web/packages/pubsub/docs
 
+CNAME
+
 packages
 web/bower_components
 web/packages
