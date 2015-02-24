@@ -43,6 +43,7 @@ class ReposStore extends Store {
 
         // Subscriptions
         Pubsub.subscribe('repo.added', _getPayload(onAddRepo));
+        Pubsub.subscribe('repo.update', trigger);
         Pubsub.subscribe('repo.removed', _getPayload(onRemoveRepo));
         Pubsub.subscribe('page.deleted', _getPayload(onDeletePage));
         Pubsub.subscribe('page.edited', _getPayload(onEditPage));
