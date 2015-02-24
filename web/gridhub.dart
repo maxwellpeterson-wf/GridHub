@@ -9,17 +9,20 @@ import 'stores/ReposStore.dart';
 
 
 var storage;
-var store;
+var reposStore;
 
 void main() {
     reactClient.setClientConfiguration();
 
+    // Initialize data layer and store
     storage = new localStorageService.RepoGridData();
-    store = new ReposStore(storage);
+    reposStore = new ReposStore(storage);
 
+    // Render the application
     renderApp();
 }
 
 void renderApp() {
-    react.render(GridHubApp({}), querySelector('#app-container'));
+    var domContainer = querySelector('#app-container');
+    react.render(GridHubApp({'reposStore': reposStore}), domContainer);
 }

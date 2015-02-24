@@ -48,6 +48,10 @@ body {
     float: right;
 }
 
+.repo-panel .panel-title {
+    padding-right: 11px;
+}
+
 .repo-panel .panel-body {
   padding: 0;
   height: 300px;
