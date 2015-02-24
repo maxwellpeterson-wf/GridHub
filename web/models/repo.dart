@@ -2,6 +2,7 @@ library Repo;
 
 import 'dart:async';
 
+import '../actions/repoActions.dart' as repoActions;
 import '../services/githubService.dart' as githubService;
 
 
@@ -35,6 +36,7 @@ class Repository extends RepoDescriptor {
     Future initializeData() {
         Future readmeFuture = githubService.getReadme(this).then((responseString) {
             this.readmeData = responseString;
+            repoActions.repoUpdated(this.name);
         });
         Future tagsFuture = githubService.getTags(this).then((response) {
             this.tagsData = response;

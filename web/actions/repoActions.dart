@@ -11,6 +11,10 @@ void addRepo(String repoName) {
     Pubsub.publish('repo.added', repoName);
 }
 
+void repoUpdated(String repoName) {
+    Pubsub.publish('repo.update', repoName);
+}
+
 void removeRepo(String repoName) {
     Pubsub.publish('repo.removed', repoName);
 }
