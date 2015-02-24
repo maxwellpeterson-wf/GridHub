@@ -59,11 +59,11 @@ class _RepoContainer extends react.Component {
           ])
       ]);
 
-      var readmeIcon = Octicon({'icon': CONSTANTS.readmeIcon});
-      var tagIcon = Octicon({'icon': CONSTANTS.tagsIcon});
-      var issueIcon = Octicon({'icon': CONSTANTS.issuesIcon});
-      var pullRequestIcon = Octicon({'icon': CONSTANTS.pullRequestsIcon});
-      var unreleasedIcon = Octicon({'icon': CONSTANTS.unreleasedIcon});
+      var readmeIcon = Octicon({'icon': CONSTANTS.readmeIcon, 'title': 'README'});
+      var tagIcon = Octicon({'icon': CONSTANTS.tagsIcon, 'title': 'Tags/Releases'});
+      var issueIcon = Octicon({'icon': CONSTANTS.issuesIcon, 'title': 'Issues'});
+      var pullRequestIcon = Octicon({'icon': CONSTANTS.pullRequestsIcon, 'title': 'Pull Requests'});
+      var unreleasedIcon = Octicon({'icon': CONSTANTS.unreleasedIcon, 'title': 'Unreleased PRs (PRs merged since last tag)'});
 
       return Panel({'header': title, 'className': 'repo-panel'}, [
           TabbedArea({
