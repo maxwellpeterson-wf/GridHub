@@ -12,6 +12,8 @@ class GridHubPageInternalActions {
     flux.Action get repoReorder => _repoReorder;
     flux.Action _repoUpdate;
     flux.Action get repoUpdate => _repoUpdate;
+    flux.Action _setActivePane;
+    flux.Action get setActivePane => _setActivePane;
 
     GridHubPageActions() {
         _refreshAll = new flux.Action();
@@ -19,6 +21,7 @@ class GridHubPageInternalActions {
         _repoRemove = new flux.Action<String>();
         _repoReorder = new flux.Action<dynamic>();
         _repoUpdate = new flux.Action<String>();
+        _setActivePane = new flux.Action<String>();
     }
     
 }

@@ -3,7 +3,6 @@ part of flux;
 class Store {
     
     StreamController _streamController;
-    
     Stream get stream => _streamController.stream;
     
     Store() {

@@ -1,15 +1,31 @@
 part of grid_hub_page;
 
+class GlobalActivePaneStore extends flux.Store {
+
+    String _pane;
+    String get pane => _pane;
+
+    GridHubPageInternalActions _internalActions;
+
+    GlobalActivePaneStore(this._internalActions): super() {
+        _internalActions._setActivePane.stream.listen(onSetActivePane);
+    }
+
+    void onSetActivePane(String globalActivePane) {
+        _pane = globalActivePane;
+        trigger();
+    }
+}
+
 class PageStore extends flux.Store {
 
     Map<String, GridHubPageRepository> _repos;
     List<GridHubPageRepository> get repos => _repos.values;
 
     GridHubPageInternalActions _internalActions;
-    PublicEvents _publicEvents;
     List<String> _repoNames;
 
-    PageStore(this._publicEvents, this._internalActions, this._repoNames): super() {
+    PageStore(this._internalActions, this._repoNames): super() {
         _internalActions.refreshAll.stream.listen(onRefreshAll);
         _internalActions.repoAdd.stream.listen(onRepoAdd);
         _internalActions.repoRemove.stream.listen(onRepoRemove);

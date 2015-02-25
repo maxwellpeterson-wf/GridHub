@@ -3,7 +3,6 @@ part of flux;
 class Action<T> {
 
     Stream<T> get stream => _streamController.stream;
-
     StreamController<T> _streamController;
 
     Action() {
