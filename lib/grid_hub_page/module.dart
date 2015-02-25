@@ -1,45 +1,68 @@
 part of grid_hub_page;
 
-abstract class GitHubApi {
-    String get authorization;
-}
+class GridHubPage implements mvc.ViewModule {
 
-typedef String _GitHubAuthorizationGetter();
+    /**
+     * Module-specific API
+     */
 
-class GridHubPage implements mvc.Module {
+    Object _api;
+    Object get api => _api;
 
-    static final GridHubPageConstants constants = new GridHubPageConstants();
-    GridHubPageInternalActions _internalActions;
-    Object _publicEvents;
+    /**
+     * Public Event Streams
+     */
+    Object _events;
+    Events get events => _events;
 
-    PublicEvents get events => _publicEvents;
+    /**
+     * View Component
+     */
     react.Component get component {
         return GridHubPageComponent({
-            'pageStore': _pageStore,
-            'globalActivePaneStore': _globalActivePaneStore,
-            'internalActions': _internalActions
+            'actions': _actions,
+            'stores': _stores
         });
     }
 
-    GlobalActivePaneStore _globalActivePaneStore;
-    PageStore _pageStore;
+    /**
+     * Constants
+     */
+    static final GridHubPageConstants constants = gridHubPageConstants;
 
-    GridHubPage(List<String> repoNames, GitHubApi gitHubApi) {
+    /**
+     * Internals
+     */
+    Actions _actions;
+    Stores _stores;
+
+    GridHubPage(List<String> repoNames, GitHubDataProvider gitHubDataProvider) {
         if (repoNames == null) {
             repoNames = [];
         }
-        GitHubApiRequest.gitHubApi = gitHubApi;
-        _publicEvents = new PublicEvents();
-        _internalActions = new GridHubPageInternalActions();
-        _globalActivePaneStore = new GlobalActivePaneStore(_internalActions);
-        _pageStore = new PageStore(_internalActions, repoNames);
+        GitHubApiRequest.gitHubDataProvider = gitHubDataProvider;
+
+        // Construct the internal actions and stores
+        _actions = new Actions();
+        _stores = new Stores(
+            new PageStore(_actions, repoNames),
+            new GlobalActivePaneStore(_actions)
+        );
+
+        // Construct the public API and public event streams
+        _api = new ModuleApi();
+        _events = new Events(_actions);
     }
 
-    void setActivePane(String pane) {
+    /**
+     * Life Cycle
+     */
+
+    void initialize() {
         // TODO
     }
 
-    void setViewportSize(int width, int height) {
+    void destroy() {
         // TODO
     }
 

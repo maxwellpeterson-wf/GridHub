@@ -1,8 +1,14 @@
 part of mvc;
 
 abstract class Module {
-    react.Component get component;
     Object get events;
+
+    void initialize();
+    void destroy();
+}
+
+abstract class ViewModule extends Module {
+    react.Component get component;
 }
 
 // TODO non-visual modules

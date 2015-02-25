@@ -1,8 +1,8 @@
 part of grid_hub_page;
 
-class GridHubPageRepository {
+class Repository {
     String _name;
-    String get name => name;
+    String get name => _name;
 
     String get url => 'https://github.com/${name}';
 
@@ -24,7 +24,7 @@ class GridHubPageRepository {
     List<Map> _commitsSinceLastTagData;
     List<Map> get commitsSinceLastTagData => _commitsSinceLastTagData;
 
-    GridHubPageRepository(this._name) {
+    Repository(this._name) {
         _readmeData = '';
         _tagsData = [];
         _releasesData = [];
@@ -41,7 +41,8 @@ class GridHubPageRepository {
             'https://api.github.com/repos/${name}/readme', requestHeaders: readmeHeaders
         );
         return request.then((HttpRequest req) {
-            return req.response.toString();
+            _readmeData = req.response.toString();
+            return _readmeData;
         });
     }
 

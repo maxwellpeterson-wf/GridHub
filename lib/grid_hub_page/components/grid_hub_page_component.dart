@@ -3,13 +3,15 @@ part of grid_hub_page;
 var GridHubPageComponent = react.registerComponent(() => new _GridHubPageComponent());
 class _GridHubPageComponent extends react.Component {
 
-    GlobalActivePaneStore get globalActivePaneStore => this.props['globalActivePaneStore'];
-    PageStore get pageStore => this.props['pageStore'];
-    GridHubPageInternalActions get internalActions => this.props['internalActions'];
+    Actions get actions => this.props['actions'];
+    String get globalActivePane => this.props['globalActivePane'];
+    List<Repository> get repos => this.state['repos'];
+    Stores get stores => this.props['stores'];
 
     getDefaultProps() {
         return {
-            'pageStore': null
+            'actions': null,
+            'stores': null
         };
     }
 
@@ -21,14 +23,14 @@ class _GridHubPageComponent extends react.Component {
     }
 
     componentWillMount() {
-        globalActivePaneStore.stream.listen((_) {
+        stores.globalActivePaneStore.stream.listen((_) {
             this.setState({
-                'globalActivePane': globalActivePaneStore.pane
+                'globalActivePane': stores.globalActivePaneStore.pane
             });
         });
-        pageStore.stream.listen((_) {
+        stores.pageStore.stream.listen((_) {
             this.setState({
-                'repos': pageStore.repos
+                'repos': stores.pageStore.repos
             });
         });
     }
@@ -37,21 +39,20 @@ class _GridHubPageComponent extends react.Component {
         var rows = [];
         var rowItems = [];
 
-        List<Repository> repos = this.state['repos'];
         repos.forEach((Repository repo) {
             rowItems.add(
-                Col({'sm': 4}, [
-                    RepoContainer({'repo': repo, 'globalActiveKey': globalActiveKey})
+                wsr.Col({'sm': 4}, [
+                    RepoContainer({'actions': actions, 'repo': repo, 'globalActivePane': globalActivePane})
                 ])
             );
             if (rowItems.length == 3) {
-                rows.add(Row({}, rowItems));
+                rows.add(wsr.Row({}, rowItems));
                 rowItems = [];
             }
         });
 
         if (rowItems.length > 0) {
-            rows.add(Row({}, rowItems));
+            rows.add(wsr.Row({}, rowItems));
         }
 
         return react.div({'style': {'marginTop': '45px'}}, rows);
