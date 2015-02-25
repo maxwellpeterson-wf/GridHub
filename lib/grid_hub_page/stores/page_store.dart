@@ -2,9 +2,15 @@ part of grid_hub_page;
 
 class PageStore extends flux.Store {
 
+    /**
+     * Public data that the store exposes
+     */
     Map<String, Repository> _repos;
     List<Repository> get repos => _repos.values;
 
+    /**
+     * Internal data/state
+     */
     Actions _actions;
     List<String> _repoNames;
 

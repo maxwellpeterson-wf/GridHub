@@ -1,6 +1,6 @@
-part of grid_hub_page;
+part of grid_hub_header;
 
-class GridHubPage implements mvc.ViewModule {
+class GridHubHeader implements mvc.ViewModule {
 
     /**
      * Module-specific API
@@ -19,16 +19,11 @@ class GridHubPage implements mvc.ViewModule {
      * View Component
      */
     react.Component get component {
-        return GridHubPageComponent({
+        return GridHubHeaderComponent({
             'actions': _actions,
             'stores': _stores
         });
     }
-
-    /**
-     * Constants
-     */
-    static final GridHubPageConstants constants = gridHubPageConstants;
 
     /**
      * Internals
@@ -39,17 +34,15 @@ class GridHubPage implements mvc.ViewModule {
     /**
      * Constructor
      */
-    GridHubPage(List<String> repoNames, GitHubDataProvider gitHubDataProvider) {
-        if (repoNames == null) {
-            repoNames = [];
+    GridHubHeader(List<String> pageNames, String currentPageName, GitHubAuthProvider githubAuthProvider) {
+        if (pageNames == null) {
+            pageNames = [];
         }
-        GitHubApiRequest.gitHubDataProvider = gitHubDataProvider;
 
-        // Construct the internal actions and stores
         _actions = new Actions();
         _stores = new Stores(
-            new PageStore(_actions, repoNames),
-            new GlobalActivePaneStore(_actions)
+            new PagesStore(_actions, pageNames, currentPageName),
+            new SettingsStore(_actions, githubAuthProvider.githubAccessToken, githubAuthProvider.githubUsername)
         );
 
         // Construct the public API and public event streams
@@ -60,7 +53,6 @@ class GridHubPage implements mvc.ViewModule {
     /**
      * Life Cycle
      */
-
     void initialize() {
         // TODO
     }
@@ -68,5 +60,4 @@ class GridHubPage implements mvc.ViewModule {
     void destroy() {
         // TODO
     }
-
 }
