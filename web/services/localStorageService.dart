@@ -5,7 +5,7 @@ import 'package:crypto/crypto.dart';
 import 'dart:convert';
 
 
-class RepoGridData {
+class GridHubData {
     Storage localStorage = window.localStorage;
 
     /**
@@ -15,13 +15,13 @@ class RepoGridData {
     set githubUsername(String username) {
         localStorage['githubUsername'] = username;
         localStorage['githubAuthorization'] = githubUserNameAccessToken;
-        this.setGithubAuthorization();
+        setGithubAuthorization();
     }
 
     get githubAccessToken => localStorage['githubAccessToken'];
     set githubAccessToken(String accessToken) {
         localStorage['githubAccessToken'] = accessToken;
-        this.setGithubAuthorization();
+        setGithubAuthorization();
     }
 
     get githubUserNameAccessToken => githubUsername.toString() + ':' + githubAccessToken.toString();
@@ -36,13 +36,13 @@ class RepoGridData {
     /**
      * Repo Data
      */
-    get pages => this.safeJSONGet('pages');
+    get pages => safeJSONGet('pages');
     set pages(Map pagesObj) {
         localStorage['pages'] = JSON.encode(pagesObj);
     }
 
     getRepos(String pageName) {
-        var repos = this.pages[pageName];
+        var repos = pages[pageName];
         if (repos == null) {
             repos = [];
         }
@@ -50,70 +50,66 @@ class RepoGridData {
     }
 
     addRepo(String repoName) {
-        var _repos = this.getRepos(this.currentPage);
+        var _repos = getRepos(currentPageName);
         _repos.add(repoName);
-        var pagesData = this.pages;
-        pagesData[this.currentPage] = _repos;
-        this.pages = pagesData;
+        var pagesData = pages;
+        pagesData[currentPageName] = _repos;
+        pages = pagesData;
     }
 
     removeRepo(String repoName) {
-        var _repos = this.getRepos(this.currentPage);
+        var _repos = getRepos(this.currentPageName);
         _repos.remove(repoName);
-        var pagesData = this.pages;
-        pagesData[this.currentPage] = _repos;
-        this.pages = pagesData;
+        var pagesData = pages;
+        pagesData[currentPageName] = _repos;
+        pages = pagesData;
     }
 
     addPage(String pageName) {
-        var pagesData = this.pages;
+        var pagesData = pages;
         pagesData[pageName] = [];
-        this.pages = pagesData;
+        pages = pagesData;
     }
 
     deletePage(String pageName) {
-        var pagesData = this.pages;
+        var pagesData = pages;
         pagesData.remove(pageName);
-        this.pages = pagesData;
-        if (this.pageNames.length > 0) {
-            this.currentPage = this.pageNames.elementAt(0);
+        pages = pagesData;
+        if (pageNames.length > 0) {
+            currentPage = pageNames.elementAt(0);
         } else {
-            this.currentPage = '';
+            currentPage = '';
         }
     }
 
     editPage(String pageName) {
-        var pagesData = this.pages;
-        pagesData[pageName] = pagesData[this.currentPage];
-        pagesData.remove(this.currentPage);
-        this.pages = pagesData;
-        this.currentPage = pageName;
+        var pagesData = pages;
+        pagesData[pageName] = pagesData[currentPageName];
+        pagesData.remove(currentPageName);
+        pages = pagesData;
+        currentPage = pageName;
     }
 
-    get currentPage {
-        var storedCurrentPage = localStorage['currentPage'];
+    get currentPageName {
+        var storedCurrentPage = localStorage['currentPageName'];
         if (storedCurrentPage != null && storedCurrentPage != '') {
             return storedCurrentPage;
         }
-        return this.defaultPage;
+        return defaultPage;
     }
     set currentPage(String pageName) {
-        localStorage['currentPage'] = pageName;
+        localStorage['currentPageName'] = pageName;
     }
 
     get defaultPage {
-        var storedDefaultPage = localStorage['defaultPage'];
-        if (storedDefaultPage != null) {
-            return storedDefaultPage;
+        if (pages.keys.length > 1) {
+            return pages.keys.elementAt(0);
         }
         return 'Default Page';
     }
-    set defaultPage(String pageName) {
-        localStorage['defaultPage'] = pageName;
-    }
 
     get pageNames {
-        return this.pages.keys;
+        return pages.keys;
     }
 
     safeJSONGet(String key, [String emptyCase = '{}']) {

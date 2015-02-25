@@ -27,10 +27,10 @@ class ReposStore extends Store {
 
     // Private data
     Map<String, List<Repository>> _allRepos;
-    RepoGridData _storage;
+    GridHubData _storage;
 
     // Public data
-    String get currentPage => _storage.currentPage;
+    String get currentPage => _storage.currentPageName;
     List<Repository> get currentPageRepos => _allRepos[currentPage];
     List<String> get pageNames => _storage.pageNames;
 
@@ -52,7 +52,7 @@ class ReposStore extends Store {
     }
 
     Future initializeCurrentPageRepos() {
-        var currentPageRepos = _storage.getRepos(_storage.currentPage);
+        var currentPageRepos = _storage.getRepos(_storage.currentPageName);
         List<Future> futures = [];
         List<Repository> repos = [];
         currentPageRepos.forEach((repoName) {
@@ -61,17 +61,17 @@ class ReposStore extends Store {
             futures.add(repo.initializeData());
         });
         // Trigger immediately, and also when the data is done loading
-        _allRepos[_storage.currentPage] = repos;
+        _allRepos[_storage.currentPageName] = repos;
         trigger();
 
         return Future.wait(futures).then((futures) {
-            _allRepos[_storage.currentPage] = repos;
+            _allRepos[_storage.currentPageName] = repos;
             trigger();
         });
     }
 
     onAddRepo(String repoName) {
-        var pageRepos = _allRepos[_storage.currentPage];
+        var pageRepos = _allRepos[_storage.currentPageName];
         var repo = new Repository(repoName);
         pageRepos.add(repo);
 
@@ -83,7 +83,7 @@ class ReposStore extends Store {
     }
 
     onRemoveRepo(String repoName) {
-        var pageRepos = _allRepos[_storage.currentPage];
+        var pageRepos = _allRepos[_storage.currentPageName];
 
         // TODO clean this up
         var repoToRemove = null;
@@ -99,15 +99,15 @@ class ReposStore extends Store {
     }
 
     onDeletePage(String pageName) {
-        _allRepos.remove(_storage.currentPage);
+        _allRepos.remove(_storage.currentPageName);
         _storage.deletePage(pageName);
-        onSwitchPage(_storage.currentPage);
+        onSwitchPage(_storage.currentPageName);
     }
 
     onEditPage(String pageName) {
-        var pageRepos = _allRepos[_storage.currentPage];
+        var pageRepos = _allRepos[_storage.currentPageName];
         _allRepos[pageName] = pageRepos;
-        _allRepos.remove(_storage.currentPage);
+        _allRepos.remove(_storage.currentPageName);
         _storage.editPage(pageName);
         trigger('page.edited');
     }

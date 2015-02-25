@@ -5,7 +5,7 @@ import 'package:pubsub/pubsub.dart';
 import '../services/localStorageService.dart' as localStorageService;
 
 
-var storage = new localStorageService.RepoGridData();
+var storage = new localStorageService.GridHubData();
 
 void addRepo(String repoName) {
     Pubsub.publish('repo.added', repoName);

@@ -3,35 +3,46 @@ import 'dart:html';
 import 'package:react/react.dart' as react;
 import 'package:react/react_client.dart' as reactClient;
 import 'package:repoGrid/grid_hub_page.dart';
+import 'package:repoGrid/mvc.dart' as mvc;
 
-//import 'components/GridHubApp.dart' show GridHubApp;
-//import 'services/localStorageService.dart' as localStorageService;
+import 'components/GridHubApp.dart' show GridHubApp;
+import 'services/localStorageService.dart' as localStorageService;
 //import 'stores/ReposStore.dart';
 
 
-var storage;
-var reposStore;
-
 class GHDP implements GitHubDataProvider {
-    String get authorization => 'ZXZhbndlaWJsZS13Zjo2MTU2ZGIxMmM4ZTExYmVjNDkxNzg1MTMzMmU0ZDFjZTZmMGM3YzA3';
+
+    localStorageService.GridHubData _storage;
+
+    String get authorization => _storage.githubAuthorization;
+
+    GHDP(localStorageService.GridHubData storage) {
+        _storage = storage;
+    }
 }
 
 void main() {
     reactClient.setClientConfiguration();
 
-    var module = new GridHubPage(['Workiva/wGulp', 'Workiva/karma-jspm', 'jspm/jspm-cli'], new GHDP());
-    module.events.repoRemove.listen((String repoName) {
-        print('Repo removed: ${repoName}');
+    // Initialize data layer
+    localStorageService.GridHubData storage = new localStorageService.GridHubData();
+    GitHubDataProvider githubDataProvider = new GHDP(storage);
+
+    Map<String, mvc.ViewModule> pageModules = {};
+
+    storage.pages.forEach((String pageName, List<String> repos) {
+        pageModules[pageName] = new GridHubPage(repos, githubDataProvider);
     });
 
-    // Initialize data layer and store
-//    storage = new localStorageService.RepoGridData();
-
     // Render the application
-    renderApp(module.component);
+    renderApp(pageModules[storage.currentPageName].component, storage.pageNames, storage.currentPageName);
 }
 
-void renderApp(component) {
+void renderApp(dynamic pageComponent, List<String> pageNames, String currentPageName) {
     var domContainer = querySelector('#app-container');
-    react.render(component, domContainer);
+    react.render(GridHubApp({
+        'currentPageName': currentPageName,
+        'pageComponent': pageComponent,
+        'pageNames': pageNames
+    }), domContainer);
 }

@@ -15,7 +15,7 @@ void main() {
     reactClient.setClientConfiguration();
 
     // Initialize data layer and store
-    storage = new localStorageService.RepoGridData();
+    storage = new localStorageService.GridHubData();
     reposStore = new ReposStore(storage);
 
     // Render the application

@@ -2,11 +2,11 @@ library GridHubHeader;
 
 import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
+import 'package:repoGrid/components.dart' show Octicon;
 
 import '../actions/repoActions.dart' as repoActions;
 import '../constants.dart' as CONSTANTS;
 import '../services/localStorageService.dart' as localStorageService;
-import 'Octicon.dart';
 
 
 /**
@@ -16,11 +16,11 @@ var GridHubHeader = react.registerComponent(() => new _GridHubHeader());
 class _GridHubHeader extends react.Component {
 
     // TODO this is bad. Antipattern.
-    var storage = new localStorageService.RepoGridData();
+    var storage = new localStorageService.GridHubData();
 
     getDefaultProps() {
         return {
-            'currentPage': '',
+            'currentPageName': '',
             'globalButtonClickHandler': (){},
             'pageNames': []
         };
@@ -68,7 +68,7 @@ class _GridHubHeader extends react.Component {
 
     deletePage(event) {
         event.preventDefault();
-        repoActions.deletePage(this.props['currentPage']);
+        repoActions.deletePage(this.props['currentPageName']);
     }
 
     editPage(event) {
@@ -81,7 +81,7 @@ class _GridHubHeader extends react.Component {
 
     refreshPage(event) {
         event.preventDefault();
-        repoActions.refreshPage(this.props['currentPage']);
+        repoActions.refreshPage(this.props['currentPageName']);
     }
 
     addRepo(event) {
@@ -93,10 +93,10 @@ class _GridHubHeader extends react.Component {
     }
 
     render() {
-        var currentPage = this.props['currentPage'];
+        var currentPageName = this.props['currentPageName'];
         var editPageName = this.state['editPageName'];
         if (editPageName == '') {
-            editPageName = currentPage;
+            editPageName = currentPageName;
         }
         var globalButtonClickHandler = this.props['globalButtonClickHandler'];
         var githubUsername = this.state['githubUsername'];
@@ -120,7 +120,7 @@ class _GridHubHeader extends react.Component {
             pageSwitch(event) {
                 repoActions.switchPage(pageName);
             }
-            if (currentPage == pageName) {
+            if (currentPageName == pageName) {
                 var title = react.span({}, [
                     react.span({}, 'Edit Page'),
                     react.a({'className': 'pull-right', 'style': {'color': '#f03e3c'}, 'onClick': this.deletePage}, trashIcon)

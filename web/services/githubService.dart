@@ -8,7 +8,7 @@ import '../models/repo.dart';
 import '../services/localStorageService.dart' as localStorageService;
 
 
-var storage = new localStorageService.RepoGridData();
+var storage = new localStorageService.GridHubData();
 var authorization = storage.githubAuthorization;
 var headers = {
     'Authorization': 'Basic ${authorization}'
