@@ -117,7 +117,7 @@ class ReposStore extends Store {
     }
 
     onSwitchPage(String pageName) {
-        _storage.currentPage = pageName;
+        _storage.currentPageName = pageName;
         if (currentPageRepos == null) {
             initializeCurrentPageRepos();
         } else {

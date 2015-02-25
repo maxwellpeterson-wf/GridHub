@@ -59,7 +59,7 @@ class _GridHubHeaderComponent extends react.Component {
 
     Function _onGlobalActivePaneSwitch(String pane) {
         return (event) {
-            actions.pageSwitch.dispatch(pane);
+            actions.globalActivePaneSwitch.dispatch(pane);
         };
     }
 

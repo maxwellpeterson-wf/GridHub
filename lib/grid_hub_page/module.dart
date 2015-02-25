@@ -6,13 +6,13 @@ class GridHubPage implements mvc.ViewModule {
      * Module-specific API
      */
 
-    Object _api;
-    Object get api => _api;
+    ModuleApi _api;
+    ModuleApi get api => _api;
 
     /**
      * Public Event Streams
      */
-    Object _events;
+    Events _events;
     Events get events => _events;
 
     /**
@@ -53,7 +53,7 @@ class GridHubPage implements mvc.ViewModule {
         );
 
         // Construct the public API and public event streams
-        _api = new ModuleApi();
+        _api = new ModuleApi(_actions);
         _events = new Events(_actions);
     }
 

@@ -17,53 +17,19 @@ import 'GridHubHeader.dart';
 var GridHubApp = react.registerComponent(() => new _GridHubApp());
 class _GridHubApp extends react.Component {
 
-    String get currentPageName => this.props['currentPageName'];
-
-    dynamic get pageComponent {
-        return this.props['pageComponent'];
-    }
-
-    List<String> get pageNames => this.props['pageNames'];
+    dynamic get headerComponent => this.props['headerComponent'];
+    dynamic get pageComponent => this.props['pageComponent'];
 
     getDefaultProps() {
         return {
-            'currentPageName': '',
-            'pageComponent': null,
-            'pageNames': []
+            'headerComponent': null,
+            'pageComponent': null
         };
-    }
-
-    getInitialState() {
-        return {
-            'globalActiveKey': '1'
-        };
-    }
-
-    globalButtonClicked(activeKey) {
-        return (event) {
-            this.setState({'globalActiveKey': activeKey});
-        };
-    }
-
-    componentWillMount() {
-//        reposStore.subscribe((actionName) {
-//            this.setState({
-//                'repos': reposStore.currentPageRepos,
-//                'currentPage': reposStore.currentPage,
-//                'pageNames': reposStore.pageNames
-//            });
-//        });
     }
 
     render() {
-        var globalActiveKey = this.state['globalActiveKey'];
-
         return react.div({'className': 'container-fluid'}, [
-            GridHubHeader({
-                'currentPageName': currentPageName,
-                'globalButtonClickHandler': this.globalButtonClicked,
-                'pageNames': pageNames
-            }),
+            headerComponent,
             react.div({'style': {'marginTop': '45px'}}, pageComponent),
         ]);
     }

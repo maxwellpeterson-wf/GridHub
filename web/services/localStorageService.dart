@@ -76,18 +76,17 @@ class GridHubData {
         pagesData.remove(pageName);
         pages = pagesData;
         if (pageNames.length > 0) {
-            currentPage = pageNames.elementAt(0);
+            currentPageName = pageNames.elementAt(0);
         } else {
-            currentPage = '';
+            currentPageName = '';
         }
     }
 
-    editPage(String pageName) {
+    renamePage(String oldName, String newName){
         var pagesData = pages;
-        pagesData[pageName] = pagesData[currentPageName];
-        pagesData.remove(currentPageName);
+        pagesData[newName] = pagesData[oldName];
+        pagesData.remove(oldName);
         pages = pagesData;
-        currentPage = pageName;
     }
 
     get currentPageName {
@@ -97,7 +96,7 @@ class GridHubData {
         }
         return defaultPage;
     }
-    set currentPage(String pageName) {
+    set currentPageName(String pageName) {
         localStorage['currentPageName'] = pageName;
     }
 

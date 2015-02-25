@@ -4,7 +4,7 @@ var GridHubPageComponent = react.registerComponent(() => new _GridHubPageCompone
 class _GridHubPageComponent extends react.Component {
 
     Actions get actions => this.props['actions'];
-    String get globalActivePane => this.props['globalActivePane'];
+    String get globalActivePane => this.state['globalActivePane'];
     List<Repository> get repos => this.state['repos'];
     Stores get stores => this.props['stores'];
 
@@ -24,6 +24,7 @@ class _GridHubPageComponent extends react.Component {
 
     componentWillMount() {
         stores.globalActivePaneStore.stream.listen((_) {
+            print('triggered: ${stores.globalActivePaneStore.pane}');
             this.setState({
                 'globalActivePane': stores.globalActivePaneStore.pane
             });
