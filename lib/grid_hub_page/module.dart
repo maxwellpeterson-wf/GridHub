@@ -5,7 +5,6 @@ class GridHubPage implements mvc.ViewModule {
     /**
      * Module-specific API
      */
-
     ModuleApi _api;
     ModuleApi get api => _api;
 
@@ -18,8 +17,16 @@ class GridHubPage implements mvc.ViewModule {
     /**
      * View Component
      */
-    dynamic _component;
-    Function get component => _component;
+    Function _component;
+    Function get component {
+        return () {  // TODO Could pass key in here?
+            return GridHubPageComponent({
+                'key': _pageName,
+                'actions': _actions,
+                'stores': _stores
+            });
+        };
+    }
 
     /**
      * Constants
@@ -31,11 +38,12 @@ class GridHubPage implements mvc.ViewModule {
      */
     Actions _actions;
     Stores _stores;
+    String _pageName;
 
     /**
      * Constructor
      */
-    GridHubPage(List<String> repoNames, GitHubDataProvider gitHubDataProvider) {
+    GridHubPage(List<String> repoNames, GitHubDataProvider gitHubDataProvider, this._pageName) {
         if (repoNames == null) {
             repoNames = [];
         }
@@ -47,12 +55,6 @@ class GridHubPage implements mvc.ViewModule {
             new PageStore(_actions, repoNames),
             new GlobalActivePaneStore(_actions)
         );
-
-        // Instantiate component TODO: Move to initialize life cycle method?
-        _component = GridHubPageComponent({
-            'actions': _actions,
-            'stores': _stores
-        });
 
         // Construct the public API and public event streams
         _api = new ModuleApi(_actions);

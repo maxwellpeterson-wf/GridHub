@@ -81,7 +81,6 @@ void main() {
     headerModule.events.pageRemoveAction.listen(storage.deletePage);
     headerModule.events.pageRenameAction.listen((Map<String, String> pageInfo) {
         // TODO!
-//        storage.renamePage();
     });
 
     headerModule.events.repoAddAction.listen((String repoName){
@@ -91,7 +90,7 @@ void main() {
 
 
     storage.pages.forEach((String pageName, List<String> repos) {
-        GridHubPage pageModule = new GridHubPage(repos, githubDataProvider);
+        GridHubPage pageModule = new GridHubPage(repos, githubDataProvider, pageName);
         pageModules[pageName] = pageModule;
         pageComponents[pageName] = pageModule.component;
 
@@ -101,7 +100,7 @@ void main() {
     });
 
     /**
-     * app-level flux
+     * App-level flux
      */
     Actions actions = new Actions();
     Stores stores = new Stores(
@@ -111,6 +110,7 @@ void main() {
 
     headerModule.events.pageSwitchAction.listen((String pageName) {
         actions.pageSwitch.dispatch(pageName);
+        storage.currentPageName = pageName;
     });
 
 
@@ -124,7 +124,6 @@ void main() {
 
 
 void renderApp(dynamic headerComponent, dynamic pagesComponent) {
-    print("I'M RENDERING");
     var domContainer = querySelector('#app-container');
     react.render(GridHubApp({
         'headerComponent': headerComponent,

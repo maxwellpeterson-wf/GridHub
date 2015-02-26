@@ -3,10 +3,13 @@ part of grid_hub_page;
 var GridHubPageComponent = react.registerComponent(() => new _GridHubPageComponent());
 class _GridHubPageComponent extends react.Component {
 
+    // Props
     Actions get actions => this.props['actions'];
+    Stores get stores => this.props['stores'];
+
+    // State
     String get globalActivePane => this.state['globalActivePane'];
     List<Repository> get repos => this.state['repos'];
-    Stores get stores => this.props['stores'];
 
     StreamSubscription _globalActivePaneStoreSubscription;
     StreamSubscription _pageStoreSubscription;
@@ -20,14 +23,14 @@ class _GridHubPageComponent extends react.Component {
 
     getInitialState() {
         return {
-            'globalActivePane': null,
-            'repos': []
+            'globalActivePane': stores.globalActivePaneStore.pane,
+            'repos': stores.pageStore.repos
         };
     }
 
     componentWillMount() {
+        print('CREATING SUBSCRIPTIONS');
         _globalActivePaneStoreSubscription = stores.globalActivePaneStore.stream.listen((_) {
-            print('triggered: ${stores.globalActivePaneStore.pane}');
             this.setState({
                 'globalActivePane': stores.globalActivePaneStore.pane
             });
@@ -40,6 +43,7 @@ class _GridHubPageComponent extends react.Component {
     }
 
     componentWillUnmount() {
+        print('UNMOUNTING GRIDHUB PAGE COMPONENT');
         _globalActivePaneStoreSubscription.cancel();
         _pageStoreSubscription.cancel();
     }

@@ -6,18 +6,19 @@ class GridHubHeader implements mvc.ViewModule {
      * Module-specific API
      */
 
-    Object _api;
-    Object get api => _api;
+    ModuleApi _api;
+    ModuleApi get api => _api;
 
     /**
      * Public Event Streams
      */
-    Object _events;
+    Events _events;
     Events get events => _events;
 
     /**
      * View Component
      */
+    Function _component;
     Function get component {
         return () {
             return GridHubHeaderComponent({
@@ -41,6 +42,7 @@ class GridHubHeader implements mvc.ViewModule {
             pageNames = [];
         }
 
+        // Construct the internal actions and stores
         _actions = new Actions();
         _stores = new Stores(
             new PagesStore(_actions, pageNames, currentPageName),
