@@ -13,9 +13,15 @@ class _GridHubHeaderComponent extends react.Component {
     // State
     String get currentPageName => this.state['currentPageName'];
     String get editPageName => this.state['editPageName'];
+    String get githubAccessToken => this.state['githubAccessToken'];
+    String get githubUsername => this.state['githubUsername'];
     String get newPageName => this.state['newPageName'];
     String get newRepoName => this.state['newRepoName'];
     List<String> get pageNames => this.state['pageNames'];
+
+    // Internal
+    StreamSubscription _settingsStoreSubscription;
+    StreamSubscription _pagesStoreSubscription;
 
     getDefaultProps() {
         return {
@@ -26,23 +32,34 @@ class _GridHubHeaderComponent extends react.Component {
 
     getInitialState() {
         return {
-            'currentPageName': '',
+            'currentPageName': stores.pagesStore.currentPageName,
             'editPageName': currentPageName,
-            'githubUsername': stores.settingsStore.githubUsername,
             'githubAccessToken': stores.settingsStore.githubAccessToken,
+            'githubUsername': stores.settingsStore.githubUsername,
             'newPageName': '',
             'newRepoName': '',
-            'pageNames': []
+            'pageNames': stores.pagesStore.pageNames
         };
     }
 
     componentWillMount() {
-        stores.pagesStore.stream.listen((_) {
+        _settingsStoreSubscription = stores.settingsStore.stream.listen((_) {
+            this.setState({
+                'githubAccessToken': stores.settingsStore.githubAccessToken,
+                'githubUsername': stores.settingsStore.githubUsername
+            });
+        });
+        _pagesStoreSubscription = stores.pagesStore.stream.listen((_) {
             this.setState({
                 'currentPageName': stores.pagesStore.currentPageName,
                 'pageNames': stores.pagesStore.pageNames
             });
         });
+    }
+
+    componentWillUnmount() {
+        _settingsStoreSubscription.cancel();
+        _pagesStoreSubscription.cancel();
     }
 
     void _onGithubAccessTokenChange(event) {
@@ -110,10 +127,6 @@ class _GridHubHeaderComponent extends react.Component {
     }
 
     render() {
-        // TODO handle this
-        var githubUsername = this.state['githubUsername'];
-        var githubAccessToken = this.state['githubAccessToken'];
-
         var readmeIcon = Octicon({'icon': headerConstants.readmeIcon, 'title': 'README'});
         var tagIcon = Octicon({'icon': headerConstants.tagsIcon, 'title': 'Tags/Releases'});
         var issueIcon = Octicon({'icon': headerConstants.issuesIcon, 'title': 'Issues'});

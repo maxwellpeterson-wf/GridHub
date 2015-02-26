@@ -18,12 +18,8 @@ class GridHubPage implements mvc.ViewModule {
     /**
      * View Component
      */
-    react.Component get component {
-        return GridHubPageComponent({
-            'actions': _actions,
-            'stores': _stores
-        });
-    }
+    dynamic _component;
+    Function get component => _component;
 
     /**
      * Constants
@@ -51,6 +47,12 @@ class GridHubPage implements mvc.ViewModule {
             new PageStore(_actions, repoNames),
             new GlobalActivePaneStore(_actions)
         );
+
+        // Instantiate component TODO: Move to initialize life cycle method?
+        _component = GridHubPageComponent({
+            'actions': _actions,
+            'stores': _stores
+        });
 
         // Construct the public API and public event streams
         _api = new ModuleApi(_actions);

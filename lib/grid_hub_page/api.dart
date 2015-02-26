@@ -6,6 +6,10 @@ class ModuleApi {
 
     ModuleApi(this._actions);
 
+    void addRepo(String repoName) {
+        _actions.repoAdd.dispatch(repoName);
+    }
+
     void refreshPageData() {
         _actions.refreshAll.dispatch(null);
     }

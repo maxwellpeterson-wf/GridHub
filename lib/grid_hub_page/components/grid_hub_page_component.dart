@@ -8,6 +8,9 @@ class _GridHubPageComponent extends react.Component {
     List<Repository> get repos => this.state['repos'];
     Stores get stores => this.props['stores'];
 
+    StreamSubscription _globalActivePaneStoreSubscription;
+    StreamSubscription _pageStoreSubscription;
+
     getDefaultProps() {
         return {
             'actions': null,
@@ -23,17 +26,22 @@ class _GridHubPageComponent extends react.Component {
     }
 
     componentWillMount() {
-        stores.globalActivePaneStore.stream.listen((_) {
+        _globalActivePaneStoreSubscription = stores.globalActivePaneStore.stream.listen((_) {
             print('triggered: ${stores.globalActivePaneStore.pane}');
             this.setState({
                 'globalActivePane': stores.globalActivePaneStore.pane
             });
         });
-        stores.pageStore.stream.listen((_) {
+        _pageStoreSubscription = stores.pageStore.stream.listen((_) {
             this.setState({
                 'repos': stores.pageStore.repos
             });
         });
+    }
+
+    componentWillUnmount() {
+        _globalActivePaneStoreSubscription.cancel();
+        _pageStoreSubscription.cancel();
     }
 
     dynamic render() {

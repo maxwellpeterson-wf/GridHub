@@ -5,10 +5,10 @@ class GlobalActivePaneStore extends flux.Store {
     String _pane;
     String get pane => _pane;
 
-    Actions _internalActions;
+    Actions _actions;
 
-    GlobalActivePaneStore(this._internalActions): super() {
-        _internalActions.setActivePane.stream.listen(onSetActivePane);
+    GlobalActivePaneStore(this._actions): super() {
+        _actions.setActivePane.stream.listen(onSetActivePane);
     }
 
     void onSetActivePane(String globalActivePane) {

@@ -8,7 +8,7 @@ abstract class Module {
 }
 
 abstract class ViewModule extends Module {
-    react.Component get component;
+    Function get component;
 }
 
 // TODO non-visual modules

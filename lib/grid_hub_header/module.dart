@@ -18,11 +18,13 @@ class GridHubHeader implements mvc.ViewModule {
     /**
      * View Component
      */
-    react.Component get component {
-        return GridHubHeaderComponent({
-            'actions': _actions,
-            'stores': _stores
-        });
+    Function get component {
+        return () {
+            return GridHubHeaderComponent({
+                'actions': _actions,
+                'stores': _stores
+            });
+        };
     }
 
     /**

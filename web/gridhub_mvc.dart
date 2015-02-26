@@ -1,15 +1,24 @@
+library gridhub_mvc;
+
 import 'dart:async';
 import 'dart:html';
 
 import 'package:react/react.dart' as react;
 import 'package:react/react_client.dart' as reactClient;
+import 'package:repoGrid/flux.dart' as flux;
 import 'package:repoGrid/grid_hub_page.dart';
 import 'package:repoGrid/grid_hub_header.dart';
 import 'package:repoGrid/mvc.dart' as mvc;
 
-import 'components/GridHubApp.dart' show GridHubApp;
 import 'services/localStorageService.dart' as localStorageService;
 //import 'stores/ReposStore.dart';
+
+part 'actions/gridhub_mvc_actions.dart';
+part 'components/gridhub_app_component.dart';
+part 'components/gridhub_pages_component.dart';
+part 'stores/current_page_name_store.dart';
+part 'stores/page_components_store.dart';
+part 'stores.dart';
 
 
 class GHDP implements GitHubDataProvider {
@@ -44,6 +53,7 @@ void main() {
 
     // Map of page modules
     Map<String, GridHubPage> pageModules = {};
+    Map<String, dynamic> pageComponents = {};
 
     /**
      * Page module api streams
@@ -74,32 +84,49 @@ void main() {
 //        storage.renamePage();
     });
 
-    headerModule.events.repoAddAction.listen(storage.addRepo);
+    headerModule.events.repoAddAction.listen((String repoName){
+        storage.addRepo(repoName);
+        pageModules[storage.currentPageName].api.addRepo(repoName);
+    });
 
 
     storage.pages.forEach((String pageName, List<String> repos) {
         GridHubPage pageModule = new GridHubPage(repos, githubDataProvider);
         pageModules[pageName] = pageModule;
+        pageComponents[pageName] = pageModule.component;
+
+        pageModule.events.repoRemove.listen(storage.removeRepo);
+
         setActivePaneStream.listen(pageModule.api.setActivePane);
     });
 
-    void render() {
-        // Render the application
-        renderApp(headerModule.component, pageModules[storage.currentPageName].component);
-    }
+    /**
+     * app-level flux
+     */
+    Actions actions = new Actions();
+    Stores stores = new Stores(
+        new CurrentPageNameStore(actions, storage.currentPageName),
+        new PageComponentsStore(actions, pageComponents)
+    );
 
     headerModule.events.pageSwitchAction.listen((String pageName) {
-        storage.currentPageName = pageName;
-        render();
+        actions.pageSwitch.dispatch(pageName);
     });
 
-    render();
+
+    var pagesComponent = GridHubPagesComponent({
+        'actions': actions,
+        'stores': stores
+    });
+
+    renderApp(headerModule.component, pagesComponent);
 }
 
-void renderApp(dynamic headerComponent, dynamic pageComponent) {
+
+void renderApp(dynamic headerComponent, dynamic pagesComponent) {
+    print("I'M RENDERING");
     var domContainer = querySelector('#app-container');
     react.render(GridHubApp({
         'headerComponent': headerComponent,
-        'pageComponent': pageComponent,
-    }), domContainer);
+    }, [pagesComponent]), domContainer);
 }

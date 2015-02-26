@@ -19,6 +19,7 @@ class PagesStore extends flux.Store {
         _actions.pageAdd.stream.listen(onPageAdd);
         _actions.pageRemove.stream.listen(onPageRemove);
         _actions.pageRename.stream.listen(onPageRename);
+        _actions.pageSwitch.stream.listen(onPageSwitch);
     }
 
     void onPageAdd(String pageName) {
@@ -35,6 +36,11 @@ class PagesStore extends flux.Store {
         String oldName = pageInfo['oldName'];
         String newName = pageInfo['newName'];
         _pageNames.insert(_pageNames.indexOf(oldName), newName);
+        trigger();
+    }
+
+    void onPageSwitch(String pageName) {
+        _currentPageName = pageName;
         trigger();
     }
 

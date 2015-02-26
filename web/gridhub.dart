@@ -3,7 +3,7 @@ import 'dart:html';
 import 'package:react/react.dart' as react;
 import 'package:react/react_client.dart' as reactClient;
 
-import 'components/GridHubApp.dart' show GridHubApp;
+import 'components/gridhub_app_component.dart' show GridHubApp;
 import 'services/localStorageService.dart' as localStorageService;
 import 'stores/ReposStore.dart';
 
