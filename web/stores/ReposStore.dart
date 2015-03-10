@@ -43,7 +43,7 @@ class ReposStore extends Store {
 
         // Subscriptions
         Pubsub.subscribe('repo.added', _getPayload(onAddRepo));
-        Pubsub.subscribe('repo.update', trigger);
+        Pubsub.subscribe('repo.update', _getPayload(onRefresh));
         Pubsub.subscribe('repo.removed', _getPayload(onRemoveRepo));
         Pubsub.subscribe('page.deleted', _getPayload(onDeletePage));
         Pubsub.subscribe('page.edited', _getPayload(onEditPage));
@@ -80,6 +80,10 @@ class ReposStore extends Store {
             trigger('repo.added');
         });
         _storage.addRepo(repoName);
+    }
+
+    onRefresh(String pageName) {
+        trigger();
     }
 
     onRemoveRepo(String repoName) {

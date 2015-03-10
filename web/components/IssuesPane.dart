@@ -37,6 +37,10 @@ class _IssuesPane extends react.Component {
         var listItems = [];
 
         allIssues.forEach((issue) {
+            if (!pullRequests && issue['pull_request'] != null) {
+                // Don't add this item, it doesn't belong
+                return;
+            }
             if (!opened && issue['state'] != 'open') {
                 issues.add(issue);
             } else if (opened && issue['state'] == 'open') {
