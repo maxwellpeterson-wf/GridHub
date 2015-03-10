@@ -113,7 +113,7 @@ class RepoGridData {
     }
 
     get pageNames {
-        return this.pages.keys;
+        return new List<String>.from(this.pages.keys);
     }
 
     safeJSONGet(String key, [String emptyCase = '{}']) {
