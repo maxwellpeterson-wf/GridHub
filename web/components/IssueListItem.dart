@@ -67,10 +67,19 @@ class _IssueListItem extends react.Component {
             react.a({'href': href, 'target': repo.name}, issue['title'])
         ];
 
+        var milestone = '';
+        if (issue['milestone'] != null) {
+            milestone = react.span({'className': 'milestone-label'}, [
+                Octicon({'icon': 'milestone'}),
+                react.span({'className': 'text-muted'}, issue['milestone']['title'])
+            ]);
+        }
+
         var number = issue['number'];
         var body = react.span({'className': 'text-muted text-md'}, [
             react.span({}, '#${number} ${actionVerb} ${relativeDate} by '),
-            AuthorLink({'author': issue['user']})
+            AuthorLink({'author': issue['user']}),
+            milestone
         ]);
 
         return FancyListGroupItem({'header': header}, [
