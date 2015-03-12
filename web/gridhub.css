@@ -31,6 +31,11 @@ body {
   border-radius: 3px;
 }
 
+.progress {
+  height: 14px;
+  margin-bottom: 9px;
+}
+
 .panel-title a {
   color: #595959;
 }
@@ -151,6 +156,17 @@ h4.list-group-item-heading a {
 
 .list-item-expanded-content .btn-xs:hover {
     opacity: 1 !important;
+}
+
+.milestone-title {
+    display: inline-block;
+    float: left;
+    width: 40%;
+}
+
+.milestone-progress {
+    display: inline-block;
+    width: 60%;
 }
 
 /* Github Markdown Readme */

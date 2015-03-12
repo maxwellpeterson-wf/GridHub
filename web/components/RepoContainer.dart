@@ -12,6 +12,7 @@ import 'Octicon.dart';
 import 'ReadmePane.dart';
 import 'TagsPane.dart';
 import 'UnreleasedPane.dart';
+import 'MilestonesPane.dart';
 
 
 var RepoContainer = react.registerComponent(() => new _RepoContainer());
@@ -64,6 +65,7 @@ class _RepoContainer extends react.Component {
       var issueIcon = Octicon({'icon': CONSTANTS.issuesIcon, 'title': 'Issues'});
       var pullRequestIcon = Octicon({'icon': CONSTANTS.pullRequestsIcon, 'title': 'Pull Requests'});
       var unreleasedIcon = Octicon({'icon': CONSTANTS.unreleasedIcon, 'title': 'Unreleased PRs (PRs merged since last tag)'});
+      var milestonesIcon = Octicon({'icon': CONSTANTS.milestonesIcon, 'title': 'Milestones'});
 
       return Panel({'header': title, 'className': 'repo-panel'}, [
           TabbedArea({
@@ -85,6 +87,9 @@ class _RepoContainer extends react.Component {
               TabPane({'eventKey': '5', 'tab': unreleasedIcon}, [
                   UnreleasedPane({'repo': repo})
               ]),
+              TabPane({'eventKey': '6', 'tab': milestonesIcon}, [
+                  MilestonesPane({'repo': repo})
+              ])
           ])
       ]);
   }
