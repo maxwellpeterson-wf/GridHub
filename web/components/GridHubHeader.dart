@@ -110,6 +110,7 @@ class _GridHubHeader extends react.Component {
         var issueIcon = Octicon({'icon': CONSTANTS.issuesIcon, 'title': 'Issues'});
         var pullRequestIcon = Octicon({'icon': CONSTANTS.pullRequestsIcon, 'title': 'Pull Requests'});
         var unreleasedIcon = Octicon({'icon': CONSTANTS.unreleasedIcon, 'title': 'Unreleased PRs (PRs merged since last tag)'});
+        var milestonesIcon = Octicon({'icon': CONSTANTS.milestonesIcon, 'title': 'Milestones'});
         var settingsIcon = Glyphicon({'glyph': 'cog'});
         var trashIcon = Glyphicon({'glyph': 'trash'});
         var addIcon = Octicon({'icon': 'plus'});
@@ -194,6 +195,7 @@ class _GridHubHeader extends react.Component {
                 NavItem({'onClick': globalButtonClickHandler('3')}, issueIcon),
                 NavItem({'onClick': globalButtonClickHandler('4')}, pullRequestIcon),
                 NavItem({'onClick': globalButtonClickHandler('5')}, unreleasedIcon),
+                NavItem({'onClick': globalButtonClickHandler('6')}, milestonesIcon),
 
                 // SETTINGS BUTTON
                 // TODO Could not get this popover to work in its own component file. fix this

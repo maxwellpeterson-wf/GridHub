@@ -67,3 +67,7 @@ getCommitsSinceLastTag(RepoDescriptor repo) {
         }
     });
 }
+
+getMilestones(RepoDescriptor repo) {
+    return githubApiRequest(repo, 'milestones');
+}
