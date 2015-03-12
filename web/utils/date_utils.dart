@@ -5,13 +5,13 @@ String getRelativeDate(DateTime eventTime) {
     DateTime now = new DateTime.now();
     Duration diff = now.difference(eventTime);
 
-    if (diff.inMinutes < 0) {
+    if (diff.inMinutes <= 0) {
         return '${diff.inSeconds} seconds ago';
     }
-    else if (diff.inHours < 0) {
+    else if (diff.inHours <= 0) {
         return '${diff.inMinutes} minutes ago';
     }
-    else if (diff.inDays < 0) {
+    else if (diff.inDays <= 0) {
         return '${diff.inHours} hours ago';
     }
     else if (diff.inDays > 30) {
