@@ -296,7 +296,7 @@ $0:[function(){return new D.uj(null,null,null,P.cV(null,null),null,null)},"$0",n
 uj:{
 "^":"jR;CF-269,nv-19,fh-19,ZQ-269,Lq-269,Fp-269",
 u4:[function(){return P.EF(["repo",null,"issue",null,"pullRequests",!1],null,null)},"$0","gLo",0,0,24,"getDefaultProps"],
-Ww:[function(){var z,y,x,w,v,u,t,s,r,q,p,o,n
+Ww:[function(){var z,y,x,w,v,u,t,s,r,q,p,o,n,m
 z=J.UQ(this.CF,"repo")
 y=J.UQ(this.CF,"issue")
 x=J.UQ(this.CF,"pullRequests")
@@ -316,9 +316,10 @@ t="closed"}}r=N.iW(u)
 w=J.U6(y)
 q=w.t(y,"html_url")
 p=$.yQ.$2(P.EF(["href",q,"target",J.C9(z)],null,null),w.t(y,"title"))
-o=w.t(y,"number")
-n=$.mO.$2(P.EF(["className","text-muted text-md"],null,null),[$.mO.$2(P.cV(null,null),"#"+H.d(o)+" "+t+" "+r+" by "),$.uB().$1(P.EF(["author",w.t(y,"user")],null,null))])
-return $.DM().$2(P.EF(["header",[s,p]],null,null),[n])},"$0","gwK",0,0,24,"render"]},
+o=w.t(y,"milestone")!=null?$.mO.$2(P.EF(["className","milestone-label"],null,null),[$.Ug().$1(P.EF(["icon","milestone"],null,null)),$.mO.$2(P.EF(["className","text-muted"],null,null),J.UQ(w.t(y,"milestone"),"title"))]):""
+n=w.t(y,"number")
+m=$.mO.$2(P.EF(["className","text-muted text-md"],null,null),[$.mO.$2(P.cV(null,null),"#"+H.d(n)+" "+t+" "+r+" by "),$.uB().$1(P.EF(["author",w.t(y,"user")],null,null)),o])
+return $.DM().$2(P.EF(["header",[s,p]],null,null),[m])},"$0","gwK",0,0,24,"render"]},
 "+_IssueListItem":[270]}],["","",,S,{
 "^":"",
 lPa:{

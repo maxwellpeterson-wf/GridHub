@@ -169,6 +169,20 @@ h4.list-group-item-heading a {
     width: 60%;
 }
 
+.milestone-label {
+    margin-left: 10px;
+}
+
+.milestone-label .text-muted {
+    font-size: 12px;
+    margin-left: 3px;
+}
+
+.milestone-label .octicon.octicon-milestone {
+    color: #cccccc;
+    font-size: 14px;
+}
+
 /* Github Markdown Readme */
 .readme .markdown-body, .readme .plain {
   padding: 0 0 30px 30px;
