@@ -7,6 +7,7 @@ import '../components/FancyListGroupItem.dart';
 import '../models/repo.dart';
 import '../utils/date_utils.dart';
 
+import 'ContentLoading.dart';
 import 'Octicon.dart';
 import 'NoResultsIcon.dart';
 
@@ -87,8 +88,7 @@ class _MilestonesPane extends react.Component {
                     progress
                 ])
             );
-
-
+            
         });
 
         var content;
@@ -96,6 +96,9 @@ class _MilestonesPane extends react.Component {
             content = react.div({'className': 'scrollable-pane'}, [
                 ListGroup({}, listItems)
             ]);
+        }
+        else if (repo.dataInitialized != true) {
+            content = ContentLoading({});
         }
         else {
             content = NoResultsIcon({});

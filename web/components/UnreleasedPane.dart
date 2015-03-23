@@ -5,6 +5,7 @@ import 'package:web_skin_react/web_skin_react.dart';
 
 import '../models/repo.dart';
 
+import 'ContentLoading.dart';
 import 'IssueListItem.dart';
 import 'NoResultsIcon.dart';
 import 'Octicon.dart';
@@ -49,6 +50,9 @@ class _UnreleasedPane extends react.Component {
             content = react.div({'className': 'scrollable-pane'}, [
                 ListGroup({}, listItems)
             ]);
+        }
+        else if (repo.dataInitialized != true) {
+            content = ContentLoading({});
         }
         else {
             content = NoResultsIcon({});
