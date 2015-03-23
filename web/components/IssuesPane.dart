@@ -5,6 +5,7 @@ import 'package:web_skin_react/web_skin_react.dart';
 
 import '../models/repo.dart';
 
+import 'ContentLoading.dart';
 import 'IssueListItem.dart';
 import 'NoResultsIcon.dart';
 import 'Octicon.dart';
@@ -70,6 +71,9 @@ class _IssuesPane extends react.Component {
             content = react.div({'className': 'scrollable-pane', 'style': {'height': '276px'}}, [
                 ListGroup({}, listItems)
             ]);
+        }
+        else if (repo.dataInitialized != true) {
+            content = ContentLoading({});
         }
         else {
             content = NoResultsIcon({});

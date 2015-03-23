@@ -6,6 +6,7 @@ import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
 
 import '../models/repo.dart';
+import './ContentLoading.dart';
 
 
 /**
@@ -22,10 +23,14 @@ class _ReadmePane extends react.Component {
 
     render() {
         Repository repo = this.props['repo'];
-        var contents = repo.readmeData;
-        return react.div({
-            'dangerouslySetInnerHTML': new js.JsObject.jsify({'__html': contents}),
-            'className': 'scrollable-pane readme'
-        });
+        var readme = repo.readmeData;
+        var content;
+        if (repo != null && repo.dataInitialized) {
+            content = react.div({'dangerouslySetInnerHTML': new js.JsObject.jsify({'__html': readme})});
+        }
+        else {
+            content = ContentLoading({});
+        }
+        return react.div({'className': 'scrollable-pane readme'}, content);
     }
 }

@@ -25,6 +25,8 @@ class Repository extends RepoDescriptor {
     List commitsData;
     List milestonesData;
 
+    bool dataInitialized;
+
     Repository(String name) : super(name) {
         readmeData = '';
         tagsData = [];
@@ -33,6 +35,8 @@ class Repository extends RepoDescriptor {
         pullRequestsData = [];
         commitsData = [];
         milestonesData = [];
+
+        dataInitialized = false;
     }
 
     Future initializeData() {
@@ -58,6 +62,9 @@ class Repository extends RepoDescriptor {
         Future milestonesFuture = githubService.getMilestones(this).then((response) {
             this.milestonesData = response;
         });
-        return Future.wait([readmeFuture, tagsFuture, releasesFuture, issuesFuture, pullRequestsFuture, commitsFuture]);
+        return Future.wait([readmeFuture, tagsFuture, releasesFuture, issuesFuture, pullRequestsFuture, commitsFuture]).then((args) {
+            this.dataInitialized = true;
+            return args;
+        });
     }
 }

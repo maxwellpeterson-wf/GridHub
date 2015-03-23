@@ -17,6 +17,9 @@ String getRelativeDate(DateTime eventTime) {
     else if (diff.inDays > 30) {
         return 'on ${getMonthName(eventTime.month)} ${eventTime.day}';
     }
+    else if (diff.inDays == 1) {
+        return '${diff.inDays} day ago';
+    }
     else {
         return '${diff.inDays} days ago';
     }

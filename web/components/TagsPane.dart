@@ -8,6 +8,7 @@ import '../models/repo.dart';
 import '../utils/date_utils.dart';
 
 import 'AuthorLink.dart';
+import 'ContentLoading.dart';
 import 'NoResultsIcon.dart';
 
 
@@ -71,6 +72,9 @@ class _TagsPane extends react.Component {
             content = react.div({'className': 'scrollable-pane'}, [
                 ListGroup({}, listItems)
             ]);
+        }
+        else if (repo.dataInitialized != true) {
+            content = ContentLoading({});
         }
         else {
             content = NoResultsIcon({});
