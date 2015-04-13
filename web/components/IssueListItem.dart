@@ -8,6 +8,7 @@ import '../models/repo.dart';
 import '../utils/date_utils.dart';
 
 import 'AuthorLink.dart';
+import 'GithubLabel.dart';
 import 'Octicon.dart';
 
 
@@ -92,6 +93,11 @@ class _IssueListItem extends react.Component {
             react.a({'href': href, 'target': repo.name}, issue['title'])
         ];
 
+        List labels = [];
+        issue['labels'].forEach((label) {
+            labels.add(GithubLabel({'label': label}));
+        });
+
         var milestone = '';
         if (issue['milestone'] != null) {
             milestone = react.span({'className': 'milestone-label'}, [
@@ -104,7 +110,8 @@ class _IssueListItem extends react.Component {
         var body = react.span({'className': 'text-muted text-md'}, [
             react.span({}, '#${number} ${actionVerb} ${relativeDate} by '),
             AuthorLink({'author': issue['user']}),
-            milestone
+            milestone,
+            react.span({}, labels)
         ]);
 
         return FancyListGroupItem({'header': header, 'className': className}, [
