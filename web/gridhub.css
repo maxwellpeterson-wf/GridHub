@@ -314,3 +314,7 @@ h4.list-group-item-heading a {
     line-height: 1;
     margin-left: 5px;
 }
+
+.nav > .nav-item > .hitarea:hover:active {
+    background-color: transparent;
+}

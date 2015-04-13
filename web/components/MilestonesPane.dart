@@ -41,7 +41,7 @@ class _MilestonesPane extends react.Component {
                 Duration diff = dueDate.difference(now);
                 var dueDateIcon = 'calendar';
                 if (diff.inHours < 0) {
-                    dueDateClassName = 'text-bold text-red';  // TODO change text-red to text-danger when upgraded to web-skin 1.0
+                    dueDateClassName = 'text-bold text-danger';
                     dueDateIcon = 'alert';
                 }
                 dueDateMessage = react.span({'className': dueDateClassName}, [
