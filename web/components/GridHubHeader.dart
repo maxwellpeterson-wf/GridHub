@@ -114,6 +114,7 @@ class _GridHubHeader extends react.Component {
         var settingsIcon = Glyphicon({'glyph': 'cog'});
         var trashIcon = Glyphicon({'glyph': 'trash'});
         var addIcon = Octicon({'icon': 'plus'});
+        var addIcon2 = Octicon({'icon': 'plus'});
         var refreshIcon = Octicon({'icon': 'sync'});
 
         var pageButtons = [];
@@ -126,22 +127,25 @@ class _GridHubHeader extends react.Component {
                     react.span({}, 'Edit Page'),
                     react.a({'className': 'pull-right', 'style': {'color': '#f03e3c'}, 'onClick': this.deletePage}, trashIcon)
                 ]);
-                pageButtons.add(react.li({'className': 'active'}, [
+                pageButtons.add(NavItem({'active': true}, [
                     OverlayTrigger({'trigger': 'click', 'placement': 'bottom', 'overlay': Popover(
                         {'className': 'inner', 'title': title}, [
                             react.form({'onSubmit': this.editPage}, [
-                                Input({'type': 'text', 'label': 'Page Name',
+                                Input({
+                                    'type': 'text',
+                                    'id': 'edit-page-name',
+                                    'label': 'Page Name',
                                     'value': editPageName,
                                     'onChange': this.onEditPageNameChange,
                                 })
                             ])
                         ])},
-                    react.a({'className': 'hitarea', 'onClick': null, 'style': {'cursor': 'pointer'}}, pageName)
+                    react.span({'style': {'cursor': 'pointer'}}, pageName)
                     ),
                 ]));
 
             } else {
-                pageButtons.add(react.li({}, [
+                pageButtons.add(react.li({'className': 'nav-item'}, [
                     react.a({'className': 'hitarea', 'onClick': pageSwitch}, pageName)
                 ]));
             }
@@ -150,11 +154,14 @@ class _GridHubHeader extends react.Component {
 
         // ADD NEW PAGE BUTTON
         if (pageButtons.length > 0) {
-            pageButtons.add(react.li({}, [
+            pageButtons.add(react.li({'className': 'nav-item'}, [
                 OverlayTrigger({'trigger': 'click', 'placement': 'right', 'overlay': Popover(
                     {'className': 'inner add-page-popover', 'arrowOffsetTop': 18, 'title': 'Add Page'}, [
                         react.form({'onSubmit': this.addPage}, [
-                            Input({'type': 'text', 'label': 'Page Name',
+                            Input({
+                                'type': 'text',
+                                'id': 'new-page-name',
+                                'label': 'Page Name',
                                 'value': newPageName,
                                 'onChange': this.onNewPageNameChange,
                             }),
@@ -165,53 +172,66 @@ class _GridHubHeader extends react.Component {
             ]));
         }
 
-        pageButtons.add(react.li({}, [
+        pageButtons.add(react.li({'className': 'nav-item'}, [
             react.a({'className': 'hitarea', 'onClick': refreshPage}, refreshIcon)
         ]));
 
-        var brand = react.h3({'style': {'display': 'inline', 'marginTop': '2px'}}, 'GridHub');
+        var brand = react.h4({'style': {'display': 'inline', 'marginTop': '2px', 'fontWeight': 'bold', 'paddingLeft': '0'}}, 'GridHub');
         var navBarStyle = {'borderWidth': '0 0 1px', 'borderRadius': 0, 'paddingRight': '3px', 'paddingLeft': '12px'};
         return Navbar({'fixedTop': true, 'fluid': true, 'brand': brand, 'style': navBarStyle}, [
-            react.ul({'className': 'nav navbar-nav'}, pageButtons),
+            Nav({}, pageButtons),
             Nav({'className': 'pull-right'}, [
 
                 // ADD REPO BUTTON
-                OverlayTrigger({'trigger': 'click', 'placement': 'left', 'overlay': Popover(
-                    {'className': 'inner add-repo-popover', 'arrowOffsetTop': 18, 'title': 'Add Repository'}, [
-                        react.form({'onSubmit': this.addRepo}, [
-                            Input({'type': 'text', 'label': 'Repo Path',
-                                'placeholder': 'Workiva/wGulp',
-                                'value': newRepoName,
-                                'onChange': this.onNewRepoNameChange,
-                            }),
-                        ])
-                    ])},
-                    NavItem({'style': {'marginRight': '20px'}}, addIcon)
+                NavItem({'style': {'marginRight': '20px'}},
+                    OverlayTrigger({'trigger': 'click', 'placement': 'left', 'overlay': Popover(
+                        {'className': 'inner add-repo-popover', 'arrowOffsetTop': 18, 'title': 'Add Repository'}, [
+                            react.form({'onSubmit': this.addRepo}, [
+                                Input({
+                                    'type': 'text',
+                                    'id': 'new-repo-name',
+                                    'label': 'Repo Path',
+                                    'placeholder': 'Workiva/wGulp',
+                                    'value': newRepoName,
+                                    'onChange': this.onNewRepoNameChange,
+                                }),
+                            ])
+                        ])},
+                        react.span({}, addIcon2)
+                    )
                 ),
 
                 // GLOBAL STATE BUTTONS
-                NavItem({'onClick': globalButtonClickHandler('1')}, readmeIcon),
-                NavItem({'onClick': globalButtonClickHandler('2')}, tagIcon),
-                NavItem({'onClick': globalButtonClickHandler('3')}, issueIcon),
-                NavItem({'onClick': globalButtonClickHandler('4')}, pullRequestIcon),
-                NavItem({'onClick': globalButtonClickHandler('5')}, unreleasedIcon),
-                NavItem({'onClick': globalButtonClickHandler('6')}, milestonesIcon),
+                NavItem({'onSelect': globalButtonClickHandler('1')}, readmeIcon),
+                NavItem({'onSelect': globalButtonClickHandler('2')}, tagIcon),
+                NavItem({'onSelect': globalButtonClickHandler('3')}, issueIcon),
+                NavItem({'onSelect': globalButtonClickHandler('4')}, pullRequestIcon),
+                NavItem({'onSelect': globalButtonClickHandler('5')}, unreleasedIcon),
+                NavItem({'onSelect': globalButtonClickHandler('6')}, milestonesIcon),
 
                 // SETTINGS BUTTON
                 // TODO Could not get this popover to work in its own component file. fix this
                 // For some reason if I create a new component that renders a Popover, and then pass
                 // that in as a prop to OverlayTrigger - it breaks. I assume it is dart interop issues
-                OverlayTrigger({'trigger': 'click', 'placement': 'left', 'overlay': Popover(
-                    {'title': 'Settings', 'arrowOffsetTop': 18, 'className': 'inner settings-popover'}, [
-                        Input({'type': 'text', 'label': 'Github Username',
-                            'value': githubUsername,
-                            'onChange': this.onGithubUsernameChange}),
-                        Input({'type': 'password', 'label': 'Github Access Token',
-                            'value': githubAccessToken,
-                            'onChange': this.onGithubAccessTokenChange})
-                    ])},
-                    NavItem({'style': {'marginLeft': '20px'}}, settingsIcon)
-                ),
+                NavItem({'style': {'marginLeft': '20px'}},
+                    OverlayTrigger({'trigger': 'click', 'placement': 'left', 'overlay': Popover(
+                        {'title': 'Settings', 'arrowOffsetTop': 18, 'className': 'inner settings-popover'}, [
+                            Input({
+                                'type': 'text',
+                                'id': 'github-user-name',
+                                'label': 'Github Username',
+                                'value': githubUsername,
+                                'onChange': this.onGithubUsernameChange}),
+                            Input({
+                                'type': 'password',
+                                'id': 'github-access-token',
+                                'label': 'Github Access Token',
+                                'value': githubAccessToken,
+                                'onChange': this.onGithubAccessTokenChange})
+                        ])},
+                        settingsIcon
+                    )
+                )
             ])
         ]);
     }

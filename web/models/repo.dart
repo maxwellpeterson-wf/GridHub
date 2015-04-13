@@ -24,6 +24,9 @@ class Repository extends RepoDescriptor {
     List pullRequestsData;
     List commitsData;
     List milestonesData;
+    Map<int, List<Map>> commentsMap;
+    Map<int, List<Map>> issuesMap;
+    Map<int, List<Map>> pullRequestsMap;
 
     bool dataInitialized;
 
@@ -35,6 +38,10 @@ class Repository extends RepoDescriptor {
         pullRequestsData = [];
         commitsData = [];
         milestonesData = [];
+
+        commentsMap = {};
+        issuesMap = {};
+        pullRequestsMap = {};
 
         dataInitialized = false;
     }
@@ -52,9 +59,31 @@ class Repository extends RepoDescriptor {
         });
         Future issuesFuture = githubService.getIssues(this, 'issues').then((response) {
             this.issuesData = response;
+            this.issuesData.forEach((issue) {
+                int issueNumber = issue['number'];
+
+                // Add each issue to a map
+                this.issuesMap[issueNumber] = issue;
+
+                // Only get comments for open pull requests
+                if (issue['state'] == 'open' && issue['pull_request'] != null) {
+                    githubService.getCommentsForIssue(this, issueNumber).then((comments) {
+                        if (comments != null) {
+                            this.commentsMap[issueNumber] = comments;
+                            repoActions.repoUpdated(this.name);
+                        }
+                    });
+                }
+            });
         });
         Future pullRequestsFuture = githubService.getIssues(this, 'pulls').then((response) {
             this.pullRequestsData = response;
+            this.pullRequestsData.forEach((pullRequest) {
+                int pullRequestNumber = pullRequest['number'];
+
+                // Add each pull request to a map
+                this.pullRequestsMap[pullRequestNumber] = pullRequest;
+            });
         });
         Future commitsFuture = githubService.getCommitsSinceLastTag(this).then((response) {
             this.commitsData = response['commits'];
@@ -62,7 +91,16 @@ class Repository extends RepoDescriptor {
         Future milestonesFuture = githubService.getMilestones(this).then((response) {
             this.milestonesData = response;
         });
-        return Future.wait([readmeFuture, tagsFuture, releasesFuture, issuesFuture, pullRequestsFuture, commitsFuture]).then((args) {
+
+        return Future.wait([
+            readmeFuture,
+            tagsFuture,
+            releasesFuture,
+            issuesFuture,
+            pullRequestsFuture,
+            commitsFuture,
+            milestonesFuture
+        ]).then((args) {
             this.dataInitialized = true;
             return args;
         });

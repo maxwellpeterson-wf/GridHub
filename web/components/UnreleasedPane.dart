@@ -47,7 +47,7 @@ class _UnreleasedPane extends react.Component {
 
         var content;
         if (listItems.length > 0) {
-            content = react.div({'className': 'scrollable-pane'}, [
+            content = react.div({'className': 'scrollable-pane issues-pane'}, [
                 ListGroup({}, listItems)
             ]);
         }

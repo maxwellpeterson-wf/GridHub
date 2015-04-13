@@ -38,7 +38,7 @@ class _GridHubApp extends react.Component {
     }
 
     globalButtonClicked(activeKey) {
-        return (event) {
+        return (eventKey, href, target) {
             this.setState({'globalActiveKey': activeKey});
         };
     }

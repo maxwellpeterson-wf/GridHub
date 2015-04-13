@@ -17,7 +17,9 @@ class _FancyListGroupItem extends react.Component {
             }
             headerComponent = react.h4({'className': 'list-group-item-heading'}, header);
         }
-        return react.div({'className': 'list-group-item'}, [
+        var className = this.props['className'] == null ? '' : this.props['className'];
+        className += ' list-group-item';
+        return react.div({'className': className}, [
             headerComponent,
             react.div({'className': 'list-group-item-text'}, this.props['children'])
         ]);
