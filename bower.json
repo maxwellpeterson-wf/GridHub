@@ -16,7 +16,6 @@
     "tests"
   ],
   "dependencies": {
-    "octicons": "~2.1.2",
-    "web-skin": "git@github.com:Workiva/web-skin#~0.4.24"
+    "octicons": "~2.1.2"
   }
 }

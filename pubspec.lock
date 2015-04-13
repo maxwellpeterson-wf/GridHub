@@ -29,10 +29,17 @@ packages:
     description: react
     source: hosted
     version: "0.5.0"
+  web_skin:
+    description:
+      ref: "1.0.4"
+      resolved-ref: dcc77bd69403efbe41cf3151c8c71e9e9ce15856
+      url: "git@github.com:Workiva/web-skin.git"
+    source: git
+    version: "1.0.4"
   web_skin_react:
     description:
-      ref: "1.1.0"
-      resolved-ref: "1fc78996d835ad4a3928cf9aeb996e544a860efe"
+      ref: "2.0.2"
+      resolved-ref: c68da4a0b992f93c2f7ff9c3c564822a3943dd0f
       url: "git@github.com:Workiva/web-skin-react.git"
     source: git
-    version: "1.1.0"
+    version: "2.0.2"

@@ -1,5 +1,11 @@
 body {
   margin: 0 10px;
+  min-height: 0;
+}
+
+.container-wide {
+  padding-left: 15px;
+  padding-right: 0;
 }
 
 .open.octicon {
@@ -21,6 +27,16 @@ body {
 
 .text-muted .github-author {
   color: #777777;
+}
+
+button.btn.btn-xs.active.open-issues {
+    font-weight: bold;
+    color: #66cc00;
+}
+
+button.btn.btn-xs.active.closed-issues {
+    font-weight: bold;
+    color: #ee2724;
 }
 
 .github-author img {
@@ -62,36 +78,53 @@ body {
   height: 300px;
 }
 
-.tabs-right > .nav-tabs {
+.repo-panel .tabs-right > .nav-tabs {
   width: 38px;
   /*border-bottom: 1px solid #b2b2b2;*/
   height: 300px;
 }
 
-.tabs-right > .nav-tabs > li > .hitarea {
-  min-width: 40px;
+.repo-panel .tabs-right > .nav-tabs > li > .hitarea {
+  min-width: 39px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
 
-.tabs-right > li:first-child {
+.repo-panel .tabs-right > li:first-child {
   margin-top: 14px;
 }
 
 .tab-pane {
-  padding-right: 39px;
+  padding-right: 38px;
 }
 
 .scrollable-pane {
-  overflow-y: auto;
+  overflow-y: scroll;
   height: 300px;
   box-sizing: border-box;
+  position: absolute;
+  left: 0;
+  width: 100%;
+  padding-right: 38px;
+}
+
+.scrollable-pane::-webkit-scrollbar {
+  display: none;
+}
+
+.pane-header {
+    display: inline-block;
+    margin-left: 7px;
 }
 
 .list-group-item-heading {
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow-x: hidden;
+  font-size: 16px;
+  font-weight: bold;
+  padding-top: 10px;
+  margin-bottom: 5px;
 }
 
 .list-group-item-heading :hover {
@@ -108,6 +141,7 @@ h4.list-group-item-heading a {
 
 .issues-pane .list-group-item {
   padding-left: 7px;
+  padding-bottom: 8px;
 }
 
 .issues-pane .list-group-item-heading .octicon {
@@ -252,11 +286,11 @@ h4.list-group-item-heading a {
 }
 
 .add-page-popover {
-    margin-top: 49px;
+    margin-top: 44px;
 }
 
 .add-repo-popover {
-    margin-top: 49px;
+    margin-top: 44px;
 }
 
 .settings-icon {
@@ -264,66 +298,8 @@ h4.list-group-item-heading a {
   margin-left: 15px;
 }
 
-.settings-popover {
-  width: 300px;
-  margin-top: 86px;
-}
-
-/* Web-skin fixes/hacks */
-.popover .content {
-  padding: 8px;
-  line-height: 1;
-}
-
-.popover.left .arrow {
-  top: 50%;
-  right: -11px;
-  margin-top: -11px;
-  border-color: transparent;
-  border-left-color: #8e8e8e;
-  border-style: solid;
-  border-width: 11px;
-  border-right-width: 0;
-}
-
-.popover.inner {
-  padding: 8px;
-}
-
-.popover .arrow {
-  position: absolute;
-  z-index: 1;
-  width: 0;
-  height: 0;
-  border-style: solid;
-  -webkit-transition: border-color .15s linear;
-  -moz-transition: border-color .15s linear;
-  transition: border-color .15s linear;
-}
-
-.popover .title, .popover .title * {
-  -webkit-user-select: none;
-  -moz-user-select: -moz-none;
-  user-select: none;
-  -webkit-tap-highlight-color: transparent;
-  -moz-tap-highlight-color: transparent;
-  -ms-tap-highlight-color: transparent;
-  -o-tap-highlight-color: transparent;
-  tap-highlight-color: transparent;
-}
-
-.popover .title {
-  padding-top: 0px;
-  padding-bottom: 8px;
-  margin: 0 0 8px 0;
-  font-size: 16px;
-  line-height: 20px;
-  background-color: #fff;
-  border-bottom: 1px solid #b2b2b2;
-  -moz-border-radius-topright: 3px;
-  -webkit-border-top-right-radius: 3px;
-  border-top-right-radius: 3px;
-  -moz-border-radius-topleft: 3px;
-  -webkit-border-top-left-radius: 3px;
-  border-top-left-radius: 3px;
+.popover.settings-popover {
+  /*width: 300px;*/
+  margin-top: 80px;
+  margin-left: -13px;
 }

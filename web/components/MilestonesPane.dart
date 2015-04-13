@@ -67,7 +67,7 @@ class _MilestonesPane extends react.Component {
                 progressPercentage = (closedIssues / (totalIssues) * 100).ceil();
             }
             var progress = react.div({'className': 'milestone-progress'}, [
-                ProgressBar({'bsStyle': 'success', 'now': progressPercentage}),
+                ProgressBar({'wsStyle': 'success', 'now': progressPercentage}),
                 react.span({}, [
                     react.span({'className': 'text-bold'}, '${progressPercentage}%'),
                     react.span({'className': 'text-muted'}, ' complete'),

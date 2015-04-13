@@ -9,6 +9,6 @@ dependencies:
   web_skin_react:
     git:
       url: git@github.com:Workiva/web-skin-react.git
-      ref: 1.1.0
+      ref: 2.0.2
 dev_dependencies:
 #  unittest: any

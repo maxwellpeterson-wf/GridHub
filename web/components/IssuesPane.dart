@@ -33,13 +33,19 @@ class _IssuesPane extends react.Component {
         Repository repo = this.props['repo'];
         var opened = this.state['opened'];
         var pullRequests = this.props['pullRequests'];
-        var allIssues = pullRequests ? repo.pullRequestsData : repo.issuesData;
         var issues = [];
         var listItems = [];
 
-        allIssues.forEach((issue) {
+        var headerText = 'Issues:';
+        if (pullRequests) {
+            headerText = 'Pull Requests:';
+        }
+
+        repo.issuesData.forEach((issue) {
             if (!pullRequests && issue['pull_request'] != null) {
                 // Don't add this item, it doesn't belong
+                return;
+            } else if (pullRequests && issue['pull_request'] == null) {
                 return;
             }
             if (!opened && issue['state'] != 'open') {
@@ -51,7 +57,7 @@ class _IssuesPane extends react.Component {
 
         issues.forEach((issue) {
             listItems.add(
-                IssueListItem({'repo': repo, 'issue': issue, 'pullRequests': pullRequests})
+                IssueListItem({'repo': repo, 'issue': issue, 'pullRequest': repo.pullRequestsMap[issue['number']]})
             );
         });
 
@@ -59,16 +65,17 @@ class _IssuesPane extends react.Component {
             this.setState({'opened': !opened});
         };
 
-        var openClosedButtons = react.div({}, [
+        var openClosedButtons = react.div({'style': {'borderBottom': '#dedede 2px solid'}}, [
+            react.h6({'className': 'pane-header'}, headerText),
             ButtonGroup({'className': 'no-radius'}, [
-                Button({'bsSize': 'xsmall', 'active': opened, 'onClick': openClosedHandler}, 'Open'),
-                Button({'bsSize': 'xsmall', 'active': !opened, 'onClick': openClosedHandler}, 'Closed')
+                Button({'wsSize': 'xsmall', 'wsStyle': 'unskinned', 'active': opened, 'className': 'open-issues', 'onClick': openClosedHandler}, 'Open'),
+                Button({'wsSize': 'xsmall', 'wsStyle': 'unskinned', 'active': !opened, 'className': 'closed-issues', 'onClick': openClosedHandler}, 'Closed')
             ])
         ]);
 
         var content;
         if (listItems.length > 0) {
-            content = react.div({'className': 'scrollable-pane', 'style': {'height': '276px'}}, [
+            content = react.div({'className': 'scrollable-pane', 'style': {'height': '271px'}}, [
                 ListGroup({}, listItems)
             ]);
         }

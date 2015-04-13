@@ -38,11 +38,10 @@ getReadme(RepoDescriptor repo) {
 }
 
 getIssues(RepoDescriptor repo, String type, [String state = null]) {
-    var stateString = '';
     if (state == null) {
         state = 'all';
     }
-    return githubApiRequest(repo, '${type}${stateString}?state=${state}');
+    return githubApiRequest(repo, '${type}?state=${state}&per_page=300');
 }
 
 getTags(RepoDescriptor repo) {
@@ -70,4 +69,8 @@ getCommitsSinceLastTag(RepoDescriptor repo) {
 
 getMilestones(RepoDescriptor repo) {
     return githubApiRequest(repo, 'milestones');
+}
+
+getCommentsForIssue(RepoDescriptor repo, int issueNumber) {
+    return githubApiRequest(repo, 'issues/${issueNumber}/comments');
 }
