@@ -447,7 +447,7 @@ $0:[function(){return new D.uj(null,null,null,P.A(null,null),null,null)},null,nu
 uj:{
 "^":"jR;Q-196,a-197,b-197,c-196,d-196,e-196",
 u4:[function(){return P.B(["repo",null,"issue",null,"pullRequest",null],null,null)},"$0","gLo",0,0,0,"getDefaultProps"],
-Ww:[function(){var z,y,x,w,v,u,t,s,r,q,p,o,n,m,l,k,j
+Ww:[function(){var z,y,x,w,v,u,t,s,r,q,p,o,n,m,l,k,j,i
 z={}
 y=J.Tf(this.Q,"repo")
 x=J.Tf(this.Q,"issue")
@@ -475,11 +475,12 @@ v=J.U6(x)
 m=v.p(x,"html_url")
 r=$.Q.$2(P.B(["href",m,"target",J.C9(y)],null,null),v.p(x,"title"))
 p=[]
-J.kH(v.p(x,"labels"),new D.fK(p))
-l=v.p(x,"milestone")!=null?$.mO.$2(P.B(["className","milestone-label"],null,null),[$.UQ().$1(P.B(["icon","milestone"],null,null)),$.mO.$2(P.B(["className","text-muted"],null,null),J.Tf(v.p(x,"milestone"),"title"))]):""
-k=v.p(x,"number")
-j=$.mO.$2(P.B(["className","text-muted text-md"],null,null),[$.mO.$2(P.A(null,null),"#"+H.d(k)+" "+s+" "+n+" by "),$.uB().$1(P.B(["author",v.p(x,"user")],null,null)),l,$.mO.$2(P.A(null,null),p)])
-return $.DM().$2(P.B(["header",[o,r],"className",z.a],null,null),[j])},"$0","gbh",0,0,0,"render"]},
+l=v.p(x,"labels")!=null?v.p(x,"labels"):[]
+J.kH(l,new D.fK(p))
+k=v.p(x,"milestone")!=null?$.mO.$2(P.B(["className","milestone-label"],null,null),[$.UQ().$1(P.B(["icon","milestone"],null,null)),$.mO.$2(P.B(["className","text-muted"],null,null),J.Tf(v.p(x,"milestone"),"title"))]):""
+j=v.p(x,"number")
+i=$.mO.$2(P.B(["className","text-muted text-md"],null,null),[$.mO.$2(P.A(null,null),"#"+H.d(j)+" "+s+" "+n+" by "),$.uB().$1(P.B(["author",v.p(x,"user")],null,null)),k,$.mO.$2(P.A(null,null),p)])
+return $.DM().$2(P.B(["header",[o,r],"className",z.a],null,null),[i])},"$0","gbh",0,0,0,"render"]},
 "+_IssueListItem":[198],
 kT:{
 "^":"r:1;Q",
