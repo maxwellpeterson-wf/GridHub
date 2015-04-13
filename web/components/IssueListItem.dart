@@ -94,7 +94,8 @@ class _IssueListItem extends react.Component {
         ];
 
         List labels = [];
-        issue['labels'].forEach((label) {
+        List issueLabels = issue['labels'] != null ? issue['labels'] : [];
+        issueLabels.forEach((label) {
             labels.add(GithubLabel({'label': label}));
         });
 
