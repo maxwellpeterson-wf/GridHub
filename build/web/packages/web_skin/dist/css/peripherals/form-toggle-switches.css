@@ -1,0 +1,395 @@
+/* line 33, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+.checkbox-switch {
+  display: block;
+}
+/* line 36, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+.form-inline .checkbox-switch {
+  display: inline-block;
+}
+/* line 40, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+.checkbox-switch label {
+  text-transform: uppercase;
+}
+/* line 42, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+.checkbox-switch label:before {
+  content: "off";
+}
+/* line 51, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+.checkbox-switch input[type="checkbox"]:checked + label:before {
+  content: "on";
+}
+/* line 58, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+.ua-lt-ie9 .checkbox-switch input[type="checkbox"]:checked + label:before {
+  content: "off";
+}
+/* line 62, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+.ua-lt-ie9 .checkbox-switch input[type="checkbox"].checked + label:before,
+.ua-lt-ie9 .checkbox-switch input[type="checkbox"][checked] + label:before {
+  content: "on";
+}
+
+@media screen {
+  /* line 79, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 78px;
+    height: 34px;
+  }
+  /* line 89, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 78px;
+    height: 34px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    line-height: 34px;
+    cursor: pointer;
+    background-color: #666666;
+    border: 1px solid #666666;
+    border-radius: 4px;
+  }
+  /* line 108, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch label:before {
+    position: absolute;
+    top: 0;
+    right: 12px;
+    left: auto;
+    z-index: 1;
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    color: #fff;
+    text-align: left;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+  }
+  /* line 123, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch label:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: block;
+    width: 26px;
+    height: 32px;
+    line-height: 32px;
+    background-color: #fff;
+    border-radius: 3px;
+  }
+  /* line 141, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch input[type="checkbox"] {
+    position: absolute;
+    right: 0;
+    left: 0;
+    z-index: 3;
+    width: auto;
+    height: 34px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)" ;
+    opacity: 0 ;
+  }
+  /* line 163, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .no-touch .checkbox-switch input[type="checkbox"] {
+    clip: rect(0, 0, 0, 0);
+  }
+  /* line 173, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch input[type="checkbox"]:focus + label {
+    outline: 0 ;
+    outline-style: none ;
+    border-color: #46b5f9 ;
+    box-shadow: none;
+  }
+  /* line 181, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch input[type="checkbox"]:checked + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 227, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch input[type="checkbox"]:checked + label:before {
+    right: auto;
+    left: 12px;
+  }
+  /* line 233, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch input[type="checkbox"]:checked + label:after {
+    right: 0;
+    left: auto;
+  }
+  /* line 190, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"]:checked + label {
+    background-color: #666666;
+    border-color: #666666;
+  }
+  /* line 245, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"]:checked + label:before {
+    right: 12px;
+    left: auto;
+  }
+  /* line 251, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"]:checked + label:after {
+    right: auto;
+    left: 0;
+  }
+  /* line 194, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"].checked + label,
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"][checked] + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 227, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"].checked + label:before,
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"][checked] + label:before {
+    right: auto;
+    left: 12px;
+  }
+  /* line 233, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"].checked + label:after,
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"][checked] + label:after {
+    right: 0;
+    left: auto;
+  }
+
+  /* line 116, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch.checkbox-switch-sm,
+  .checkbox-switch.checkbox-switch-sm label,
+  .checkbox-switch.checkbox-switch-sm input[type="checkbox"] {
+    width: 55px;
+    min-width: 63px;
+  }
+  /* line 133, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch.checkbox-switch-sm label:after {
+    width: 18px;
+  }
+  /* line 141, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch.checkbox-switch-sm input[type=checkbox]:checked + label:before {
+    left: 8px;
+  }
+  /* line 151, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-sm input[type=checkbox]:checked + label:before {
+    right: 8px;
+    left: auto;
+  }
+  /* line 156, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-sm input[type=checkbox][checked] + label:before {
+    right: auto;
+    left: 8px;
+  }
+  /* line 161, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-sm input[type=checkbox][checked] + label:before {
+    right: auto;
+    left: 8px;
+  }
+  /* line 217, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-sm,
+  .checkbox-switch.checkbox-switch-sm label,
+  .checkbox-switch.checkbox-switch-sm input {
+    height: 30px;
+    line-height: 30px;
+    border-radius: 3px;
+  }
+  /* line 226, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-sm label:after {
+    border-radius: 2px;
+    height: 28px;
+    line-height: 28px;
+  }
+  /* line 233, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-sm label:before {
+    right: 8px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 12px;
+    font-weight: normal;
+  }
+  /* line 245, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-sm input[type="checkbox"]:checked + label:before {
+    left: 8px;
+  }
+  /* line 254, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-sm input[type="checkbox"]:checked + label:before {
+    right: 8px;
+    left: auto;
+  }
+  /* line 259, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-sm input[type="checkbox"].checked + label:before,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-sm input[type="checkbox"][checked] + label:before {
+    right: auto;
+    left: 8px;
+  }
+  /* line 116, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch.checkbox-switch-xs,
+  .checkbox-switch.checkbox-switch-xs label,
+  .checkbox-switch.checkbox-switch-xs input[type="checkbox"] {
+    width: 41px;
+    min-width: 49px;
+  }
+  /* line 133, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch.checkbox-switch-xs label:after {
+    width: 14px;
+  }
+  /* line 141, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch.checkbox-switch-xs input[type=checkbox]:checked + label:before {
+    left: 4px;
+  }
+  /* line 151, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-xs input[type=checkbox]:checked + label:before {
+    right: 4px;
+    left: auto;
+  }
+  /* line 156, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-xs input[type=checkbox][checked] + label:before {
+    right: auto;
+    left: 4px;
+  }
+  /* line 161, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-xs input[type=checkbox][checked] + label:before {
+    right: auto;
+    left: 4px;
+  }
+  /* line 217, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-xs,
+  .checkbox-switch.checkbox-switch-xs label,
+  .checkbox-switch.checkbox-switch-xs input {
+    height: 24px;
+    line-height: 24px;
+    border-radius: 2px;
+  }
+  /* line 226, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-xs label:after {
+    border-radius: 1px;
+    height: 22px;
+    line-height: 22px;
+  }
+  /* line 233, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-xs label:before {
+    right: 4px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 11px;
+    font-weight: normal;
+  }
+  /* line 245, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-xs input[type="checkbox"]:checked + label:before {
+    left: 4px;
+  }
+  /* line 254, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-xs input[type="checkbox"]:checked + label:before {
+    right: 4px;
+    left: auto;
+  }
+  /* line 259, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-xs input[type="checkbox"].checked + label:before,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-xs input[type="checkbox"][checked] + label:before {
+    right: auto;
+    left: 4px;
+  }
+
+  /* line 295, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-default input[type="checkbox"]:checked + label {
+    background-color: #b2b2b2;
+    border-color: #b2b2b2;
+  }
+  /* line 305, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-default input[type="checkbox"]:checked + label {
+    background-color: #b2b2b2;
+    border-color: #b2b2b2;
+  }
+  /* line 310, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-default input[type="checkbox"].checked + label,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-default input[type="checkbox"][checked] + label {
+    background-color: #b2b2b2;
+    border-color: #b2b2b2;
+  }
+  /* line 295, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-primary input[type="checkbox"]:checked + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 305, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-primary input[type="checkbox"]:checked + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 310, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-primary input[type="checkbox"].checked + label,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-primary input[type="checkbox"][checked] + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 285, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-alt input[type="checkbox"]:focus + label {
+    border-color: #026dce ;
+    box-shadow: none;
+  }
+  /* line 295, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-alt input[type="checkbox"]:checked + label {
+    background-color: #0094ff;
+    border-color: #0094ff;
+  }
+  /* line 305, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-alt input[type="checkbox"]:checked + label {
+    background-color: #0094ff;
+    border-color: #0094ff;
+  }
+  /* line 310, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-alt input[type="checkbox"].checked + label,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-alt input[type="checkbox"][checked] + label {
+    background-color: #0094ff;
+    border-color: #0094ff;
+  }
+  /* line 295, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-success input[type="checkbox"]:checked + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 305, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-success input[type="checkbox"]:checked + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 310, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-success input[type="checkbox"].checked + label,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-success input[type="checkbox"][checked] + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 295, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-warning input[type="checkbox"]:checked + label {
+    background-color: #fbad17;
+    border-color: #fbad17;
+  }
+  /* line 305, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-warning input[type="checkbox"]:checked + label {
+    background-color: #fbad17;
+    border-color: #fbad17;
+  }
+  /* line 310, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-warning input[type="checkbox"].checked + label,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-warning input[type="checkbox"][checked] + label {
+    background-color: #fbad17;
+    border-color: #fbad17;
+  }
+  /* line 295, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-danger input[type="checkbox"]:checked + label {
+    background-color: #ee2724;
+    border-color: #ee2724;
+  }
+  /* line 305, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-danger input[type="checkbox"]:checked + label {
+    background-color: #ee2724;
+    border-color: #ee2724;
+  }
+  /* line 310, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-danger input[type="checkbox"].checked + label,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-danger input[type="checkbox"][checked] + label {
+    background-color: #ee2724;
+    border-color: #ee2724;
+  }
+}
+
+/*# sourceMappingURL=form-toggle-switches.css.map */

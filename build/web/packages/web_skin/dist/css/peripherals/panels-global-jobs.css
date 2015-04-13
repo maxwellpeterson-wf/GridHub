@@ -1,0 +1,152 @@
+/* line 16, ../../../../../sass/peripherals/panels-global-jobs/_body-footer.scss */
+.body-footer {
+  position: fixed;
+  z-index: 10;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  min-height: 26px;
+  height: auto;
+}
+
+/* line 16, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-panel.scss */
+.global-jobs-panel {
+  position: absolute;
+  top: auto;
+  bottom: 0;
+  left: 36px;
+  right: 36px;
+  width: auto;
+}
+@media screen and (min-width: 48em) {
+  /* line 16, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-panel.scss */
+  .global-jobs-panel {
+    width: 480px;
+    right: 36px;
+    left: auto;
+  }
+}
+
+/* line 39, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-panel.scss */
+.global-jobs-panel .panel-heading .panel-title {
+  font-weight: normal;
+}
+/* line 45, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-panel.scss */
+.global-jobs-panel .panel-heading .caret {
+  border-top-width: 0;
+  border-bottom-width: 5px;
+  border-bottom-style: solid;
+  border-bottom-color: #fff;
+}
+/* line 54, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-panel.scss */
+.global-jobs-panel .panel-heading[data-toggle].open .caret {
+  border-bottom-width: 0;
+  border-top-width: 5px;
+  border-top-style: solid;
+  border-top-color: #fff;
+}
+/* line 64, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-panel.scss */
+.global-jobs-panel .panel-heading .progress-spinner,
+.global-jobs-panel .panel-heading .icon {
+  position: absolute;
+  top: 5px;
+  left: 8px;
+}
+/* line 70, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-panel.scss */
+.global-jobs-panel .panel-heading .progress-spinner + .title-text,
+.global-jobs-panel .panel-heading .icon + .title-text {
+  margin-left: 24px;
+}
+/* line 77, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-panel.scss */
+.global-jobs-panel .panel-heading .panel-actions .caret {
+  right: 31px;
+}
+/* line 80, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-panel.scss */
+.global-jobs-panel .panel-heading .panel-actions .close {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 26px;
+  height: 26px;
+  padding-bottom: 8px;
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.2);
+  opacity: 0.8;
+}
+/* line 91, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-panel.scss */
+.global-jobs-panel .panel-heading .panel-actions .close:hover {
+  opacity: 1;
+}
+
+/* line 16, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-list.scss */
+.jobs-list {
+  table-layout: fixed;
+}
+
+/* line 26, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-list.scss */
+.job-item .item-col {
+  padding: 0 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  border-color: #fff;
+}
+/* line 35, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-list.scss */
+.job-item .item-icon {
+  width: 32px;
+  height: 48px;
+}
+/* line 41, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-list.scss */
+.job-item .item-name {
+  padding-left: 0;
+}
+/* line 45, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-list.scss */
+.job-item .item-progress {
+  width: 156px;
+}
+/* line 48, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-list.scss */
+.job-item .item-progress .progress {
+  margin: 0;
+}
+/* line 52, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-list.scss */
+.job-item .item-progress .btn {
+  float: right;
+}
+/* line 64, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-list.scss */
+.job-item:hover .item-progress .btn-link {
+  text-decoration: underline;
+  color: #0094ff;
+}
+
+/* line 83, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-list.scss */
+.job-item .item-icon-error,
+.job-item .item-icon-success,
+.job-item .item-progress .btn {
+  display: none;
+}
+
+/* line 93, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-list.scss */
+.job-item.job-done .item-icon-pending,
+.job-item.job-done .item-progress .progress {
+  display: none;
+}
+/* line 100, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-list.scss */
+.job-item.job-done.job-error .item-icon-error {
+  display: inline-block;
+  color: #ee2724;
+}
+/* line 104, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-list.scss */
+.job-item.job-done.job-error .item-btn-error {
+  display: inline-block;
+}
+/* line 111, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-list.scss */
+.job-item.job-done.job-success .item-icon-success {
+  display: inline-block;
+  color: #66cc00;
+}
+/* line 115, ../../../../../sass/peripherals/panels-global-jobs/_global-jobs-list.scss */
+.job-item.job-done.job-success .item-btn-success {
+  display: inline-block;
+}
+
+/*# sourceMappingURL=panels-global-jobs.css.map */

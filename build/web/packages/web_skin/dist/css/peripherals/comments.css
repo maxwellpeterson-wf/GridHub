@@ -1,0 +1,1536 @@
+/* line 33, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+.checkbox-switch {
+  display: block;
+}
+/* line 36, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+.form-inline .checkbox-switch {
+  display: inline-block;
+}
+/* line 40, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+.checkbox-switch label {
+  text-transform: uppercase;
+}
+/* line 42, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+.checkbox-switch label:before {
+  content: "off";
+}
+/* line 51, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+.checkbox-switch input[type="checkbox"]:checked + label:before {
+  content: "on";
+}
+/* line 58, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+.ua-lt-ie9 .checkbox-switch input[type="checkbox"]:checked + label:before {
+  content: "off";
+}
+/* line 62, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+.ua-lt-ie9 .checkbox-switch input[type="checkbox"].checked + label:before,
+.ua-lt-ie9 .checkbox-switch input[type="checkbox"][checked] + label:before {
+  content: "on";
+}
+
+@media screen {
+  /* line 79, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch {
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 78px;
+    height: 34px;
+  }
+  /* line 89, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch label {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 78px;
+    height: 34px;
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-weight: normal;
+    line-height: 34px;
+    cursor: pointer;
+    background-color: #666666;
+    border: 1px solid #666666;
+    border-radius: 4px;
+  }
+  /* line 108, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch label:before {
+    position: absolute;
+    top: 0;
+    right: 12px;
+    left: auto;
+    z-index: 1;
+    display: block;
+    height: 32px;
+    line-height: 32px;
+    color: #fff;
+    text-align: left;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
+  }
+  /* line 123, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch label:after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 2;
+    display: block;
+    width: 26px;
+    height: 32px;
+    line-height: 32px;
+    background-color: #fff;
+    border-radius: 3px;
+  }
+  /* line 141, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch input[type="checkbox"] {
+    position: absolute;
+    right: 0;
+    left: 0;
+    z-index: 3;
+    width: auto;
+    height: 34px;
+    padding: 0;
+    margin: 0;
+    overflow: hidden;
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)" ;
+    opacity: 0 ;
+  }
+  /* line 163, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .no-touch .checkbox-switch input[type="checkbox"] {
+    clip: rect(0, 0, 0, 0);
+  }
+  /* line 173, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch input[type="checkbox"]:focus + label {
+    outline: 0 ;
+    outline-style: none ;
+    border-color: #46b5f9 ;
+    box-shadow: none;
+  }
+  /* line 181, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch input[type="checkbox"]:checked + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 227, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch input[type="checkbox"]:checked + label:before {
+    right: auto;
+    left: 12px;
+  }
+  /* line 233, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch input[type="checkbox"]:checked + label:after {
+    right: 0;
+    left: auto;
+  }
+  /* line 190, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"]:checked + label {
+    background-color: #666666;
+    border-color: #666666;
+  }
+  /* line 245, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"]:checked + label:before {
+    right: 12px;
+    left: auto;
+  }
+  /* line 251, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"]:checked + label:after {
+    right: auto;
+    left: 0;
+  }
+  /* line 194, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"].checked + label,
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"][checked] + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 227, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"].checked + label:before,
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"][checked] + label:before {
+    right: auto;
+    left: 12px;
+  }
+  /* line 233, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"].checked + label:after,
+  .ua-lt-ie9 .checkbox-switch input[type="checkbox"][checked] + label:after {
+    right: 0;
+    left: auto;
+  }
+
+  /* line 116, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch.checkbox-switch-sm,
+  .checkbox-switch.checkbox-switch-sm label,
+  .checkbox-switch.checkbox-switch-sm input[type="checkbox"] {
+    width: 55px;
+    min-width: 63px;
+  }
+  /* line 133, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch.checkbox-switch-sm label:after {
+    width: 18px;
+  }
+  /* line 141, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch.checkbox-switch-sm input[type=checkbox]:checked + label:before {
+    left: 8px;
+  }
+  /* line 151, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-sm input[type=checkbox]:checked + label:before {
+    right: 8px;
+    left: auto;
+  }
+  /* line 156, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-sm input[type=checkbox][checked] + label:before {
+    right: auto;
+    left: 8px;
+  }
+  /* line 161, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-sm input[type=checkbox][checked] + label:before {
+    right: auto;
+    left: 8px;
+  }
+  /* line 217, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-sm,
+  .checkbox-switch.checkbox-switch-sm label,
+  .checkbox-switch.checkbox-switch-sm input {
+    height: 30px;
+    line-height: 30px;
+    border-radius: 3px;
+  }
+  /* line 226, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-sm label:after {
+    border-radius: 2px;
+    height: 28px;
+    line-height: 28px;
+  }
+  /* line 233, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-sm label:before {
+    right: 8px;
+    height: 28px;
+    line-height: 28px;
+    font-size: 12px;
+    font-weight: normal;
+  }
+  /* line 245, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-sm input[type="checkbox"]:checked + label:before {
+    left: 8px;
+  }
+  /* line 254, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-sm input[type="checkbox"]:checked + label:before {
+    right: 8px;
+    left: auto;
+  }
+  /* line 259, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-sm input[type="checkbox"].checked + label:before,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-sm input[type="checkbox"][checked] + label:before {
+    right: auto;
+    left: 8px;
+  }
+  /* line 116, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch.checkbox-switch-xs,
+  .checkbox-switch.checkbox-switch-xs label,
+  .checkbox-switch.checkbox-switch-xs input[type="checkbox"] {
+    width: 41px;
+    min-width: 49px;
+  }
+  /* line 133, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch.checkbox-switch-xs label:after {
+    width: 14px;
+  }
+  /* line 141, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .checkbox-switch.checkbox-switch-xs input[type=checkbox]:checked + label:before {
+    left: 4px;
+  }
+  /* line 151, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-xs input[type=checkbox]:checked + label:before {
+    right: 4px;
+    left: auto;
+  }
+  /* line 156, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-xs input[type=checkbox][checked] + label:before {
+    right: auto;
+    left: 4px;
+  }
+  /* line 161, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-xs input[type=checkbox][checked] + label:before {
+    right: auto;
+    left: 4px;
+  }
+  /* line 217, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-xs,
+  .checkbox-switch.checkbox-switch-xs label,
+  .checkbox-switch.checkbox-switch-xs input {
+    height: 24px;
+    line-height: 24px;
+    border-radius: 2px;
+  }
+  /* line 226, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-xs label:after {
+    border-radius: 1px;
+    height: 22px;
+    line-height: 22px;
+  }
+  /* line 233, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-xs label:before {
+    right: 4px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 11px;
+    font-weight: normal;
+  }
+  /* line 245, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-xs input[type="checkbox"]:checked + label:before {
+    left: 4px;
+  }
+  /* line 254, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-xs input[type="checkbox"]:checked + label:before {
+    right: 4px;
+    left: auto;
+  }
+  /* line 259, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-xs input[type="checkbox"].checked + label:before,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-xs input[type="checkbox"][checked] + label:before {
+    right: auto;
+    left: 4px;
+  }
+
+  /* line 295, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-default input[type="checkbox"]:checked + label {
+    background-color: #b2b2b2;
+    border-color: #b2b2b2;
+  }
+  /* line 305, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-default input[type="checkbox"]:checked + label {
+    background-color: #b2b2b2;
+    border-color: #b2b2b2;
+  }
+  /* line 310, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-default input[type="checkbox"].checked + label,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-default input[type="checkbox"][checked] + label {
+    background-color: #b2b2b2;
+    border-color: #b2b2b2;
+  }
+  /* line 295, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-primary input[type="checkbox"]:checked + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 305, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-primary input[type="checkbox"]:checked + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 310, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-primary input[type="checkbox"].checked + label,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-primary input[type="checkbox"][checked] + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 285, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-alt input[type="checkbox"]:focus + label {
+    border-color: #026dce ;
+    box-shadow: none;
+  }
+  /* line 295, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-alt input[type="checkbox"]:checked + label {
+    background-color: #0094ff;
+    border-color: #0094ff;
+  }
+  /* line 305, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-alt input[type="checkbox"]:checked + label {
+    background-color: #0094ff;
+    border-color: #0094ff;
+  }
+  /* line 310, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-alt input[type="checkbox"].checked + label,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-alt input[type="checkbox"][checked] + label {
+    background-color: #0094ff;
+    border-color: #0094ff;
+  }
+  /* line 295, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-success input[type="checkbox"]:checked + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 305, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-success input[type="checkbox"]:checked + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 310, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-success input[type="checkbox"].checked + label,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-success input[type="checkbox"][checked] + label {
+    background-color: #66cc00;
+    border-color: #66cc00;
+  }
+  /* line 295, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-warning input[type="checkbox"]:checked + label {
+    background-color: #fbad17;
+    border-color: #fbad17;
+  }
+  /* line 305, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-warning input[type="checkbox"]:checked + label {
+    background-color: #fbad17;
+    border-color: #fbad17;
+  }
+  /* line 310, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-warning input[type="checkbox"].checked + label,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-warning input[type="checkbox"][checked] + label {
+    background-color: #fbad17;
+    border-color: #fbad17;
+  }
+  /* line 295, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .checkbox-switch.checkbox-switch-danger input[type="checkbox"]:checked + label {
+    background-color: #ee2724;
+    border-color: #ee2724;
+  }
+  /* line 305, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-danger input[type="checkbox"]:checked + label {
+    background-color: #ee2724;
+    border-color: #ee2724;
+  }
+  /* line 310, ../../../../../sass/peripherals/form-toggle-switches/_form-toggle-switches-base.scss */
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-danger input[type="checkbox"].checked + label,
+  .ua-lt-ie9 .checkbox-switch.checkbox-switch-danger input[type="checkbox"][checked] + label {
+    background-color: #ee2724;
+    border-color: #ee2724;
+  }
+}
+/* line 16, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.comments form {
+  margin: 0;
+  padding: 0;
+}
+/* line 22, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.comments .nav-pills > .nav-item {
+  margin-right: 5px;
+}
+/* line 25, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.comments .nav-pills > .nav-item:last-child {
+  margin-right: 0 !important;
+}
+/* line 31, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.comments .nav-pills.nav-justified.halve > .nav-item {
+  display: block;
+  float: left;
+  width: 47%;
+  border-left-width: 0 !important;
+}
+/* line 38, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.comments .nav-pills.nav-justified.halve > .nav-item:after {
+  content: "";
+  background-color: #c2c2c2;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 1px;
+  height: 100%;
+  display: block;
+  position: absolute;
+  top: 0;
+  right: -6%;
+  margin-right: -1px;
+}
+/* line 51, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.comments .nav-pills.nav-justified.halve > .nav-item:last-child:after {
+  display: none;
+}
+/* line 55, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.comments .nav-pills.nav-justified.halve > .nav-item:first-child {
+  margin-right: 6%;
+}
+
+/* line 309, ../../../../../sass/core/components/atoms/navs/_navs-shared-helpers.scss */
+.comments .nav-pills > .nav-item > .pill-warning-hover:hover {
+  color: #fff !important;
+  background-color: #fab931 !important;
+  border-color: #fab931 !important;
+}
+/* line 317, ../../../../../sass/core/components/atoms/navs/_navs-shared-helpers.scss */
+.comments .nav-pills > .nav-item > .pill-warning-hover:focus, .comments .nav-pills > .nav-item > .pill-warning-hover.js-focus {
+  color: #fff !important;
+  background-color: #fab931 !important;
+  border-color: #46b5f9 !important;
+  box-shadow: none;
+}
+/* line 332, ../../../../../sass/core/components/atoms/navs/_navs-shared-helpers.scss */
+.comments .nav-pills > .nav-item > .pill-warning-hover:hover:active {
+  color: #fff !important;
+  background-color: #f4a204 !important;
+  border-color: #f4a204 !important;
+}
+
+/* line 354, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.comments textarea {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  margin-bottom: 0 !important;
+  resize: none;
+}
+/* line 168, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.comments textarea[readonly] {
+  position: static;
+  width: 100%;
+  height: 100%;
+  padding: 4px 8px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #444444;
+  background-color: transparent !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+  cursor: default !important;
+}
+/* line 190, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.comments textarea[readonly]:empty {
+  display: none;
+}
+
+/* line 357, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.comment-body {
+  position: relative;
+  height: auto;
+  max-height: 90px;
+  min-height: 45px;
+  overflow: hidden;
+  cursor: pointer;
+}
+/* line 202, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.comment-editing .comment-body {
+  height: 100%;
+  max-height: 100%;
+  min-height: 90px;
+}
+
+/* line 362, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.popover .modal-open,
+.panel .modal-open {
+  overflow: visible;
+}
+
+/* line 366, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.thread-overlay {
+  position: absolute;
+  display: none;
+}
+/* line 370, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.thread-overlay .thread-status {
+  position: absolute;
+  right: 8px;
+  bottom: 4px;
+  font-style: italic;
+  color: #000;
+  text-align: right;
+  cursor: default;
+}
+
+/* line 15, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment {
+  position: relative;
+}
+/* line 21, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .panel-body {
+  position: relative;
+}
+/* line 25, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-body {
+  max-height: 120px;
+  min-height: 60px;
+  margin-right: 8px;
+}
+/* line 32, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment textarea[readonly] {
+  min-height: 62px;
+  padding: 0 28px 0 0;
+}
+/* line 37, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-footer {
+  display: none;
+}
+/* line 46, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-header.navbar {
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  border-width: 0 0 1px 0;
+  -moz-border-radius-bottomleft: 0;
+  -webkit-border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0;
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: 5px 8px 5px;
+  line-height: 1px;
+}
+/* line 91, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.panel-comment .comment-header.navbar .dropdown {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1001;
+}
+/* line 57, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-header.navbar.collapsed {
+  border-bottom-color: transparent;
+  -moz-border-radius-bottomleft: 0;
+  -webkit-border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0;
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+/* line 62, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-header.navbar .comment-title {
+  display: inline-block;
+  min-height: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: default;
+  max-width: 60%;
+}
+/* line 67, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-header.navbar .comment-title .icon {
+  margin-right: 4px;
+  display: none;
+  position: absolute;
+  top: 5px;
+  left: 8px;
+  z-index: 1000;
+}
+/* line 79, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-header.navbar .thread-collapse-control {
+  position: absolute;
+  top: 0;
+  right: 30px;
+  left: 0;
+  z-index: 1000;
+  height: 26px;
+  cursor: pointer;
+  outline: 0;
+  background: url('../../img/invisible.gif?1427993190') repeat;
+}
+/* line 105, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-header.navbar .thread-actions {
+  position: absolute;
+  top: 0;
+  right: 2px;
+  float: none;
+  border-bottom-color: #cbcbcb;
+  height: 26px;
+}
+/* line 113, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-header.navbar .thread-actions > .nav-item {
+  height: 27px !important;
+  width: 28px;
+  border-radius: 0;
+  border-top-width: 0;
+  line-height: 1 !important;
+  padding: 0;
+}
+/* line 117, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-header.navbar .thread-actions > .nav-item > .hitarea {
+  height: 27px !important;
+  width: 28px;
+  border-radius: 0;
+  border-top-width: 0;
+  line-height: 1 !important;
+  padding: 0 1px;
+}
+/* line 122, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-header.navbar .thread-actions > .nav-item > .hitarea > .icon::before,
+.panel-comment .comment-header.navbar .thread-actions > .nav-item > .hitarea > .icon::after {
+  top: 0;
+}
+/* line 128, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-header.navbar .thread-actions > .nav-item > .dropdown-menu {
+  border-color: #cbcbcb !important;
+}
+/* line 135, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-header.navbar .comment-meta {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  line-height: inherit;
+  position: absolute;
+  top: 7px;
+  right: 35px;
+  left: 0;
+  width: auto;
+  min-height: 16px;
+  line-height: 1;
+}
+/* line 130, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.panel-comment .comment-header.navbar .comment-meta .text-sm {
+  font-size: 12px;
+}
+/* line 135, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.panel-comment .comment-header.navbar .comment-meta .comment-timestamp {
+  position: absolute;
+  right: 0;
+  display: block;
+  font-style: italic;
+  color: #707070;
+  text-align: right;
+  cursor: default;
+}
+/* line 147, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-header.navbar + .panel-collapse .panel-body {
+  border-top: 0 none !important;
+}
+/* line 157, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment + .panel-comment .comment-header.navbar.collapsed {
+  display: none;
+}
+/* line 168, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment.comment-new .comment-header.navbar .comment-meta,
+.panel-comment.comment-new .comment-header.navbar .thread-actions {
+  display: none;
+}
+/* line 180, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment.comment-editing .comment-body {
+  margin-right: 0;
+}
+/* line 183, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment.comment-editing .comment-footer {
+  display: block;
+}
+/* line 201, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment.comment-reply.comment-editing .comment-header, .panel-comment.comment-reply.comment-editing .comment-header:after {
+  display: none;
+}
+/* line 206, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment.comment-reply.comment-editing .comment-body {
+  min-height: 34px;
+}
+
+/* line 219, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread {
+  border: 1px solid #cbcbcb;
+  border-radius: 0;
+  position: relative;
+  z-index: 1;
+}
+/* line 250, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread.has-open-menu {
+  z-index: 2;
+}
+/* line 255, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread + .panel-comments-thread {
+  margin-top: 13px;
+}
+/* line 259, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread > .panel {
+  border: 0 none;
+}
+/* line 266, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread > .panel + .panel {
+  margin-top: 0;
+}
+/* line 269, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread > .panel + .panel .panel-body {
+  padding-top: 0;
+}
+/* line 273, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread > .panel + .panel .comment-header.navbar {
+  padding: 12px 8px 5px;
+  background-color: transparent;
+  border: 0 none;
+}
+/* line 279, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread > .panel + .panel .comment-header.navbar .comment-meta {
+  top: 14px;
+}
+/* line 284, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread > .panel + .panel .comment-header.navbar:after {
+  position: absolute;
+  top: 0;
+  right: 8px;
+  left: 8px;
+  display: block;
+  height: 1px;
+  border-top: 1px solid #cbcbcb;
+  content: "";
+}
+/* line 299, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread > .panel + .panel .comment-reply-edit-overlay {
+  top: 0;
+}
+
+/* line 312, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-reply-edit-overlay {
+  position: absolute;
+  top: 26px;
+  z-index: 999;
+  display: none;
+  cursor: default;
+  background-color: transparent;
+}
+/* line 320, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-reply-edit-overlay .edit-comment-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+}
+/* line 325, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-reply-edit-overlay .edit-comment-btn:hover {
+  color: #0094ff;
+}
+/* line 330, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment .comment-reply-edit-overlay .icon-reply {
+  position: absolute;
+  top: auto;
+  right: 8px;
+  bottom: 8px;
+  left: auto;
+  display: none;
+  color: #0094ff;
+}
+/* line 342, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment:hover .comment-reply-edit-overlay {
+  display: block;
+}
+
+/* line 359, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comment.comment-editing:hover .comment-reply-edit-overlay,
+.panel-comments-thread.comment-editing:hover .comment-reply-edit-overlay,
+.panel-thread-closed .panel-comment:hover .comment-reply-edit-overlay,
+.collapsing .panel-comment:hover .comment-reply-edit-overlay {
+  display: none;
+}
+
+/* line 366, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread > .panel-comment.comment-last .comment-reply-edit-overlay {
+  cursor: pointer;
+}
+/* line 369, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread > .panel-comment.comment-last .comment-reply-edit-overlay .icon-reply {
+  display: block;
+}
+
+/* line 380, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread .thread-overlay {
+  top: -1px;
+  right: -1px;
+  bottom: -1px;
+  left: -1px;
+  background-color: #fff;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)" ;
+  opacity: 0.5 ;
+  z-index: 999;
+}
+/* line 394, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread.panel-thread-collapsed > .panel {
+  overflow: visible;
+}
+/* line 402, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread.panel-thread-closed .thread-overlay {
+  display: block;
+}
+/* line 406, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread.panel-thread-closed .comment-initial .comment-header.navbar .comment-title {
+  text-indent: 24px;
+}
+/* line 410, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread.panel-thread-closed .comment-initial .comment-header.navbar .comment-title .icon {
+  display: inline-block;
+  text-indent: 0;
+}
+/* line 417, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread.panel-thread-closed .thread-actions .dropdown-toggle {
+  color: #acacac;
+}
+/* line 422, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread.panel-thread-closed.panel-focus, .panel-comments-thread.panel-thread-closed.panel-hover {
+  border-color: #cbcbcb !important;
+}
+/* line 427, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread.panel-thread-closed .comment-editing {
+  display: none !important;
+}
+/* line 435, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread.modal-open .thread-overlay {
+  display: block;
+}
+
+/* line 445, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread {
+  position: relative;
+}
+/* line 223, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.panel-comments-thread .modal.contained {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  border-radius: 0;
+}
+/* line 87, ../../../../../sass/core/api/helpers/mixins/_browsers.scss */
+.ua-ie .panel-comments-thread .modal.contained {
+  top: -1;
+}
+/* line 234, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.panel-comments-thread .modal.contained .modal-body,
+.panel-comments-thread .modal.contained .modal-header {
+  position: absolute;
+  top: auto;
+  right: 0;
+  bottom: 66px;
+  left: 0;
+  text-align: center;
+}
+/* line 245, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.panel-comments-thread .modal.contained .modal-footer {
+  top: auto;
+  right: 8px;
+  bottom: 8px;
+  left: 8px;
+  width: auto;
+}
+/* line 257, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.panel-comments-thread .comments > .modal.contained {
+  border-radius: 0;
+}
+/* line 267, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.panel-comments-thread.modal-open.modal-container .modal.contained,
+.panel-comments-thread .modal-open.modal-container .modal.contained {
+  right: 0;
+  left: 0;
+}
+/* line 282, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.panel-comments-thread .comment .modal {
+  min-height: 116px;
+  border-radius: 0;
+  top: 0;
+  bottom: 0;
+  right: -8px;
+  left: -8px;
+}
+/* line 87, ../../../../../sass/core/api/helpers/mixins/_browsers.scss */
+.ua-ie .panel-comments-thread .comment .modal {
+  top: 0;
+}
+/* line 301, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.panel-comments-thread .comment:first-of-type .modal {
+  top: 0;
+  -moz-border-radius-topleft: 0;
+  -webkit-border-top-left-radius: 0;
+  border-top-left-radius: 0;
+  -moz-border-radius-topright: 0;
+  -webkit-border-top-right-radius: 0;
+  border-top-right-radius: 0;
+}
+/* line 87, ../../../../../sass/core/api/helpers/mixins/_browsers.scss */
+.ua-ie .panel-comments-thread .comment:first-of-type .modal {
+  top: -1;
+}
+/* line 313, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.panel-comments-thread .comment:last-of-type .modal, .panel-comments-thread .comment.comment-last + .comment-editing .modal, .panel-comments-thread .comment.comment-last .modal {
+  bottom: 0;
+  -moz-border-radius-bottomleft: 0;
+  -webkit-border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0;
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+/* line 323, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.panel-comments-thread .comment:only-of-type .modal {
+  top: 0;
+  bottom: 0;
+  border-radius: 0;
+}
+/* line 87, ../../../../../sass/core/api/helpers/mixins/_browsers.scss */
+.ua-ie .panel-comments-thread .comment:only-of-type .modal {
+  top: -1;
+}
+/* line 338, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.panel-comments-thread .modal-backdrop {
+  background-color: transparent;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)" ;
+  opacity: 0 ;
+  -moz-transition: none;
+  -webkit-transition: none;
+  transition: none;
+}
+/* line 457, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread.panel-focus.overlaid, .panel-comments-thread.panel-hover.overlaid {
+  border-color: #cbcbcb !important;
+}
+/* line 462, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread.panel-focus.modal-container.overlaid, .panel-comments-thread.panel-hover.modal-container.overlaid {
+  border-color: #595959 !important;
+}
+/* line 473, ../../../../../sass/peripherals/comments/_comments-panels.scss */
+.panel-comments-thread .panel-comment.modal-open .panel-collapse {
+  min-height: 120px;
+}
+
+/* line 18, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment {
+  width: 300px;
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -moz-tap-highlight-color: transparent;
+  -ms-tap-highlight-color: transparent;
+  -o-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+/* line 22, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment * {
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -moz-tap-highlight-color: transparent;
+  -ms-tap-highlight-color: transparent;
+  -o-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+/* line 26, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment textarea {
+  -webkit-user-select: text;
+  -moz-user-select: text;
+  -ms-user-select: text;
+  user-select: text;
+}
+
+/* line 36, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .inner,
+.popover-comment .comments,
+.popover-comment .cblock {
+  position: relative;
+  float: left;
+  width: 100%;
+}
+/* line 44, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment {
+  position: relative;
+  float: left;
+  width: 100%;
+  overflow: hidden;
+}
+/* line 55, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment.modal-container {
+  overflow: visible;
+}
+/* line 64, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .inner {
+  min-width: 0;
+  max-width: none;
+  padding: 8px;
+}
+
+/* line 78, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .navbar {
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  border-width: 0 0 1px 0;
+  -moz-border-radius-bottomleft: 0;
+  -webkit-border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0;
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
+  position: relative;
+  height: auto;
+  padding: 0;
+  margin-top: -8px;
+  margin-bottom: 0;
+  line-height: 1;
+  background: transparent;
+  border: 0 none;
+  border-radius: 0;
+  -moz-border-radius-topleft: 3px;
+  -webkit-border-top-left-radius: 3px;
+  border-top-left-radius: 3px;
+  -moz-border-radius-topright: 3px;
+  -webkit-border-top-right-radius: 3px;
+  border-top-right-radius: 3px;
+}
+/* line 91, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.popover-comment .navbar .dropdown {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1001;
+}
+/* line 93, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .navbar h3 {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  font-size: 18px;
+  line-height: 1;
+}
+/* line 102, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .navbar .dropdown-toggle {
+  position: absolute;
+  top: 6px !important;
+  right: 0;
+  z-index: 1001;
+  height: 27px;
+  line-height: 27px;
+}
+/* line 111, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .navbar .dropdown-toggle:hover, .popover-comment .navbar .dropdown-toggle:focus {
+  background-color: #d9d9d9 !important;
+}
+/* line 115, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .navbar .dropdown {
+  height: 32px;
+}
+/* line 121, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .navbar .dropdown.open .dropdown-toggle {
+  border-color: #bebebe !important;
+  border-bottom-color: #fff !important;
+  -moz-border-radius-bottomleft: 0;
+  -webkit-border-bottom-left-radius: 0;
+  border-bottom-left-radius: 0;
+  -moz-border-radius-bottomright: 0;
+  -webkit-border-bottom-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+/* line 125, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .navbar .dropdown.open .dropdown-toggle, .popover-comment .navbar .dropdown.open .dropdown-toggle:hover, .popover-comment .navbar .dropdown.open .dropdown-toggle:focus {
+  background-color: #fff !important;
+}
+/* line 130, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .navbar .dropdown.open .dropdown-menu {
+  -moz-border-radius-topright: 0;
+  -webkit-border-top-right-radius: 0;
+  border-top-right-radius: 0;
+  margin-top: 0;
+}
+/* line 142, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment-title {
+  display: inline-block;
+  min-height: 16px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: default;
+  width: 170px;
+  margin-top: 4px !important;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px !important;
+  font-weight: bold;
+  line-height: 28px !important;
+}
+/* line 152, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment-title .icon {
+  margin-right: 4px;
+}
+/* line 156, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment-title .icon-note {
+  top: -2px;
+}
+/* line 165, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment.new-comment .comment-title {
+  width: 211px;
+}
+/* line 174, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment-header .dropdown-toggle .caret {
+  margin-top: 6px !important;
+}
+/* line 178, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment-type-toggle {
+  position: absolute;
+  top: 8px;
+  right: 0;
+  padding: 0;
+  margin: 0;
+}
+/* line 116, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+.popover-comment .checkbox-switch-xs,
+.popover-comment .checkbox-switch-xs label,
+.popover-comment .checkbox-switch-xs input[type="checkbox"] {
+  width: 81px;
+}
+/* line 133, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+.popover-comment .checkbox-switch-xs label:after {
+  width: 24px;
+}
+/* line 141, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+.popover-comment .checkbox-switch-xs input[type=checkbox]:checked + label:before {
+  left: 4px;
+}
+/* line 151, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+.ua-lt-ie9 .popover-comment .checkbox-switch-xs input[type=checkbox]:checked + label:before {
+  right: 4px;
+  left: auto;
+}
+/* line 156, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+.ua-lt-ie9 .popover-comment .checkbox-switch-xs input[type=checkbox][checked] + label:before {
+  right: auto;
+  left: 4px;
+}
+/* line 161, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+.ua-lt-ie9 .popover-comment .checkbox-switch-xs input[type=checkbox][checked] + label:before {
+  right: auto;
+  left: 4px;
+}
+/* line 183, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+.popover-comment .checkbox-switch-xs label:before {
+  content: attr("data-unchecked-text");
+  content: "private";
+}
+/* line 192, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+.popover-comment .checkbox-switch-xs input[type=checkbox]:checked + label:before {
+  content: attr("data-unchecked-text");
+  content: "shared";
+}
+/* line 203, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+.ua-lt-ie9 .popover-comment .checkbox-switch-xs input[type=checkbox]:checked + label:before {
+  content: attr("data-unchecked-text");
+  content: "private";
+}
+/* line 208, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+.ua-lt-ie9 .popover-comment .checkbox-switch-xs input[type=checkbox][checked] + label:before {
+  content: attr("data-unchecked-text");
+  content: "shared";
+}
+/* line 213, ../../../../../sass/peripherals/form-toggle-switches/atoms/_form-toggle-switches-helpers.scss */
+.ua-lt-ie9 .popover-comment .checkbox-switch-xs input[type=checkbox][checked] + label:before {
+  content: attr("data-unchecked-text");
+  content: "shared";
+}
+
+/* line 201, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment:first-child > .cblock:first-child {
+  margin-top: 8px;
+}
+/* line 205, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment:first-child > .cblock:first-child textarea[readonly] {
+  margin-top: -8px;
+}
+/* line 211, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment-meta {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  line-height: inherit;
+}
+/* line 130, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.popover-comment .comment-meta .text-sm {
+  font-size: 12px;
+}
+/* line 135, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.popover-comment .comment-meta .comment-timestamp {
+  position: absolute;
+  right: 0;
+  display: block;
+  font-style: italic;
+  color: #707070;
+  text-align: right;
+  cursor: default;
+}
+/* line 214, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment-meta .comment-author {
+  width: 202px;
+}
+/* line 218, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment-meta .comment-timestamp {
+  width: 90px;
+}
+/* line 223, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment-body {
+  min-height: 90px;
+}
+/* line 228, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment-actions {
+  margin-top: 8px;
+}
+/* line 232, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-comment .comment-actions .nav-pills > .nav-item > .hitarea[disabled], .popover-comment .comment-actions .nav-pills > .nav-item > .hitarea.disabled {
+  cursor: pointer !important;
+}
+
+/* line 246, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-thread {
+  -moz-transition: height 0.3s ease-in-out;
+  -webkit-transition: height 0.3s ease-in-out;
+  transition: height 0.3s ease-in-out;
+}
+/* line 250, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-thread .navbar .comment-meta .comment-timestamp {
+  top: 5px;
+  right: 32px;
+  line-height: 28px;
+}
+/* line 260, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-thread .comment + .comment .comment-meta {
+  padding-top: 8px;
+}
+/* line 267, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-thread .comment .comment-reply,
+.popover-thread .comment .comment-reply .form-control {
+  min-height: 34px;
+}
+/* line 278, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-thread .comment.comment-editing .comment-meta {
+  margin-bottom: 8px;
+}
+
+/* line 291, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-thread.modal-open .thread-overlay, .popover-thread.popover-thread-closed .thread-overlay {
+  display: block;
+}
+/* line 298, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-thread.modal-open .thread-overlay {
+  background-color: #f3f3f3;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=60)" ;
+  opacity: 0.6 ;
+  z-index: 1039;
+}
+/* line 309, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-thread.modal-open .comment-editing.comment-last.modal-open {
+  min-height: 120px;
+}
+/* line 316, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-thread.popover-thread-closed .thread-overlay {
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #727272;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=30)" ;
+  opacity: 0.3 ;
+  z-index: 999;
+}
+/* line 326, ../../../../../sass/peripherals/comments/_comments-popovers.scss */
+.popover-thread.popover-thread-closed .comment-reply-empty,
+.popover-thread.popover-thread-closed .comment.comment-editing {
+  display: none;
+}
+
+/* line 223, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.popover-comment .modal.contained {
+  top: -41px;
+  right: -8px;
+  bottom: -8px;
+  left: -8px;
+  border-radius: 0;
+}
+/* line 87, ../../../../../sass/core/api/helpers/mixins/_browsers.scss */
+.ua-ie .popover-comment .modal.contained {
+  top: -42px;
+}
+/* line 234, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.popover-comment .modal.contained .modal-body,
+.popover-comment .modal.contained .modal-header {
+  position: absolute;
+  top: auto;
+  right: 0;
+  bottom: 66px;
+  left: 0;
+  text-align: center;
+}
+/* line 245, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.popover-comment .modal.contained .modal-footer {
+  top: auto;
+  right: 8px;
+  bottom: 8px;
+  left: 8px;
+  width: auto;
+}
+/* line 257, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.popover-comment .comments > .modal.contained {
+  border-radius: 4px;
+}
+/* line 267, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.popover-comment.modal-open.modal-container .modal.contained,
+.popover-comment .modal-open.modal-container .modal.contained {
+  right: -8px;
+  left: -8px;
+}
+/* line 282, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.popover-comment .comment .modal {
+  min-height: 116px;
+  border-radius: 0;
+  top: 0;
+  bottom: 0;
+}
+/* line 87, ../../../../../sass/core/api/helpers/mixins/_browsers.scss */
+.ua-ie .popover-comment .comment .modal {
+  top: 0;
+}
+/* line 301, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.popover-comment .comment:first-of-type .modal {
+  top: -41px;
+  -moz-border-radius-topleft: 4px;
+  -webkit-border-top-left-radius: 4px;
+  border-top-left-radius: 4px;
+  -moz-border-radius-topright: 4px;
+  -webkit-border-top-right-radius: 4px;
+  border-top-right-radius: 4px;
+}
+/* line 87, ../../../../../sass/core/api/helpers/mixins/_browsers.scss */
+.ua-ie .popover-comment .comment:first-of-type .modal {
+  top: -42px;
+}
+/* line 313, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.popover-comment .comment:last-of-type .modal, .popover-comment .comment.comment-last + .comment-editing .modal, .popover-comment .comment.comment-last .modal {
+  bottom: -8px;
+  -moz-border-radius-bottomleft: 4px;
+  -webkit-border-bottom-left-radius: 4px;
+  border-bottom-left-radius: 4px;
+  -moz-border-radius-bottomright: 4px;
+  -webkit-border-bottom-right-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+/* line 323, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.popover-comment .comment:only-of-type .modal {
+  top: -41px;
+  bottom: -8px;
+  border-radius: 4px;
+}
+/* line 87, ../../../../../sass/core/api/helpers/mixins/_browsers.scss */
+.ua-ie .popover-comment .comment:only-of-type .modal {
+  top: -42px;
+}
+/* line 338, ../../../../../sass/peripherals/comments/atoms/_comments-helpers.scss */
+.popover-comment .modal-backdrop {
+  background-color: transparent;
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)" ;
+  opacity: 0 ;
+  -moz-transition: none;
+  -webkit-transition: none;
+  transition: none;
+}
+
+/* line 127, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.popover-thread-closed.top .arrow {
+  border-top-color: #cccccc;
+}
+/* line 134, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.popover-thread-closed.top .arrow:after {
+  border-top-color: #cccccc;
+}
+/* line 127, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.popover-thread-closed.right .arrow {
+  border-right-color: #cccccc;
+}
+/* line 134, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.popover-thread-closed.right .arrow:after {
+  border-right-color: #cccccc;
+}
+/* line 127, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.popover-thread-closed.bottom .arrow {
+  border-bottom-color: #cccccc;
+}
+/* line 134, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.popover-thread-closed.bottom .arrow:after {
+  border-bottom-color: #cccccc;
+}
+/* line 127, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.popover-thread-closed.left .arrow {
+  border-left-color: #cccccc;
+}
+/* line 134, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.popover-thread-closed.left .arrow:after {
+  border-left-color: #cccccc;
+}
+/* line 127, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.overlaid.top .arrow {
+  border-top-color: #686868;
+}
+/* line 134, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.overlaid.top .arrow:after {
+  border-top-color: #686868;
+}
+/* line 127, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.overlaid.right .arrow {
+  border-right-color: #686868;
+}
+/* line 134, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.overlaid.right .arrow:after {
+  border-right-color: #686868;
+}
+/* line 127, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.overlaid.bottom .arrow {
+  border-bottom-color: #686868;
+}
+/* line 134, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.overlaid.bottom .arrow:after {
+  border-bottom-color: #686868;
+}
+/* line 127, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.overlaid.left .arrow {
+  border-left-color: #686868;
+}
+/* line 134, ../../../../../sass/core/components/atoms/dialogs/_dialogs-shared-helpers.scss */
+.popover-comment.overlaid.left .arrow:after {
+  border-left-color: #686868;
+}
+
+/* line 13, ../../../../../sass/peripherals/comments/_comments-xy-annotations.scss */
+.annotation-origin,
+.new-annotation-origin {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  -webkit-touch-callout: none;
+  -moz-touch-callout: none;
+  -ms-touch-callout: none;
+  -o-touch-callout: none;
+  touch-callout: none;
+  -webkit-user-select: none;
+  -moz-user-select: -moz-none;
+  -ms-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  -moz-tap-highlight-color: transparent;
+  -ms-tap-highlight-color: transparent;
+  -o-tap-highlight-color: transparent;
+  tap-highlight-color: transparent;
+}
+
+/* line 22, ../../../../../sass/peripherals/comments/_comments-xy-annotations.scss */
+.annotation-origin > .hitarea {
+  position: absolute;
+  left: -25%;
+  top: -25%;
+  bottom: -25%;
+  right: -25%;
+}
+
+/* line 32, ../../../../../sass/peripherals/comments/_comments-xy-annotations.scss */
+.note-origin .note-icon:before, .note-origin .note-icon:after {
+  line-height: 28px;
+}
+/* line 37, ../../../../../sass/peripherals/comments/_comments-xy-annotations.scss */
+.note-origin.dragging .note-icon {
+  position: absolute;
+  height: 72px;
+  width: 72px;
+  left: -24px;
+  top: -24px;
+  font-size: 64px;
+}
+/* line 44, ../../../../../sass/peripherals/comments/_comments-xy-annotations.scss */
+.note-origin.dragging .note-icon:before, .note-origin.dragging .note-icon:after {
+  line-height: 76px;
+}
+
+/* line 51, ../../../../../sass/peripherals/comments/_comments-xy-annotations.scss */
+.highlight-origin .highlight-icon {
+  background-color: #f9d805;
+  opacity: .8;
+  border-radius: 10px;
+  width: 20px;
+  height: 20px;
+  left: 2px;
+  top: 2px;
+  position: absolute;
+}
+/* line 63, ../../../../../sass/peripherals/comments/_comments-xy-annotations.scss */
+.highlight-origin.dragging .highlight-icon {
+  height: 64px;
+  width: 64px;
+  left: -20px;
+  top: -20px;
+  border-radius: 32px;
+}
+
+/*# sourceMappingURL=comments.css.map */
