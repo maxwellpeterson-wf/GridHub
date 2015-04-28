@@ -50,6 +50,8 @@ class Repository extends RepoDescriptor {
         Future readmeFuture = githubService.getReadme(this).then((responseString) {
             this.readmeData = responseString;
             repoActions.repoUpdated(this.name);
+        }).catchError((_) {
+            this.readmeData = '';
         });
         Future tagsFuture = githubService.getTags(this).then((response) {
             this.tagsData = response;
