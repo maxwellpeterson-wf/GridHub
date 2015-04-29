@@ -2,7 +2,7 @@ library Repo;
 
 import 'dart:async';
 
-import '../actions/repoActions.dart' as repoActions;
+import '../actions/actions.dart';  // TODO temp
 import '../services/githubService.dart' as githubService;
 
 
@@ -30,7 +30,9 @@ class Repository extends RepoDescriptor {
 
     bool dataInitialized;
 
-    Repository(String name) : super(name) {
+    RepoActions _actions;  // TODO temp
+
+    Repository(String name, this._actions) : super(name) {
         readmeData = '';
         tagsData = [];
         releasesData = [];
@@ -49,7 +51,7 @@ class Repository extends RepoDescriptor {
     Future initializeData() {
         Future readmeFuture = githubService.getReadme(this).then((responseString) {
             this.readmeData = responseString;
-            repoActions.repoUpdated(this.name);
+            _actions.updateRepo.dispatch(this.name);
         }).catchError((_) {
             this.readmeData = '';
         });
@@ -72,7 +74,7 @@ class Repository extends RepoDescriptor {
                     githubService.getCommentsForIssue(this, issueNumber).then((comments) {
                         if (comments != null) {
                             this.commentsMap[issueNumber] = comments;
-                            repoActions.repoUpdated(this.name);
+                            _actions.updateRepo.dispatch(this.name);
                         }
                     });
                 }

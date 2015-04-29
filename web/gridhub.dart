@@ -3,26 +3,29 @@ import 'dart:html';
 import 'package:react/react.dart' as react;
 import 'package:react/react_client.dart' as reactClient;
 
+import 'actions/actions.dart';
 import 'components/GridHubApp.dart' show GridHubApp;
 import 'services/localStorageService.dart' as localStorageService;
-import 'stores/ReposStore.dart';
+import 'stores/stores.dart';
 
-
-var storage;
-var reposStore;
 
 void main() {
+    // Container that the application will be rendered into
+    var domContainer = querySelector('#app-container');
+
     reactClient.setClientConfiguration();
 
-    // Initialize data layer and store
-    storage = new localStorageService.RepoGridData();
-    reposStore = new ReposStore(storage);
+    // Initialize actions
+    GridHubActions actions = new GridHubActions(
+        new RepoActions()
+    );
+
+    // Initialize data layer and stores
+    var storage = new localStorageService.RepoGridData();
+    GridHubStores stores = new GridHubStores(
+      new ReposStore(actions, storage)
+    );
 
     // Render the application
-    renderApp();
-}
-
-void renderApp() {
-    var domContainer = querySelector('#app-container');
-    react.render(GridHubApp({'reposStore': reposStore}), domContainer);
+    react.render(GridHubApp({'actions': actions, 'stores': stores}), domContainer);
 }
