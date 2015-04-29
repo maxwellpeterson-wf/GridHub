@@ -3,7 +3,7 @@ library GridHubHeader;
 import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
 
-import '../actions/repoActions.dart' as repoActions;
+import '../actions/actions.dart';
 import '../constants.dart' as CONSTANTS;
 import '../services/localStorageService.dart' as localStorageService;
 import 'Octicon.dart';
@@ -18,8 +18,11 @@ class _GridHubHeader extends react.Component {
     // TODO this is bad. Antipattern.
     var storage = new localStorageService.RepoGridData();
 
+    GridHubActions get actions => this.props['actions'];
+
     getDefaultProps() {
         return {
+            'actions': null,
             'currentPage': '',
             'globalButtonClickHandler': (){},
             'pageNames': []
@@ -61,33 +64,33 @@ class _GridHubHeader extends react.Component {
     addPage(event) {
         event.preventDefault();
         if (!this.state['newPageName'].isEmpty) {
-            repoActions.addPage(this.state['newPageName']);
+            actions.repoActions.addPage.dispatch(this.state['newPageName']);
             this.setState({'newPageName': ''});
         }
     }
 
     deletePage(event) {
         event.preventDefault();
-        repoActions.deletePage(this.props['currentPage']);
+        actions.repoActions.deletePage.dispatch(this.props['currentPage']);
     }
 
     editPage(event) {
         event.preventDefault();
         if (!this.state['editPageName'].isEmpty) {
-            repoActions.editPage(this.state['editPageName']);
+            actions.repoActions.editPage.dispatch(this.state['editPageName']);
             this.setState({'editPageName': ''});
         }
     }
 
     refreshPage(event) {
         event.preventDefault();
-        repoActions.refreshPage(this.props['currentPage']);
+        actions.repoActions.refreshPage.dispatch(this.props['currentPage']);
     }
 
     addRepo(event) {
         event.preventDefault();
         if (!this.state['newRepoName'].isEmpty) {
-          repoActions.addRepo(this.state['newRepoName']);
+          actions.repoActions.addRepo.dispatch(this.state['newRepoName']);
           this.setState({'newRepoName': ''});
         }
     }
@@ -120,7 +123,7 @@ class _GridHubHeader extends react.Component {
         var pageButtons = [];
         pageNames.forEach((pageName) {
             pageSwitch(event) {
-                repoActions.switchPage(pageName);
+                actions.repoActions.switchPage.dispatch(pageName);
             }
             if (currentPage == pageName) {
                 var title = react.span({}, [
