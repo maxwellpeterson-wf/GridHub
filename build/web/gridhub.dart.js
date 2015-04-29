@@ -6246,6 +6246,14 @@ y=this.Q
 if(y.a>=4)H.vh(y.Jz())
 y.Rg(this)},"$1","gwV",2,0,8,55],
 Es:[function(a){this.Ai()},"$1","gjn",2,0,8,55],
+fa:[function(a){var z,y
+z=this.c
+y=z.py("pages")
+J.C7(y,a,[])
+z.Q.setItem("pages",C.xr.KP(y))
+z=this.d.r.a
+if(z.a>=4)H.vh(z.Jz())
+z.Rg(a)},"$1","gAc",2,0,8,55],
 dB:[function(a){var z
 this.c.Q.setItem("currentPage",a)
 if(this.b.p(0,this.c.gtZ())==null)this.Ai()
@@ -6267,17 +6275,20 @@ z=this.d
 y=this.gdc()
 z.b.Q.X5(y,null,null,null)
 y=this.d
-z=this.gCD()
-y.d.Q.X5(z,null,null,null)
+z=this.gAc()
+y.c.Q.X5(z,null,null,null)
 z=this.d
-y=this.gwV()
-z.e.Q.X5(y,null,null,null)
+y=this.gCD()
+z.d.Q.X5(y,null,null,null)
 y=this.d
-z=this.gjn()
-y.f.Q.X5(z,null,null,null)
+z=this.gwV()
+y.e.Q.X5(z,null,null,null)
 z=this.d
-y=this.gcf()
-z.r.Q.X5(y,null,null,null)}},
+y=this.gjn()
+z.f.Q.X5(y,null,null,null)
+y=this.d
+z=this.gcf()
+y.r.Q.X5(z,null,null,null)}},
 Xy:{
 "^":"r:1;Q,a,b",
 $1:[function(a){var z=F.ME(a,this.Q.d)
