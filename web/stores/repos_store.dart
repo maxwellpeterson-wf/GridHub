@@ -28,7 +28,7 @@ class ReposStore extends Store {
         _actions.removeRepo.listen(onRemoveRepo);
 
         // TODO move to page store?
-//        _actions.addPage   // TODO
+        _actions.addPage.listen(onAddPage);
         _actions.deletePage.listen(onDeletePage);
         _actions.editPage.listen(onEditPage);
         _actions.refreshPage.listen(onRefreshPage);
@@ -102,6 +102,11 @@ class ReposStore extends Store {
 
     onRefreshPage(String pageName) {
         initializeCurrentPageRepos();
+    }
+
+    onAddPage(String pageName) {
+        _storage.addPage(pageName);
+        _actions.switchPage.dispatch(pageName);
     }
 
     onSwitchPage(String pageName) {
