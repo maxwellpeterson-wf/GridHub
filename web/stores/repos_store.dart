@@ -1,26 +1,4 @@
-library ReposStore;
-
-import 'dart:async';
-import 'package:pubsub/pubsub.dart';
-
-import '../models/repo.dart';
-import '../services/localStorageService.dart';
-
-
-class Store {
-
-    List<Function> _subscribers = [];
-
-    subscribe(Function callback) {
-        _subscribers.add(callback);
-    }
-
-    trigger([String actionName = '']) {  // TODO do we need action name?
-        _subscribers.forEach((Function subscription) {
-            subscription(actionName);
-        });
-    }
-}
+part of gridhub.stores;
 
 
 class ReposStore extends Store {
@@ -34,21 +12,27 @@ class ReposStore extends Store {
     List<Repository> get currentPageRepos => _allRepos[currentPage];
     List<String> get pageNames => _storage.pageNames;
 
+    // Internals
+    RepoActions _actions;
 
-    ReposStore(storage) {
+    ReposStore(GridHubActions actions, storage) {
+        _actions = actions.repoActions;
         _storage = storage;
         _allRepos = {};
 
         initializeCurrentPageRepos();
 
         // Subscriptions
-        Pubsub.subscribe('repo.added', _getPayload(onAddRepo));
-        Pubsub.subscribe('repo.update', _getPayload(onRefresh));
-        Pubsub.subscribe('repo.removed', _getPayload(onRemoveRepo));
-        Pubsub.subscribe('page.deleted', _getPayload(onDeletePage));
-        Pubsub.subscribe('page.edited', _getPayload(onEditPage));
-        Pubsub.subscribe('page.refresh', _getPayload(onRefreshPage));
-        Pubsub.subscribe('page.switch', _getPayload(onSwitchPage));
+        _actions.addRepo.listen(onAddRepo);
+        _actions.updateRepo.listen(onRefresh);
+        _actions.removeRepo.listen(onRemoveRepo);
+
+        // TODO move to page store?
+//        _actions.addPage   // TODO
+        _actions.deletePage.listen(onDeletePage);
+        _actions.editPage.listen(onEditPage);
+        _actions.refreshPage.listen(onRefreshPage);
+        _actions.switchPage.listen(onSwitchPage);
     }
 
     Future initializeCurrentPageRepos() {
@@ -56,7 +40,7 @@ class ReposStore extends Store {
         List<Future> futures = [];
         List<Repository> repos = [];
         currentPageRepos.forEach((repoName) {
-            var repo = new Repository(repoName);
+            var repo = new Repository(repoName, _actions);
             repos.add(repo);
             futures.add(repo.initializeData());
         });
@@ -72,12 +56,12 @@ class ReposStore extends Store {
 
     onAddRepo(String repoName) {
         var pageRepos = _allRepos[_storage.currentPage];
-        var repo = new Repository(repoName);
+        var repo = new Repository(repoName, _actions);
         pageRepos.add(repo);
 
-        trigger('repo.added');
+        trigger();
         repo.initializeData().then((futures) {
-            trigger('repo.added');
+            trigger();
         });
         _storage.addRepo(repoName);
     }
@@ -98,7 +82,7 @@ class ReposStore extends Store {
         });
         pageRepos.remove(repoToRemove);
 
-        trigger('repo.removed');
+        trigger();
         _storage.removeRepo(repoName);
     }
 
@@ -113,7 +97,7 @@ class ReposStore extends Store {
         _allRepos[pageName] = pageRepos;
         _allRepos.remove(_storage.currentPage);
         _storage.editPage(pageName);
-        trigger('page.edited');
+        trigger();
     }
 
     onRefreshPage(String pageName) {
@@ -125,7 +109,7 @@ class ReposStore extends Store {
         if (currentPageRepos == null) {
             initializeCurrentPageRepos();
         } else {
-            trigger('page.switched');
+            trigger();
         }
     }
 

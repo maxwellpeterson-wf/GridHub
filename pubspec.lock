@@ -13,6 +13,12 @@ packages:
     description: dynamic_object
     source: hosted
     version: "1.0.4"
+  flux:
+    description:
+      path: "libraries/flux"
+      relative: true
+    source: path
+    version: "0.0.0"
   path:
     description: path
     source: hosted

@@ -1,11 +1,11 @@
 library GridHubApp;
 
-import 'package:pubsub/pubsub.dart';
+import 'package:flux/flux.dart';
 import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
 
 import '../models/repo.dart';
-import '../stores/ReposStore.dart';
+import '../stores/stores.dart';
 
 import 'Octicon.dart';
 import 'RepoContainer.dart';
@@ -16,17 +16,12 @@ import 'GridHubHeader.dart';
  * The GridHub Application component
  */
 var GridHubApp = react.registerComponent(() => new _GridHubApp());
-class _GridHubApp extends react.Component {
+class _GridHubApp<GridHubActions, GridHubStores> extends FluxComponent {
 
-    ReposStore get reposStore {
-        return this.props['reposStore'];
-    }
-
-    getDefaultProps() {
-        return {
-            'reposStore': null
-        };
-    }
+    String get currentPage => this.state['currentPage'];
+    String get globalActiveKey => this.state['globalActiveKey'];
+    List<String> get pageNames => this.state['pageNames'];
+    List<Repository> get repos => this.state['repos'];
 
     getInitialState() {
         return {
@@ -43,28 +38,28 @@ class _GridHubApp extends react.Component {
         };
     }
 
-    componentWillMount() {
-        reposStore.subscribe((actionName) {
-            this.setState({
-                'repos': reposStore.currentPageRepos,
-                'currentPage': reposStore.currentPage,
-                'pageNames': reposStore.pageNames
-            });
+    _repoStoreUpdated(ReposStore store) {
+        this.setState({
+            'repos': store.currentPageRepos,
+            'currentPage': store.currentPage,
+            'pageNames': store.pageNames
         });
     }
 
-    render() {
-        var globalActiveKey = this.state['globalActiveKey'];
-        var githubUsername = this.state['githubUsername'];
-        var githubAccessToken = this.state['githubAccessToken'];
-        var rows = [];
-        var rowItems = [];
+    getStoreHandlers() {
+        return {
+            stores.reposStore: _repoStoreUpdated
+        };
+    }
 
-        List<Repository> repos = this.state['repos'];
+    render() {
+        List rows = [];
+        List rowItems = [];
+
         repos.forEach((Repository repo) {
             rowItems.add(
                 Col({'sm': 4}, [
-                    RepoContainer({'repo': repo, 'globalActiveKey': globalActiveKey})
+                    RepoContainer({'actions': actions, 'repo': repo, 'globalActiveKey': globalActiveKey})
                 ])
             );
             if (rowItems.length == 3) {
@@ -79,9 +74,10 @@ class _GridHubApp extends react.Component {
 
         return react.div({'className': 'container-fluid'}, [
             GridHubHeader({
-                'currentPage': this.state['currentPage'],
+                'actions': actions,
+                'currentPage': currentPage,
                 'globalButtonClickHandler': this.globalButtonClicked,
-                'pageNames': this.state['pageNames']
+                'pageNames': pageNames
             }),
             react.div({'style': {'marginTop': '45px'}}, rows),
         ]);

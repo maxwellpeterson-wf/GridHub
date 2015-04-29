@@ -3,7 +3,7 @@ library RepoContainer;
 import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
 
-import '../actions/repoActions.dart' as repoActions;
+import '../actions/actions.dart';
 import '../constants.dart' as CONSTANTS;
 import '../models/repo.dart';
 
@@ -16,11 +16,13 @@ import 'MilestonesPane.dart';
 
 
 var RepoContainer = react.registerComponent(() => new _RepoContainer());
-
 class _RepoContainer extends react.Component {
 
-  getDefaultProps() {
+    GridHubActions get actions => this.props['actions'];
+
+    getDefaultProps() {
       return {
+          'actions': null,
           'globalActiveKey': '1',
           'repo': null,
       };
@@ -45,7 +47,7 @@ class _RepoContainer extends react.Component {
 
   removeRepo(event) {
       RepoDescriptor repo = this.props['repo'];
-      repoActions.removeRepo(repo.name);
+      actions.repoActions.removeRepo.dispatch(repo.name);
   }
 
   render() {
