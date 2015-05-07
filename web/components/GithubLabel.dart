@@ -12,7 +12,7 @@ class _GithubLabel extends react.Component {
         var color = this.props['label']['color'];
         return react.span({
             'className': 'github-label',
-            'style': {'background-color': '#${color}', 'color': _getContrastYIQ(color)}
+            'style': {'backgroundColor': '#${color}', 'color': _getContrastYIQ(color)}
         }, name);
     }
 

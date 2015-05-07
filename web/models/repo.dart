@@ -49,6 +49,9 @@ class Repository extends RepoDescriptor {
     }
 
     Future initializeData() {
+        Completer commitsCompleter = new Completer();
+        Future commitsFuture = commitsCompleter.future;
+
         Future readmeFuture = githubService.getReadme(this).then((responseString) {
             this.readmeData = responseString;
             _actions.updateRepo.dispatch(this.name);
@@ -57,6 +60,10 @@ class Repository extends RepoDescriptor {
         });
         Future tagsFuture = githubService.getTags(this).then((response) {
             this.tagsData = response;
+            githubService.getCommitsSinceLastTag(this, this.tagsData).then((response) {
+                this.commitsData = response['commits'];
+                commitsCompleter.complete();
+            });
         });
         Future releasesFuture = githubService.getReleases(this).then((response){
             this.releasesData = response;
@@ -88,9 +95,6 @@ class Repository extends RepoDescriptor {
                 // Add each pull request to a map
                 this.pullRequestsMap[pullRequestNumber] = pullRequest;
             });
-        });
-        Future commitsFuture = githubService.getCommitsSinceLastTag(this).then((response) {
-            this.commitsData = response['commits'];
         });
         Future milestonesFuture = githubService.getMilestones(this).then((response) {
             this.milestonesData = response;
