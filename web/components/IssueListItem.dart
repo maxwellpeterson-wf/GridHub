@@ -61,7 +61,6 @@ class _IssueListItem extends react.Component {
                 List<Map> labels = issue['labels'];
                 if (labels != null) {
                     labels.forEach((label) {
-                        print(label['name']);
                         if(label['name'].contains('Ready for Merge')) {
                             className = 'list-group-item-success';
                         }

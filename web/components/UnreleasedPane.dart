@@ -23,11 +23,12 @@ class _UnreleasedPane extends react.Component {
 
     render() {
         Repository repo = this.props['repo'];
-        var commits = repo.commitsData;
-        var pulls = repo.pullRequestsData;
-        var listItems = [];
+        List commits = repo.commitsData;
+        List pulls = repo.pullRequestsData;
+        List tags = repo.tagsData;
+        List listItems = [];
 
-        var prNumbers = {};
+        Map prNumbers = {};
         commits.forEach((commit) {
             var commitDescription = commit['commit']['message'];
             RegExp exp = new RegExp(r"Merge pull request #(\d+)");
@@ -38,7 +39,8 @@ class _UnreleasedPane extends react.Component {
         });
 
         pulls.forEach((issue) {
-            if (prNumbers[issue['number'].toString()] == true) {
+            // If there are no tags yet, include all merged PRs
+            if (prNumbers[issue['number'].toString()] == true || (tags.length == 0 && issue['merged_at'] != null)) {
                 listItems.add(
                     IssueListItem({'repo': repo, 'issue': issue, 'pullRequests': true})
                 );

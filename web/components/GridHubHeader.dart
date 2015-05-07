@@ -130,7 +130,7 @@ class _GridHubHeader extends react.Component {
                     react.span({}, 'Edit Page'),
                     react.a({'className': 'pull-right', 'style': {'color': '#f03e3c'}, 'onClick': this.deletePage}, trashIcon)
                 ]);
-                pageButtons.add(NavItem({'active': true}, [
+                pageButtons.add(NavItem({'active': true, 'key': pageName + '-nav-item'}, [
                     OverlayTrigger({'trigger': 'click', 'placement': 'bottom', 'overlay': Popover(
                         {'className': 'inner', 'title': title}, [
                             react.form({'onSubmit': this.editPage}, [
@@ -148,7 +148,7 @@ class _GridHubHeader extends react.Component {
                 ]));
 
             } else {
-                pageButtons.add(react.li({'className': 'nav-item'}, [
+                pageButtons.add(react.li({'className': 'nav-item', 'key': pageName + '-nav-item'}, [
                     react.a({'className': 'hitarea', 'onClick': pageSwitch}, pageName)
                 ]));
             }
@@ -157,7 +157,7 @@ class _GridHubHeader extends react.Component {
 
         // ADD NEW PAGE BUTTON
         if (pageButtons.length > 0) {
-            pageButtons.add(react.li({'className': 'nav-item'}, [
+            pageButtons.add(react.li({'className': 'nav-item', 'key': 'new-page-button-nav-item'}, [
                 OverlayTrigger({'trigger': 'click', 'placement': 'right', 'overlay': Popover(
                     {'className': 'inner add-page-popover', 'arrowOffsetTop': 18, 'title': 'Add Page'}, [
                         react.form({'onSubmit': this.addPage}, [
@@ -175,7 +175,7 @@ class _GridHubHeader extends react.Component {
             ]));
         }
 
-        pageButtons.add(react.li({'className': 'nav-item'}, [
+        pageButtons.add(react.li({'className': 'nav-item', 'key': 'refresh-button-nav-item'}, [
             react.a({'className': 'hitarea', 'onClick': refreshPage}, refreshIcon)
         ]));
 
@@ -186,9 +186,9 @@ class _GridHubHeader extends react.Component {
             Nav({'className': 'pull-right'}, [
 
                 // ADD REPO BUTTON
-                NavItem({'style': {'marginRight': '20px'}},
+                NavItem({'style': {'marginRight': '20px'}, 'key': 'add-repo-button-nav-item'},
                     OverlayTrigger({'trigger': 'click', 'placement': 'left', 'overlay': Popover(
-                        {'className': 'inner add-repo-popover', 'arrowOffsetTop': 18, 'title': 'Add Repository'}, [
+                        {'className': 'inner add-repo-popover', 'arrowOffsetTop': 18, 'title': 'Add Repository'},
                             react.form({'onSubmit': this.addRepo}, [
                                 Input({
                                     'type': 'text',
@@ -199,24 +199,24 @@ class _GridHubHeader extends react.Component {
                                     'onChange': this.onNewRepoNameChange,
                                 }),
                             ])
-                        ])},
+                        )},
                         react.span({}, addIcon2)
                     )
                 ),
 
                 // GLOBAL STATE BUTTONS
-                NavItem({'onSelect': globalButtonClickHandler('1')}, readmeIcon),
-                NavItem({'onSelect': globalButtonClickHandler('2')}, tagIcon),
-                NavItem({'onSelect': globalButtonClickHandler('3')}, issueIcon),
-                NavItem({'onSelect': globalButtonClickHandler('4')}, pullRequestIcon),
-                NavItem({'onSelect': globalButtonClickHandler('5')}, unreleasedIcon),
-                NavItem({'onSelect': globalButtonClickHandler('6')}, milestonesIcon),
+                NavItem({'onSelect': globalButtonClickHandler('1'), 'key': 'readme-icon-nav-item'}, readmeIcon),
+                NavItem({'onSelect': globalButtonClickHandler('2'), 'key': 'tag-icon-nav-item'}, tagIcon),
+                NavItem({'onSelect': globalButtonClickHandler('3'), 'key': 'issue-icon-nav-item'}, issueIcon),
+                NavItem({'onSelect': globalButtonClickHandler('4'), 'key': 'pull-icon-nav-item'}, pullRequestIcon),
+                NavItem({'onSelect': globalButtonClickHandler('5'), 'key': 'unreleased-icon-nav-item'}, unreleasedIcon),
+                NavItem({'onSelect': globalButtonClickHandler('6'), 'key': 'milestone-icon-nav-item'}, milestonesIcon),
 
                 // SETTINGS BUTTON
                 // TODO Could not get this popover to work in its own component file. fix this
                 // For some reason if I create a new component that renders a Popover, and then pass
                 // that in as a prop to OverlayTrigger - it breaks. I assume it is dart interop issues
-                NavItem({'style': {'marginLeft': '20px'}},
+                NavItem({'style': {'marginLeft': '20px'}, 'key': 'settings-button-nav-item'},
                     OverlayTrigger({'trigger': 'click', 'placement': 'left', 'overlay': Popover(
                         {'title': 'Settings', 'arrowOffsetTop': 18, 'className': 'inner settings-popover'}, [
                             Input({
@@ -224,13 +224,16 @@ class _GridHubHeader extends react.Component {
                                 'id': 'github-user-name',
                                 'label': 'Github Username',
                                 'value': githubUsername,
-                                'onChange': this.onGithubUsernameChange}),
+                                'onChange': this.onGithubUsernameChange,
+                                'key': 'settings-input-username'}),
                             Input({
                                 'type': 'password',
                                 'id': 'github-access-token',
                                 'label': 'Github Access Token',
                                 'value': githubAccessToken,
-                                'onChange': this.onGithubAccessTokenChange})
+                                'onChange': this.onGithubAccessTokenChange,
+                                'key': 'settings-input-accesstoken'})
+
                         ])},
                         settingsIcon
                     )

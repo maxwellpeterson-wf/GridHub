@@ -69,27 +69,27 @@ class _RepoContainer extends react.Component {
       var unreleasedIcon = Octicon({'icon': CONSTANTS.unreleasedIcon, 'title': 'Unreleased PRs (PRs merged since last tag)'});
       var milestonesIcon = Octicon({'icon': CONSTANTS.milestonesIcon, 'title': 'Milestones'});
 
-      return Panel({'header': title, 'className': 'repo-panel'}, [
+      return Panel({'header': title, 'className': 'repo-panel', 'key': repoName}, [
           TabbedArea({
               'activeKey': activeKey, 'className': 'tabs-right',
               'animation': false, 'onSelect': this.paneSelected
           }, [
-              TabPane({'eventKey': '1', 'tab': readmeIcon}, [
+              TabPane({'eventKey': '1', 'tab': readmeIcon, 'key': repoName + 'readmePane'}, [
                   ReadmePane({'repo': repo})
               ]),
-              TabPane({'eventKey': '2', 'tab': tagIcon}, [
+              TabPane({'eventKey': '2', 'tab': tagIcon, 'key': repoName + 'tagPane'}, [
                   TagsPane({'repo': repo})
               ]),
-              TabPane({'eventKey': '3', 'tab': issueIcon}, [
+              TabPane({'eventKey': '3', 'tab': issueIcon, 'key': repoName + 'issuePane'}, [
                   IssuesPane({'repo': repo})
               ]),
-              TabPane({'eventKey': '4', 'tab': pullRequestIcon}, [
+              TabPane({'eventKey': '4', 'tab': pullRequestIcon, 'key': repoName + 'pullPane'}, [
                   IssuesPane({'repo': repo, 'pullRequests': true})
               ]),
-              TabPane({'eventKey': '5', 'tab': unreleasedIcon}, [
+              TabPane({'eventKey': '5', 'tab': unreleasedIcon, 'key': repoName + 'unreleasedPane'}, [
                   UnreleasedPane({'repo': repo})
               ]),
-              TabPane({'eventKey': '6', 'tab': milestonesIcon}, [
+              TabPane({'eventKey': '6', 'tab': milestonesIcon, 'key': repoName + 'milestonePane'}, [
                   MilestonesPane({'repo': repo})
               ])
           ])

@@ -55,21 +55,23 @@ class _GridHubApp<GridHubActions, GridHubStores> extends FluxComponent {
     render() {
         List rows = [];
         List rowItems = [];
+        int colKey = 0;
+        int rowKey = 0;
 
         repos.forEach((Repository repo) {
             rowItems.add(
-                Col({'sm': 4}, [
-                    RepoContainer({'actions': actions, 'repo': repo, 'globalActiveKey': globalActiveKey})
+                Col({'sm': 4, 'key': '${currentPage}-col-${colKey++}'}, [
+                    RepoContainer({'actions': actions, 'repo': repo, 'globalActiveKey': globalActiveKey, 'key': '${repo.name}-container'})
                 ])
             );
             if (rowItems.length == 3) {
-                rows.add(Row({}, rowItems));
+                rows.add(Row({'key': '${currentPage}-row-${rowKey++}'}, rowItems));
                 rowItems = [];
             }
         });
 
         if (rowItems.length > 0) {
-            rows.add(Row({}, rowItems));
+            rows.add(Row({'key': '${currentPage}-row-${rowKey++}'}, rowItems));
         }
 
         return react.div({'className': 'container-fluid'}, [

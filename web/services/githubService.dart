@@ -52,19 +52,19 @@ getReleases(RepoDescriptor repo) {
     return githubApiRequest(repo, 'releases');
 }
 
-getCommitsSinceLastTag(RepoDescriptor repo) {
-    return getTags(repo).then((tags) {
-        if (tags != null && tags.length > 0 && tags[0] != null) {
-            var lastTag = tags[0]['name'];
-            return githubApiRequest(repo, 'compare/${lastTag}...master');
-        }
-        else {
-            print("NO TAGS!");
-            return {
-                'commits': []
-            };
-        }
-    });
+getCommitsSinceLastTag(RepoDescriptor repo, [List tags = null]) async {
+    if (tags == null) {
+        tags = await getTags(repo);
+    }
+    if (tags != null && tags.length > 0 && tags[0] != null) {
+        var lastTag = tags[0]['name'];
+        return githubApiRequest(repo, 'compare/${lastTag}...master');
+    }
+    else {
+        return {
+            'commits': []
+        };
+    }
 }
 
 getMilestones(RepoDescriptor repo) {

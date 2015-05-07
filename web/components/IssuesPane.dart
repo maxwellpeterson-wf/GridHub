@@ -57,7 +57,7 @@ class _IssuesPane extends react.Component {
 
         issues.forEach((issue) {
             listItems.add(
-                IssueListItem({'repo': repo, 'issue': issue, 'pullRequest': repo.pullRequestsMap[issue['number']]})
+                IssueListItem({'repo': repo, 'issue': issue, 'pullRequest': repo.pullRequestsMap[issue['number']], 'key': 'issue-list-item-#${issue['number']}'})
             );
         });
 
