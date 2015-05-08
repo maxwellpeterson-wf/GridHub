@@ -37,7 +37,8 @@ class _RepoContainer extends react.Component {
 
   componentWillReceiveProps(newProps) {
       var globalActiveKey = newProps['globalActiveKey'];
-      if (globalActiveKey != this.state['activeKey']) {
+      bool changed = globalActiveKey != this.props['globalActiveKey'];
+      if (changed && globalActiveKey != this.state['activeKey']) {
           this.setState({'activeKey': globalActiveKey});
       }
   }
