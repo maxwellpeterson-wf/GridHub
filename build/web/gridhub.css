@@ -85,6 +85,7 @@ button.btn.btn-xs.active.closed-issues {
 }
 
 .repo-panel .tabs-right > .nav-tabs > li > .hitarea {
+  width: 39px;
   min-width: 39px;
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
@@ -103,9 +104,9 @@ button.btn.btn-xs.active.closed-issues {
   height: 300px;
   box-sizing: border-box;
   position: absolute;
-  left: 0;
+  left: 16px;
   width: 100%;
-  padding-right: 38px;
+  padding-right: 70px;
 }
 
 .scrollable-pane::-webkit-scrollbar {
@@ -127,8 +128,8 @@ button.btn.btn-xs.active.closed-issues {
   margin-bottom: 5px;
 }
 
-.list-group-item-heading :hover {
-  white-space: normal;
+h4.list-group-item-heading:hover {
+    white-space: normal;
 }
 
 h4.list-group-item-heading a {
@@ -219,7 +220,7 @@ h4.list-group-item-heading a {
 
 /* Github Markdown Readme */
 .readme .markdown-body, .readme .plain {
-  padding: 0 0 30px 30px;
+  padding: 0 20px 20px 20px;
   word-wrap: break-word;
 }
 
@@ -317,4 +318,9 @@ h4.list-group-item-heading a {
 
 .nav > .nav-item > .hitarea:hover:active {
     background-color: transparent;
+}
+
+.nav > .nav-item.nav-item-text-button {
+    height: 34px;
+    padding-top: 2px;
 }

@@ -372,7 +372,7 @@ function joinClasses(className/*, ... */) {
   if (argLength > 1) {
     for (var ii = 1; ii < argLength; ii++) {
       nextClass = arguments[ii];
-      if (nextClass) {
+      if (nextClass && className.indexOf(nextClass) === -1) {
         className = (className ? className + ' ' : '') + nextClass;
       }
     }
@@ -643,6 +643,8 @@ define('constants',['require','exports','module'],function (require, exports, mo
     'well': 'well'
   },
   STYLES: {
+    null: null,   // unskinned
+    false: false, // unskinned
     'default': 'default',
     'light': 'light',
     'inverse': 'inverse',
@@ -1233,7 +1235,7 @@ var PanelGroup = React.createClass({displayName: "PanelGroup",
     return (
       React.createElement("div", React.__spread({},  parentProps), 
         React.createElement("div", React.__spread({},  this.props, {className: joinClasses(this.props.className, classSet(classes)), onSelect: null}), 
-            ValidComponentChildren.map(this.props.children, this.renderPanel)
+          ValidComponentChildren.map(this.props.children, this.renderPanel)
         )
       )
     );
@@ -1241,10 +1243,10 @@ var PanelGroup = React.createClass({displayName: "PanelGroup",
 
   renderPanel: function (child, index) {
     var activeKey =
-      this.props.activeKey != null ? this.props.activeKey : this.state.activeKey;
+          this.props.activeKey != null ? this.props.activeKey : this.state.activeKey;
 
     var panelProps = {
-      wsStyle: child.props.wsStyle || this.props.wsStyle,
+      wsStyle: child.props.hasOwnProperty('wsStyle') ? child.props.wsStyle : this.props.wsStyle,
       key: child.key ? child.key : index,
       ref: child.ref
     };
@@ -1753,6 +1755,8 @@ var assign = require('./utils/Object.assign');
 var WebSkinAlertStyles = function() {
   var alertWsStyles = constants.STYLES;
   alertWsStyles = assign({}, alertWsStyles, {
+    null: null,
+    false: false,
     gray: 'gray',
     info: 'default'
   });
@@ -1858,13 +1862,22 @@ var Alert = React.createClass({displayName: "Alert",
   },
 
   componentDidMount: function() {
-    if (this.props.dismissAfter && this.props.onDismiss) {
-      this.dismissTimer = setTimeout(this.props.onDismiss, this.props.dismissAfter);
-    }
+    this.initializeDismiss(this.props);
+  },
+
+  componentWillReceiveProps: function(nextProps) {
+    this.initializeDismiss(nextProps);
   },
 
   componentWillUnmount: function() {
     clearTimeout(this.dismissTimer);
+  },
+
+  initializeDismiss: function(props) {
+    if (props.dismissAfter && props.onDismiss) {
+      clearTimeout(this.dismissTimer);
+      this.dismissTimer = setTimeout(props.onDismiss, props.dismissAfter);
+    }
   }
 });
 
@@ -1907,95 +1920,431 @@ module.exports = Badge;
 
 });
 
-define('Button',['require','exports','module','react','./utils/joinClasses','./utils/classSet','./WebSkinMixin'],function (require, exports, module) {var React = require('react');
+define('utils/ComponentUsageWarning',['require','exports','module'],function (require, exports, module) {var Warning = function noop() {};
+
+/**
+ * @param {object} props
+ * @param {string} msg
+ * @returns {Warning}
+ */
+var ComponentUsageWarning = function (msg, props) {
+  props['data-wsr-warned'] = true;
+
+  if (!props['data-wsr-unit-test']) {
+    //
+    // Only spit this out if its not one of our unit tests where we're
+    // intentionally testing some of the things we expect warnings for
+    //
+    return Warning(false, msg);
+  }
+};
+
+module.exports = ComponentUsageWarning;
+
+});
+
+define('HitareaMixin',['require','exports','module','react','./utils/joinClasses','./utils/ComponentUsageWarning','./utils/Object.assign'],function (require, exports, module) {/*
+  Mixin with shared logic that determines whether a clickable element ("hitarea")
+  should be rendered as a `<a>`, `<button>` or something else.
+
+  It also handles how the disabled state of the entity should be rendered, and
+  warns about invalid / possibly accidental combinations of `componentClass`
+  and other DOM Props (like `href`, `target`, etc)
+ */
+
+var React = require('react');
+var joinClasses = require('./utils/joinClasses');
+var ComponentUsageWarning = require('./utils/ComponentUsageWarning');
+var assign = require('./utils/Object.assign');
+
+module.exports = {
+  propTypes: {
+    /// Will return a callback containing the `eventKey` of the selected item
+    /// along with an optional `href` and `target` prop (if present)
+    onSelect: React.PropTypes.func,
+    /// Used alongside `props.onSelect` for basic controller behavior of clickable elements
+    eventKey: React.PropTypes.any,
+    /// DomProp
+    href: React.PropTypes.string,
+    /// DomProp
+    target: React.PropTypes.string,
+    /// Use to explicitly define the `nodeName` you want to see in the rendered DOM
+    componentClass: React.PropTypes.oneOf(['button', 'a', 'div', 'input']),
+    /// DomProp
+    name: React.PropTypes.string,
+    /// DomProp: Attribute to support the role classification of elements
+    /// primarily used for the purposes of accessibility
+    role: React.PropTypes.string,
+    /// Use to visually "activate" a clickable element
+    active: React.PropTypes.bool,
+    /// DomProp
+    disabled: React.PropTypes.bool
+  },
+
+  getDefaultProps: function () {
+    return {
+      disabled: false,
+      active: false
+    }
+  },
+
+  /**
+   * @param event
+   */
+  handleClick: function (event) {
+    if (this.props.onSelect) {
+      event.preventDefault();
+
+      if (!this.props.disabled) {
+        this.props.onSelect(this.props.eventKey, this.props.href, this.props.target);
+      }
+    }
+  },
+
+  /**
+   * @param {string} msg
+   * @param {object} [props=this.props]
+   * @returns {Warning}
+   * @private
+   */
+  _warnAboutElementUsage: function(msg, props) {
+    props = props || this.props;
+
+    return ComponentUsageWarning(msg, props);
+  },
+
+  /**
+   * @param props React props object
+   * @returns {boolean}
+   */
+  isActiveHitarea: function (props) {
+    return (props.active || props.checked || props.defaultChecked);
+  },
+
+  /**
+   * @param props React props object
+   * @returns {boolean}
+   */
+  isNavItemHitarea: function (props) {
+    // All navDropdowns are navItems, but not vice-versa
+    return (props.navItem || props.navDropdown);
+  },
+
+  /**
+   * @private
+   * @param validatedProps
+   * @returns {Object} validatedProps
+   */
+  _checkForTypePropOnNonFormElem: function (validatedProps) {
+    if (validatedProps.type) {
+      this._warnAboutElementUsage('The `type` prop is not valid on an `<' + validatedProps.componentClass + '>` element. Try using a `<button>` instead.');
+
+      validatedProps['data-wsr-invalid-type'] = validatedProps.type;
+      validatedProps.type = null;
+    }
+
+    return validatedProps;
+  },
+
+  /**
+   * @private
+   * @param validatedProps
+   * @returns {Object} validatedProps
+   */
+  _setDisabledAnchorProps: function (validatedProps) {
+    //
+    // Check first to see if they are trying to disable
+    // without using the correct disabled prop
+    //
+    if (validatedProps.className && validatedProps.className.match(/\bdisabled\b/)) {
+      this._warnAboutElementUsage('You are trying to make an HTML `<a>` element look disabled by adding the "disabled" CSS class. WSR will make it appear disabled - but your implementation is responsible for disabling its click behavior.');
+
+      // Set to true so the rest of this method's logic can do it's work
+      validatedProps.disabled = true;
+    }
+
+    if (validatedProps.disabled) {
+      validatedProps['aria-disabled'] = 'true';
+      validatedProps.className = joinClasses(validatedProps.className, 'disabled');
+
+      this._warnAboutElementUsage('You are trying to disable the click functionality of an HTML `<a>` element. WSR will make it appear disabled - but your implementation is responsible for disabling its click behavior.');
+    }
+
+    return validatedProps;
+  },
+
+  /**
+   * @private
+   * @param validatedProps
+   * @returns {Object} validatedProps
+   */
+  _setActiveProps: function (validatedProps) {
+    if (this.isActiveHitarea(validatedProps)) {
+      validatedProps['aria-selected'] = 'true';
+
+      if (validatedProps.active && validatedProps.componentClass === 'input') {
+        if (!validatedProps.checked) {
+          validatedProps.defaultChecked = true;
+          validatedProps.checked = null;
+        }
+      }
+
+      if (!this.isNavItemHitarea(validatedProps)) {
+        validatedProps.className = joinClasses(validatedProps.className, 'active');
+      }
+    }
+
+    return validatedProps;
+  },
+
+  /**
+   * @private
+   * @param validatedProps
+   * @returns {Object} validatedProps
+   */
+  _useAnchorElement: function (validatedProps) {
+    if (!validatedProps.href && !validatedProps.target && !validatedProps.name) {
+      this._warnAboutElementUsage('You are explicitly requesting that a `<' + validatedProps.componentClass + '>` element is rendered via your React component, but you have no `href`, `target` or `name` props defined, meaning its usage is as a button, triggering in-page functionality. It is recommended that you omit the `componentClass` prop so that a `<button>` element will be rendered instead.');
+
+      // Signify that this anchor triggers in-page functionality despite using an `<a>` tag.
+      validatedProps.role = 'button'
+    }
+
+    if (validatedProps.href === '#') {
+      this._warnAboutElementUsage('You are using an `href` attribute with a value of `#`. To trigger in-page functionality, it is recommended that you omit the `href` attribute altogether, so that this React component will produce a `<button>` element instead.');
+
+      // Signify that this anchor triggers in-page functionality despite using an `<a>` tag.
+      validatedProps.role = 'button';
+    }
+
+    if (validatedProps.componentClass && validatedProps.componentClass !== 'a') {
+      this._warnAboutElementUsage('You are explicitly requesting that a `<' + validatedProps.componentClass + '>` element is rendered via your React component, but you also have declared either an `href` or `target` prop (or both). An `<a>` will be rendered since `href` and `target` are both invalid properties for a `<' + validatedProps.componentClass + '>`.');
+    }
+
+    this._setDisabledAnchorProps(validatedProps);
+
+    // Set componentClass
+    validatedProps.componentClass = 'a';
+
+    return validatedProps;
+  },
+
+  /**
+   * @private
+   * @param validatedProps
+   * @returns {Object} validatedProps
+   */
+  _useInputElement: function (validatedProps) {
+    validatedProps.role = 'button';
+    validatedProps.componentClass = 'input';
+    validatedProps.inputRef = validatedProps.type;
+    validatedProps.inputId = validatedProps.id + '_' + validatedProps.type;
+    validatedProps.buttonRef = validatedProps.inputRef + '_button';
+
+    if (!validatedProps.id) {
+      this._warnAboutElementUsage(validatedProps.type + ' buttons require a unique `id` to function correctly.');
+
+      validatedProps.inputId = null;
+    }
+
+    if (validatedProps.type === 'radio' && !validatedProps.name) {
+      this._warnAboutElementUsage('radio buttons require a `name` prop value that matches all the other radio buttons in the group in order to function correctly. WSR will apply a default name of "undefined_radio_group".');
+    }
+
+    return validatedProps;
+  },
+
+  /**
+   * Main entry-point for HitareaMixin usage
+   *
+   * @param [props]            Original props
+   * @param [isNavItemHitarea] Whether or not the hitarea is nested within a NavItem / MenuItem component
+   * @returns {Object}         Validated props
+   * @throws if props argument is empty, or not an Object
+   */
+  getValidatedHitareaProps: function (props, isNavItemHitarea) {
+    props = props || this.props;
+    isNavItemHitarea = isNavItemHitarea || this.props.navItem;
+
+    var validatedProps;
+
+    if (typeof(props) !== 'object') {
+      throw new Error('HitareaMixin.validateHitareaProps requires an Object to be sent as the argument `props`.');
+    } else {
+      validatedProps = assign({}, props);
+    }
+
+    validatedProps.navItem = isNavItemHitarea;
+
+    // <a>
+    if (validatedProps.href || validatedProps.target || validatedProps.componentClass === 'a') {
+      validatedProps = this._useAnchorElement(validatedProps);
+      validatedProps = this._checkForTypePropOnNonFormElem(validatedProps);
+    }
+
+    //
+    // <input>
+    //
+    else if (validatedProps.type === 'checkbox' || validatedProps.type === 'radio') {
+      validatedProps = this._useInputElement(validatedProps);
+    }
+
+    //
+    // <input> that will be rendered as a <button>
+    // since it is not a checkbox or radio
+    //
+    else if (validatedProps.componentClass === 'input') {
+      this._warnAboutElementUsage('You are explicitly requesting that a `<input>` element is rendered via your React component, but you have not set the `type` prop to either `checkbox` or `radio`, which are the only two type values that require the use of the `<input>` element. A `<button>` will be rendered instead.');
+
+      validatedProps.componentClass = 'button';
+    }
+
+    //
+    // <div>
+    //
+    else if (validatedProps.componentClass === 'div') {
+      validatedProps.role = 'button';
+
+      validatedProps = this._checkForTypePropOnNonFormElem(validatedProps);
+    }
+
+    //
+    // <button> (default)
+    //
+    else {
+      validatedProps.componentClass = 'button';
+
+      if (!validatedProps.type) {
+        validatedProps.type = 'button';
+      }
+    }
+
+    validatedProps = this._setActiveProps(validatedProps);
+
+    return validatedProps;
+  }
+};
+
+});
+
+define('Button',['require','exports','module','react','./utils/joinClasses','./utils/classSet','./WebSkinMixin','./HitareaMixin'],function (require, exports, module) {var React = require('react');
 var joinClasses = require('./utils/joinClasses');
 var classSet = require('./utils/classSet');
 var WebSkinMixin = require('./WebSkinMixin');
+var HitareaMixin = require('./HitareaMixin');
 
 var Button = React.createClass({displayName: "Button",
-  mixins: [WebSkinMixin],
+  mixins: [WebSkinMixin, HitareaMixin],
 
   propTypes: {
-    active:   React.PropTypes.bool,
-    disabled: React.PropTypes.bool,
-    block:    React.PropTypes.bool,
-    navItem:    React.PropTypes.bool,
+    /// Will wrap the Button in a `.nav-item` and remove all
+    /// `.btn-*` CSS classes leaving only a `.hitarea`
+    /// CSS class for use within the Nav component
+    navItem:     React.PropTypes.bool,
+    /// Will remove all `.btn-*` CSS classes leaving only a
+    /// `.hitarea` CSS class for use as a `.dropdown-toggle`
+    /// element when a DropdownButton component is used
+    /// within a Nav component
+    ///
+    /// DO NOT SET MANUALLY ON A STANDALONE BUTTON IMPLEMENTATION
     navDropdown: React.PropTypes.bool,
-    componentClass: React.PropTypes.node,
-    noText: React.PropTypes.bool,
-    pullRight: React.PropTypes.bool,
-    callout: React.PropTypes.bool,
-    href: React.PropTypes.string,
-    target: React.PropTypes.string
+    /// Will add the `no-text` utility CSS class to the Button
+    noText:      React.PropTypes.bool,
+    /// Will add the `pull-right` utility CSS class to the Button
+    pullRight:   React.PropTypes.bool,
+    /// Will add the `btn-block` variation CSS class to the Button
+    block:       React.PropTypes.bool,
+    /// Will add the `btn-callout` variation CSS class to the Button
+    callout:     React.PropTypes.bool
   },
 
   getDefaultProps: function () {
     return {
       wsClass: 'button',
-      wsStyle: 'default',
-      type: 'button'
+      wsStyle: 'default'
     };
+  },
+
+  getBtnClasses: function (validatedProps) {
+    var btnClasses = this.isNavItemHitarea(validatedProps) ? { 'hitarea': true } : this.getWsClassSet();
+
+    btnClasses['btn-block'] = validatedProps.block;
+    btnClasses['no-text'] = validatedProps.noText;
+    btnClasses['pull-right'] = validatedProps.pullRight;
+    btnClasses['btn-callout'] = validatedProps.callout;
+
+    return joinClasses(validatedProps.className, classSet(btnClasses));
+  },
+
+  renderBtn: function (validatedProps) {
+    var ButtonComponent = validatedProps.componentClass;
+
+    if (ButtonComponent === 'input') {
+      //
+      // This is a checkbox / radio button used as a toggleable structure.
+      //
+      // The logic within HitareaMixin ensures that if componentClass is input
+      // after calling getValidatedHitareaProps, it was either type of checkbox / radio
+      // all other requests for rendering an input button - will be rendered using
+      // a `<button>` since type="submit" and type="reset" work the same in that element.
+      //
+      return this.renderCheckboxRadioLabelAsBtn(validatedProps);
+    }
+
+    return (
+      React.createElement(ButtonComponent, React.__spread({onClick: this.handleClick},        
+                       validatedProps, 
+                       {className: this.getBtnClasses(validatedProps)}), 
+        this.props.children
+      )
+    );
+  },
+
+  renderCheckboxRadioLabelAsBtn: function (validatedProps) {
+    return (
+      React.createElement("label", React.__spread({onClick: this.handleClick},        
+             validatedProps, 
+             {className: this.getBtnClasses(validatedProps), 
+             type: null, 
+             name: null, 
+             value: null, 
+             checked: null, 
+             readOnly: null, 
+             onChange: null, 
+             ref: validatedProps.buttonRef}), 
+        React.createElement("input", {id: validatedProps.inputId, 
+               name: validatedProps.name, 
+               type: validatedProps.type, 
+               value: validatedProps.value, 
+               checked: validatedProps.checked, 
+               defaultChecked: validatedProps.defaultChecked, 
+               readOnly: validatedProps.readOnly, 
+               onChange: validatedProps.onChange, 
+               // only need this prop on the parent label
+               "aria-selected": null, 
+               ref: validatedProps.inputRef}), 
+        this.props.children
+      )
+    );
   },
 
   render: function () {
-    var classes = this.props.navDropdown ? {} : this.getWsClassSet();
+    var validatedProps = this.getValidatedHitareaProps(this.props);
 
-    classes['active'] = this.props.active;
-    classes['btn-block'] = this.props.block;
-    classes['no-text'] = this.props.noText;
-    classes['pull-right'] = this.props.pullRight;
-    classes['btn-callout'] = this.props.callout;
+    if (validatedProps.navItem) {
+      var liClasses = {
+        'nav-item': true,
+        'active': this.isActiveHitarea(validatedProps)
+      };
 
-    if (this.props.navItem) {
-      return this.renderNavItem(classes);
+      return (
+        React.createElement("li", {className: classSet(liClasses)}, 
+          this.renderBtn(validatedProps)
+        )
+      );
     }
 
-    return this[this.renderFuncName()](classes);
-  },
-
-  renderFuncName: function () {
-    return this.props.href || this.props.target || this.props.onSelect ?
-      'renderAnchor' : 'renderButton';
-  },
-
-  renderAnchor: function (classes) {
-
-    var Component = this.props.componentClass || 'a';
-    classes['disabled'] = this.props.disabled;
-
-    return (
-      React.createElement(Component, React.__spread({}, 
-        this.props, 
-        {type: null, 
-        className: joinClasses(this.props.className, classSet(classes)), 
-        role: "button"}), 
-        this.props.children
-      )
-    );
-  },
-
-  renderButton: function (classes) {
-    var Component = this.props.componentClass || 'button';
-
-    return (
-      React.createElement(Component, React.__spread({}, 
-        this.props, 
-        {className: joinClasses(this.props.className, classSet(classes))}), 
-        this.props.children
-      )
-    );
-  },
-
-  renderNavItem: function (classes) {
-    var liClasses = {
-      active: this.props.active
-    };
-
-    return (
-      React.createElement("li", {className: classSet(liClasses)}, 
-        this[this.renderFuncName()](classes)
-      )
-    );
+    return this.renderBtn(validatedProps);
   }
 });
 
@@ -2940,12 +3289,638 @@ module.exports = CollapsibleNav;
 
 });
 
-define('DropdownStateMixin',['require','exports','module','react','./utils/EventListener'],function (require, exports, module) {var React = require('react');
-var EventListener = require('./utils/EventListener');
+define('utils/generateGuid',['require','exports','module'],function (require, exports, module) {/**
+ * Generates a random guid ideal for DOM elements that require `id` attributes
+ * in order to be references for accessibility by something like `aria-labelledby`.
+ *
+ * @param {number} [length=1] How many groups of 4 char/digit strings you want
+ * @return {string}
+ */
+var generateGuid = function (length) {
+  length = length || 1;
+
+  var _s4 = function () {
+    return (((1+Math.random())*0x10000)|0).toString(16).substring(1);
+  };
+
+  var _guid = '';
+
+  for (var i = 0; i < length; i++) {
+    _guid += _s4();
+  }
+
+  return _guid;
+};
+
+module.exports = generateGuid;
+
+});
+
+define('utils/stripCssUnit',['require','exports','module'],function (require, exports, module) {/**
+ * Strips CSS units from a given value and returns the numeric portion of the string.
+ * If no CSS unit is found within the given value, it will simply return the value.
+ *
+ * @param value
+ * @return {string} Unit-less value string
+ */
+var stripCssUnit = function(value) {
+  return String(value).replace(/(\d)(?:em|ex|rem|vh|vw|vmin|vmax|%|px|cm|mm|in|pt|pc|ch)$/, '$1');
+};
+
+module.exports = stripCssUnit;
+
+});
+
+define('utils/isValidCssNumericValue',['require','exports','module','./stripCssUnit'],function (require, exports, module) {var stripCssUnit = require('./stripCssUnit');
 
 /**
- * Checks whether a node is within
- * a root nodes tree
+ * Determines if a value will produce a valid CSS style for offset / size properties.
+ *
+ * @param value
+ * @return {bool}
+ */
+var isValidCssNumericValue = function (value) {
+  if (typeof(value) === 'number') {
+    return true;
+  } else if (!!value) {
+    // value is truthy, but is it a string that can be interpreted as an offset value?
+    return !isNaN(stripCssUnit(value));
+  } else {
+    // value is falsy
+    return false;
+  }
+};
+
+module.exports = isValidCssNumericValue;
+
+});
+
+define('utils/CustomPropTypes',['require','exports','module','react','./isValidCssNumericValue'],function (require, exports, module) {var React = require('react');
+var isValidCssNumericValue = require('./isValidCssNumericValue');
+
+var ANONYMOUS = '<<anonymous>>';
+
+var CustomPropTypes = {
+  /**
+   * Checks whether a prop provides a DOM element
+   *
+   * The element can be provided in two forms:
+   * - Directly passed
+   * - Or passed an object which has a `getDOMNode` method which will return the required DOM element
+   *
+   * @param props
+   * @param propName
+   * @param componentName
+   * @returns {Error|undefined}
+   */
+  mountable: createMountableChecker(),
+  cssNumeric: createCssNumericChecker()
+};
+
+/**
+ * Create chain-able isRequired validator
+ *
+ * Largely copied directly from:
+ *  https://github.com/facebook/react/blob/0.11-stable/src/core/ReactPropTypes.js#L94
+ */
+function createChainableTypeChecker(validate) {
+  function checkType(isRequired, props, propName, componentName) {
+    componentName = componentName || ANONYMOUS;
+    if (props[propName] == null) {
+      if (isRequired) {
+        return new Error(
+          'Required prop `' + propName + '` was not specified in ' +
+            '`' + componentName + '`.'
+        );
+      }
+    } else {
+      return validate(props, propName, componentName);
+    }
+  }
+
+  var chainedCheckType = checkType.bind(null, false);
+  chainedCheckType.isRequired = checkType.bind(null, true);
+
+  return chainedCheckType;
+}
+
+function createMountableChecker() {
+  function validate(props, propName, componentName) {
+    if (typeof props[propName] !== 'object' ||
+      typeof props[propName].getDOMNode !== 'function' && props[propName].nodeType !== 1) {
+      return new Error(
+        'Invalid prop `' + propName + '` supplied to ' +
+          '`' + componentName + '`, expected a DOM element or an object that has a `getDOMNode` method'
+      );
+    }
+  }
+
+  return createChainableTypeChecker(validate);
+}
+
+function createCssNumericChecker() {
+  function validate(props, propName, componentName) {
+    var propValue = props[propName];
+
+    if (!isValidCssNumericValue(propValue)) {
+      var propValueForErrMsg = (propValue === '') ? '[Empty String]' : propValue;
+
+      return new Error(
+        'Invalid prop `' + propName + '` supplied to ' +
+        '`' + componentName + '`, expected a valid numeric CSS property value, was ' + propValueForErrMsg
+      );
+    }
+  }
+
+  return createChainableTypeChecker(validate);
+}
+
+module.exports = CustomPropTypes;
+
+});
+
+define('OverlayContainerMixin',['require','exports','module','react','./utils/CustomPropTypes'],function (require, exports, module) {/*global document */
+var React = require('react');
+var CustomPropTypes = require('./utils/CustomPropTypes');
+
+module.exports = {
+  propTypes: {
+    container: React.PropTypes.oneOfType([
+      CustomPropTypes.mountable,
+      React.PropTypes.node,
+      React.PropTypes.element
+    ])
+  },
+
+  getDefaultProps: function () {
+    return {
+      container: {
+        // Provide `getDOMNode` fn mocking a React component API. The `document.body`
+        // reference needs to be contained within this function so that it is not accessed
+        // in environments where it would not be defined, e.g. nodejs. Equally this is needed
+        // before the body is defined where `document.body === null`, this ensures
+        // `document.body` is only accessed after componentDidMount.
+        getDOMNode: function getDOMNode() {
+          return document.body;
+        }
+      }
+    };
+  },
+
+  /**
+   * Utility fn used by FadeMixin and OverlayMixin to
+   * safely and reliably access the HTML DOM Node that
+   * represents a WSR component's `container` React prop.
+   *
+   * @since 2.1.0
+   * @return {HTMLElement}
+   */
+  getContainerDOMNode: function () {
+    var container = document.body;
+    var containerIsDOMNode = false;
+
+    if (this.props.container) {
+      containerIsDOMNode = this.props.container.getDOMNode;
+      container = containerIsDOMNode ? this.props.container.getDOMNode() : this.props.container;
+    }
+
+    return container;
+  }
+};
+
+});
+
+define('FadeMixin',['require','exports','module','./OverlayContainerMixin'],function (require, exports, module) {/*global document */
+var OverlayContainerMixin = require('./OverlayContainerMixin');
+
+// TODO: listen for onTransitionEnd to remove el
+function getElementsAndSelf (root, classes){
+  var els = root.querySelectorAll('.' + classes.join('.'));
+
+  els = [].map.call(els, function(e){ return e; });
+
+  for(var i = 0; i < classes.length; i++){
+    if( !root.className.match(new RegExp('\\b' +  classes[i] + '\\b'))){
+      return els;
+    }
+  }
+  els.unshift(root);
+  return els;
+}
+
+module.exports = {
+  mixins: [OverlayContainerMixin],
+
+  _fadeIn: function () {
+    var els;
+
+    if (this.isMounted()) {
+      els = getElementsAndSelf(this.getDOMNode(), ['fade']);
+
+      if (els.length) {
+        els.forEach(function (el) {
+          el.className += ' in';
+        });
+      }
+    }
+  },
+
+  _fadeOut: function () {
+    var els = getElementsAndSelf(this._fadeOutEl, ['fade', 'in']);
+
+    if (els.length) {
+      els.forEach(function (el) {
+        el.className = el.className.replace(/\bin\b/, '');
+      });
+    }
+
+    setTimeout(this._handleFadeOutEnd, 300);
+  },
+
+  _handleFadeOutEnd: function () {
+    if (this._fadeOutEl && this._fadeOutEl.parentNode) {
+      this._fadeOutEl.parentNode.removeChild(this._fadeOutEl);
+    }
+  },
+
+  componentDidMount: function () {
+    if (document.querySelectorAll) {
+      // Firefox needs delay for transition to be triggered
+      setTimeout(this._fadeIn, 20);
+    }
+  },
+
+  componentWillUnmount: function () {
+    var els = getElementsAndSelf(this.getDOMNode(), ['fade']);
+
+    if (els.length) {
+      this._fadeOutEl = document.createElement('div');
+      this.getContainerDOMNode().appendChild(this._fadeOutEl);
+      this._fadeOutEl.appendChild(this.getDOMNode().cloneNode(true));
+      // Firefox needs delay for transition to be triggered
+      setTimeout(this._fadeOut, 20);
+    }
+  }
+};
+
+});
+
+define('DialogMixin',['require','exports','module','react','./utils/joinClasses','./utils/classSet','./utils/cloneWithProps','./utils/generateGuid','./utils/isValidCssNumericValue','./utils/ComponentUsageWarning','./WebSkinMixin','./FadeMixin','./utils/EventListener'],function (require, exports, module) {var React = require('react');
+var joinClasses = require('./utils/joinClasses');
+var classSet = require('./utils/classSet');
+var cloneWithProps = require('./utils/cloneWithProps');
+var generateGuid = require('./utils/generateGuid');
+var isValidCssNumericValue = require('./utils/isValidCssNumericValue');
+var ComponentUsageWarning = require('./utils/ComponentUsageWarning');
+var WebSkinMixin = require('./WebSkinMixin');
+var FadeMixin = require('./FadeMixin');
+var EventListener = require('./utils/EventListener');
+
+
+// TODO:
+// - Add `modal-body` div if only one child passed in that doesn't already have it
+// - Tests
+
+module.exports = {
+  mixins: [WebSkinMixin, FadeMixin],
+
+  propTypes: {
+    /// A 'floating' type dialog can be resized, dragged, and the body is not "frozen" when the dialog is open
+    /// A 'modal' type dialog is a fixed size, cannot be moved, and the body is "frozen" when the dialog is open
+    dialogType: React.PropTypes.oneOf(['floating', 'modal']),
+    title: React.PropTypes.node,
+    /// Adds the `.sr-only` CSS class to the title so that
+    /// it can be visually hidden without losing a descriptive
+    /// title linked to the dialog itself via the `aria-labelledby` attribute
+    /// @see https://api.atl.workiva.net/WebSkin/docs/build/html/css/#helper-classes-sr
+    hideTitle: React.PropTypes.bool,
+    closeButton: React.PropTypes.bool,
+    animation: React.PropTypes.bool,
+    onRequestHide: React.PropTypes.func.isRequired,
+    /// The node type for `.modal-content`
+    contentComponentClass: React.PropTypes.node
+  },
+
+  getDefaultProps: function () {
+    return {
+      wsClass: 'modal',
+      closeButton: true,
+      contentComponentClass: 'div'
+    };
+  },
+
+  getInitialState: function () {
+    return {
+      id: 'dialog_' + generateGuid()
+    };
+  },
+
+  /**
+   * @param {string} msg
+   * @param {object} [props=this.props]
+   * @returns {Warning}
+   * @private
+   */
+  _warnAboutElementUsage: function(msg, props) {
+    props = props || this.props;
+
+    return ComponentUsageWarning(msg, props);
+  },
+
+  /**
+   * Main renderer for dialog / modal dialog components.
+   *
+   * @return {XML}
+   */
+  render: function () {
+    // Props for the dialog wrapper (`.modal`)
+    var wrapperStyle = {display: 'block'};
+    var wrapperClasses = {
+      'modal': this.props.dialogType === 'modal',
+      'dialog-floating-wrapper': this.props.dialogType !== 'modal',
+      'fade': this.props.animation,
+      'slide': this.props.animation,
+      'in': !this.props.animation || !document.querySelectorAll
+    };
+
+    // Props for the dialog itself (`.modal-dialog`)
+    var dialogClasses = this.getWsClassSet();
+    delete dialogClasses.modal;
+    dialogClasses['modal-dialog'] = true;
+
+    // Props for the dialog content (`.modal-content`)
+    var ContentComponent = this.props.contentComponentClass;
+
+    var dialogId = this.props.id || this.state.id;
+    var dialogTitleId = this.generateDialogTitleId(dialogId);
+
+    var markup = (
+      React.createElement("div", React.__spread({role: "dialog"}, 
+           this.props, 
+           {id: dialogId, 
+           "aria-labelledby": dialogTitleId, 
+           title: null, 
+           tabIndex: "-1", 
+           style: wrapperStyle, 
+           className: joinClasses(this.props.className, classSet(wrapperClasses)), 
+           onClick: this.props.backdrop === true ? this.handleBackdropClick : null, 
+           ref: "modal"}), 
+        React.createElement("div", {role: "document", 
+             className: classSet(dialogClasses), 
+             style: this.positionAndSizeDialog(), 
+             ref: "dialog"}, 
+          React.createElement(ContentComponent, {className: "modal-content", ref: "dialog-content"}, 
+            this.renderHeader(dialogTitleId), 
+            this.props.children
+          )
+        )
+      )
+    );
+
+    var shouldRenderBackdrop = this.props.backdrop && this.props.dialogType === 'modal';
+
+    return shouldRenderBackdrop ?
+      this.renderBackdrop(markup) : markup;
+  },
+
+  /**
+   * Renderer used for the header of a dialog.
+   *
+   * @param {String} dialogTitleId
+   * @return {XML}
+   */
+  renderHeader: function (dialogTitleId) {
+    var closeButton;
+    if (this.props.closeButton) {
+      closeButton = (
+        React.createElement("button", {type: "button", className: "close", onClick: this.props.onRequestHide}, 
+          React.createElement("i", {"aria-hidden": "true"}, "×"), 
+          React.createElement("span", {className: "sr-only"}, "Close")
+        )
+      );
+    }
+
+    var headerClasses = {
+      'modal-header': true,
+      'modal-header-title-hidden': !this.isTitleVisible()
+    };
+    var style = this.props.wsStyle;
+
+    headerClasses['bg-' + style] = style;
+    headerClasses['text-' + style] = style;
+
+    return (
+      React.createElement("div", {className: classSet(headerClasses)}, 
+        closeButton, 
+        this.renderTitle(dialogTitleId)
+      )
+    );
+  },
+
+  /**
+   * Renderer used for the title element within the header of a dialog.
+   *
+   * @param {String} dialogTitleId
+   * @return {XML} The markup for the dialog title
+   */
+  renderTitle: function (dialogTitleId) {
+    if (!this.props.title) {
+      this._warnAboutElementUsage('Dialogs should always have a title for accessibility purposes. If you want to render a dialog with no visible header, set the `hideTitle` prop to true, while still providing a descriptive title value.');
+    }
+
+    var titleClasses = {
+      'modal-title': true,
+      'sr-only': !this.isTitleVisible()
+    };
+
+    var titleElem = null;
+
+    if (React.isValidElement(this.props.title)) {
+      // If a non-string title is used, clone it so that
+      // we can apply the required CSS class for styling
+      // and id attribute for accessibility
+      titleElem = cloneWithProps(
+        this.props.title,
+        {
+          className: classSet(titleClasses),
+          id: dialogTitleId
+        }
+      );
+    } else {
+      titleElem = (
+        React.createElement("h4", {id: dialogTitleId, className: classSet(titleClasses)}, 
+          this.props.title || 'Dialog'
+        )
+      );
+    }
+
+    return titleElem;
+  },
+
+  /**
+   * Renderer used only if the `dialogType` prop is "modal", and the `backdrop` prop is truthy.
+   *
+   * @param {XML} markup The dialog markup that will be rendered above the backdrop
+   * @return {XML} The markup for the backdrop and the dialog, wrapped in a parent `div`
+   */
+  renderBackdrop: function (markup) {
+    var backdropClasses = {
+      'backdrop': true,
+      'modal-backdrop': true,
+      /// Required class to get the correct opacity on the backdrop
+      'fade': true
+    };
+
+    backdropClasses[this.props.backdropClassName] = this.props.backdropClassName;
+    backdropClasses['in'] = !this.props.animation || !document.querySelectorAll;
+
+    return (
+      // Add a unique class on the outer div so its easy to find in the markup
+      // instead of just looking like another div in a sea of react divs.
+      React.createElement("div", {className: "wsr-modal"}, 
+        React.createElement("div", {className: classSet(backdropClasses), ref: "backdrop", onClick: this.handleBackdropClick}), 
+        markup
+      )
+    );
+  },
+
+  /**
+   * Utility that determines whether or not the title within a dialog is visible or not.
+   *
+   * @return {boolean}
+   */
+  isTitleVisible: function () {
+    return this.props.title && !this.props.hideTitle;
+  },
+
+  /**
+   * Generate unique ID for the title element of the dialog based on the
+   * unique ID of the dialog itself, so that we can add the `aria-labelledby`
+   * accessibility attribute.
+   *
+   * @param {String} dialogId
+   * @return {string}
+   */
+  generateDialogTitleId: function (dialogId) {
+    return dialogId + '_title';
+  },
+
+  /**
+   * Helper fn used by {@link module.exports.DialogMixin.positionAndSizeDialog()}
+   *
+   * @return {number|null}
+   * @private
+   */
+  _horizontallyCenterDialog: function () {
+    return this.props.width ? Math.round(this.props.width / -2) : null;
+  },
+
+  /**
+   * Helper method that sets some intelligent defaults for CSS positioning based on value
+   * of the container prop, but always allow consumer explicitly position prop value.
+   *
+   * @return {string|null}
+   * @private
+   */
+  _getCssPositionValue: function () {
+    var position = null;
+    var hasCustomPosition = isValidCssNumericValue(this.props.x) || isValidCssNumericValue(this.props.y);
+
+    if (!this.props.position) {
+      var containerDOMNode = null;
+      try {
+        // wrap in a try catch to prevent headless browser testing failure
+        containerDOMNode = this.getContainerDOMNode();
+      } catch (err) {
+        containerDOMNode = document.body
+      }
+
+      if (containerDOMNode !== document.body && hasCustomPosition) {
+        // Most likely a "contained" dialog
+        if (!this.props.position) {
+          this._warnAboutElementUsage('You are using a custom `container` for your dialog, but have not declared a custom position value. The default position applied to the dialog is `fixed`, we recommend setting the `position` prop to `absolute`, assuming your container node has relative positioning applied.\nContainer:');
+          console.log(this.props.container);
+        }
+      }
+    } else {
+      position = this.props.position;
+    }
+
+    return position;
+  },
+
+  /**
+   * Creates a CSS inline style value (object) for floating dialogs only
+   *
+   * @return {object|null}
+   */
+  positionAndSizeDialog: function () {
+    if (this.props.width) {
+      this._warnAboutElementUsage('The inline CSS width of ' + this.props.width + 'px that WSR places on the rendered Dialog component overrides default Web Skin responsive sizing, and may not be ideal for all viewport widths. Be sure that your implementation updates the width prop as the viewport width changes.');
+    }
+
+    if (this.props.dialogType !== 'floating' &&
+        (this.props.position || this.props.width || this.props.height || this.props.x || this.props.y)) {
+      this._warnAboutElementUsage('Custom size and position options are not available for "modal" dialog types. No inline CSS styles will be produced by WSR. Try using the `Dialog` component instead of the `Modal` component.');
+    }
+
+    var dialogStyle = {
+      position: this._getCssPositionValue(),
+      width: this.props.width,
+      height: this.props.height,
+      left: this.props.x,
+      top: this.props.y,
+      marginLeft: isValidCssNumericValue(this.props.x) ? 0 : this._horizontallyCenterDialog(),
+      marginTop: isValidCssNumericValue(this.props.y) ? 0 : null,
+      marginBottom: isValidCssNumericValue(this.props.y) ? 0 : null
+    };
+
+    return this.props.dialogType === 'floating' ? dialogStyle : null;
+  }
+};
+
+});
+
+define('Dialog',['require','exports','module','react','./utils/joinClasses','./utils/classSet','./DialogMixin','./utils/EventListener','./utils/CustomPropTypes'],function (require, exports, module) {/* global document:false */
+
+var React = require('react');
+var joinClasses = require('./utils/joinClasses');
+var classSet = require('./utils/classSet');
+var DialogMixin = require('./DialogMixin');
+var EventListener = require('./utils/EventListener');
+var CustomPropTypes = require('./utils/CustomPropTypes');
+var Dialog = React.createClass({displayName: "Dialog",
+  mixins: [DialogMixin],
+
+  propTypes: {
+    /// By default, Web Skin CSS applies fixed positioning
+    /// to the `.dialog-floating-wrapper` elem.
+    /// Use this prop to override those defaults
+    position: React.PropTypes.oneOf(['relative', 'absolute']),
+    /// Modifies the CSS `width` property value for the dialog.
+    width: CustomPropTypes.cssNumeric,
+    /// Modifies the CSS `height` property value for the dialog.
+    height: CustomPropTypes.cssNumeric,
+    /// Modifies the CSS `left` property value for the dialog.
+    x: CustomPropTypes.cssNumeric,
+    /// Modifies the CSS `top` property value for the dialog.
+    y: CustomPropTypes.cssNumeric
+  },
+
+  getDefaultProps: function () {
+    return {
+      dialogType: 'floating',
+      animation: false
+    };
+  }
+});
+
+module.exports = Dialog;
+
+});
+
+define('utils/isNodeInRoot',['require','exports','module'],function (require, exports, module) {/**
+ * Checks whether a node is within a root node's tree
  *
  * @param {DOMElement} node
  * @param {DOMElement} root
@@ -2961,6 +3936,14 @@ function isNodeInRoot(node, root) {
 
   return false;
 }
+
+module.exports = isNodeInRoot;
+
+});
+
+define('DropdownStateMixin',['require','exports','module','react','./utils/EventListener','./utils/isNodeInRoot'],function (require, exports, module) {var React = require('react');
+var EventListener = require('./utils/EventListener');
+var isNodeInRoot = require('./utils/isNodeInRoot');
 
 var DropdownStateMixin = {
   getInitialState: function () {
@@ -3020,6 +4003,7 @@ var DropdownStateMixin = {
 };
 
 module.exports = DropdownStateMixin;
+
 });
 
 define('DropdownMenu',['require','exports','module','react','./utils/joinClasses','./utils/classSet','./utils/cloneWithProps','./utils/createChainedFunction','./utils/ValidComponentChildren'],function (require, exports, module) {var React = require('react');
@@ -3032,6 +4016,8 @@ var ValidComponentChildren = require('./utils/ValidComponentChildren');
 
 var DropdownMenu = React.createClass({displayName: "DropdownMenu",
   propTypes: {
+    /// Set by parent DropdownButton based on state.open
+    isOpen:   React.PropTypes.bool,
     pullRight: React.PropTypes.bool,
     pullLeft: React.PropTypes.bool,
     onSelect: React.PropTypes.func
@@ -3059,6 +4045,7 @@ var DropdownMenu = React.createClass({displayName: "DropdownMenu",
       child,
       {
         className: 'menu-item',
+        isOpen: this.props.isOpen,
         // Capture onSelect events
         onSelect: createChainedFunction(child.props.onSelect, this.props.onSelect),
 
@@ -3184,11 +4171,18 @@ var DropdownButton = React.createClass({displayName: "DropdownButton",
     return this[renderMethod]([
       React.createElement(Button, React.__spread({}, 
         this.props, 
-        {ref: "dropdownButton", 
+        {isOpen: this.state.open, 
+        ref: "dropdownButton", 
         className: joinClasses(this.props.className, classSet(classes)), 
         onClick: this.handleDropdownClick, 
         key: 0, 
         navDropdown: this.props.navItem, 
+        //
+        // nullify navItem prop since we need to wrap the <li> around
+        // both the button AND the menu in this case, and if we were
+        // to send the navItem prop to the Button component, we'd
+        // get the button wrapped in it's own <li> as well.
+        //
         navItem: null, 
         title: null, 
         pullRight: null, 
@@ -3198,6 +4192,7 @@ var DropdownButton = React.createClass({displayName: "DropdownButton",
         this.renderIndicatorIcon()
       ),
       React.createElement(DropdownMenu, {
+        isOpen: this.state.open, 
         ref: "menu", 
         "aria-labelledby": this.props.id, 
         pullRight: !this.props.menuPullLeft && (this.props.pullRight || this.props.menuPullRight), 
@@ -3280,8 +4275,8 @@ var DropdownButton = React.createClass({displayName: "DropdownButton",
     );
   },
 
-  handleDropdownClick: function (e) {
-    e.preventDefault();
+  handleDropdownClick: function (event) {
+    event.preventDefault();
 
     this.setDropdownState(!this.state.open);
   },
@@ -3296,78 +4291,6 @@ var DropdownButton = React.createClass({displayName: "DropdownButton",
 });
 
 module.exports = DropdownButton;
-
-});
-
-define('FadeMixin',['require','exports','module'],function (require, exports, module) {/*global document */
-// TODO: listen for onTransitionEnd to remove el
-function getElementsAndSelf (root, classes){
-  var els = root.querySelectorAll('.' + classes.join('.'));
-
-  els = [].map.call(els, function(e){ return e; });
-
-  for(var i = 0; i < classes.length; i++){
-    if( !root.className.match(new RegExp('\\b' +  classes[i] + '\\b'))){
-      return els;
-    }
-  }
-  els.unshift(root);
-  return els;
-}
-
-module.exports = {
-  _fadeIn: function () {
-    var els;
-
-    if (this.isMounted()) {
-      els = getElementsAndSelf(this.getDOMNode(), ['fade']);
-
-      if (els.length) {
-        els.forEach(function (el) {
-          el.className += ' in';
-        });
-      }
-    }
-  },
-
-  _fadeOut: function () {
-    var els = getElementsAndSelf(this._fadeOutEl, ['fade', 'in']);
-
-    if (els.length) {
-      els.forEach(function (el) {
-        el.className = el.className.replace(/\bin\b/, '');
-      });
-    }
-
-    setTimeout(this._handleFadeOutEnd, 300);
-  },
-
-  _handleFadeOutEnd: function () {
-    if (this._fadeOutEl && this._fadeOutEl.parentNode) {
-      this._fadeOutEl.parentNode.removeChild(this._fadeOutEl);
-    }
-  },
-
-  componentDidMount: function () {
-    if (document.querySelectorAll) {
-      // Firefox needs delay for transition to be triggered
-      setTimeout(this._fadeIn, 20);
-    }
-  },
-
-  componentWillUnmount: function () {
-    var els = getElementsAndSelf(this.getDOMNode(), ['fade']),
-        container = (this.props.container && this.props.container.getDOMNode()) || document.body;
-
-    if (els.length) {
-      this._fadeOutEl = document.createElement('div');
-      container.appendChild(this._fadeOutEl);
-      this._fadeOutEl.appendChild(this.getDOMNode().cloneNode(true));
-      // Firefox needs delay for transition to be triggered
-      setTimeout(this._fadeOut, 20);
-    }
-  }
-};
 
 });
 
@@ -3407,14 +4330,16 @@ module.exports = Grid;
 
 });
 
-define('Input',['require','exports','module','react','./constants','./utils/joinClasses','./utils/classSet','./Button','./utils/cloneWithProps'],function (require, exports, module) {var React = require('react');
+define('Input',['require','exports','module','react','./constants','./utils/joinClasses','./utils/classSet','./Button','./utils/cloneWithProps','./HitareaMixin'],function (require, exports, module) {var React = require('react');
 var constants = require('./constants');
 var joinClasses = require('./utils/joinClasses');
 var classSet = require('./utils/classSet');
 var Button = require('./Button');
 var cloneWithProps = require('./utils/cloneWithProps');
+var HitareaMixin = require('./HitareaMixin');
 
 var Input = React.createClass({displayName: "Input",
+  mixins: [HitareaMixin],
 
   propTypes: {
     id: function(props) {
@@ -3443,7 +4368,7 @@ var Input = React.createClass({displayName: "Input",
         return;
       }
 
-      return React.PropTypes.oneOf(['success', 'warning', 'error']).apply(null, arguments);
+      return React.PropTypes.oneOf(['success', 'warning', 'error', null, false]).apply(null, arguments);
     },
     hasFeedback: React.PropTypes.bool,
     /// Whether or not to wrap the instance in it's own `<div class="form-group">`
@@ -3451,6 +4376,10 @@ var Input = React.createClass({displayName: "Input",
     groupClassName: React.PropTypes.string,
     wrapperClassName: React.PropTypes.string,
     labelClassName: React.PropTypes.string,
+    /// Adds the `.sr-only` CSS class to the label so that
+    /// it can be visually hidden without losing accessibility
+    /// @see https://api.atl.workiva.net/WebSkin/docs/build/html/css/#helper-classes-sr
+    hideLabel: React.PropTypes.bool,
     disabled: React.PropTypes.bool
   },
 
@@ -3631,6 +4560,11 @@ var Input = React.createClass({displayName: "Input",
   },
 
   renderCheckboxandRadioWrapper: function (children) {
+    var validatedProps = this.getValidatedHitareaProps(this.props);
+    if (!this.props.label) {
+      this._warnAboutElementUsage(this.props.type + ' controls should always have a label for accessibility purposes. If you want to render a ' + this.props.type + ' with no visible label, set the `hideLabel` prop to true, while still providing a descriptive label value.');
+    }
+
     var classes = {
       'checkbox': this.props.type === 'checkbox',
       'radio': this.props.type === 'radio'
@@ -3657,10 +4591,14 @@ var Input = React.createClass({displayName: "Input",
     };
     classes[this.props.labelClassName] = this.props.labelClassName;
 
-    return this.props.label ? (
-      React.createElement("label", {htmlFor: this.props.id, className: classSet(classes), key: "label"}, 
+    var shouldRenderLabelElement = this.isCheckboxOrRadio() || this.props.label;
+
+    return shouldRenderLabelElement ? (
+      React.createElement("label", {htmlFor: this.props.id, className: classSet(classes), key: "label", ref: "label"}, 
         children, 
-        this.props.label
+        React.createElement("span", {className: this.props.hideLabel ? 'sr-only label-content' : 'label-content'}, 
+          this.props.label || ''
+        )
       )
     ) : children;
   },
@@ -3897,26 +4835,22 @@ module.exports = ListGroup;
 
 });
 
-define('ListGroupItem',['require','exports','module','react','./utils/joinClasses','./WebSkinMixin','./utils/classSet','./utils/cloneWithProps','./utils/ValidComponentChildren'],function (require, exports, module) {var React = require('react');
+define('ListGroupItem',['require','exports','module','react','./utils/joinClasses','./WebSkinMixin','./HitareaMixin','./utils/classSet','./utils/cloneWithProps','./utils/ValidComponentChildren'],function (require, exports, module) {var React = require('react');
 var joinClasses = require('./utils/joinClasses');
 var WebSkinMixin = require('./WebSkinMixin');
+var HitareaMixin = require('./HitareaMixin');
 var classSet = require('./utils/classSet');
 var cloneWithProps = require('./utils/cloneWithProps');
 
 var ValidComponentChildren = require('./utils/ValidComponentChildren');
 
 var ListGroupItem = React.createClass({displayName: "ListGroupItem",
-  mixins: [WebSkinMixin],
+  mixins: [WebSkinMixin, HitareaMixin],
 
   propTypes: {
-    wsStyle: React.PropTypes.oneOf(['danger','info','success','warning']),
-    active: React.PropTypes.any,
-    disabled: React.PropTypes.any,
+    wsStyle: React.PropTypes.oneOf(['danger','info','success','warning', null, false]),
     header: React.PropTypes.node,
-    onClick: React.PropTypes.func,
-    eventKey: React.PropTypes.any,
-    href: React.PropTypes.string,
-    target: React.PropTypes.string
+    onClick: React.PropTypes.func
   },
 
   getDefaultProps: function () {
@@ -3927,18 +4861,26 @@ var ListGroupItem = React.createClass({displayName: "ListGroupItem",
 
   render: function () {
     var classes = this.getWsClassSet();
+    var isClickable = this.props.href || this.props.target || this.props.onClick;
 
-    classes['active'] = this.props.active;
-    classes['disabled'] = this.props.disabled;
+    if (!isClickable && this.props.componentClass) {
+      isClickable = this.props.componentClass.match(/\b(a|button|input)\b/);
+    }
 
-    if (this.props.href || this.props.target || this.props.onClick) {
-      return this.renderAnchor(classes);
+    if (isClickable) {
+      return this.renderHitarea(classes);
     } else {
       return this.renderSpan(classes);
     }
   },
 
   renderSpan: function (classes) {
+    classes = classes || {};
+
+    // List group items cannot be activated / disabled unless they have the hitarea CSS class
+    classes['hitarea active'] = this.props.active;
+    classes['hitarea disabled'] = this.props.disabled;
+
     return (
       React.createElement("span", React.__spread({},  this.props, {className: joinClasses(this.props.className, classSet(classes))}), 
         this.props.header ? this.renderStructuredContent() : this.props.children
@@ -3946,13 +4888,17 @@ var ListGroupItem = React.createClass({displayName: "ListGroupItem",
     );
   },
 
-  renderAnchor: function (classes) {
+  renderHitarea: function (classes) {
+    var validatedProps = this.getValidatedHitareaProps(this.props);
+    var HitareaComponent = validatedProps.componentClass;
+
+    classes = classes || {};
     classes['hitarea'] = true;
+
     return (
-      React.createElement("a", React.__spread({}, 
-        this.props, 
-        {className: joinClasses(this.props.className, classSet(classes))
-      }), 
+      React.createElement(HitareaComponent, React.__spread({onClick: this.handleClick},        
+                        validatedProps, 
+                        {className: joinClasses(validatedProps.className, classSet(classes))}), 
         this.props.header ? this.renderStructuredContent() : this.props.children
       )
     );
@@ -3989,59 +4935,72 @@ module.exports = ListGroupItem;
 
 });
 
-define('MenuItem',['require','exports','module','react','./utils/joinClasses','./utils/classSet'],function (require, exports, module) {var React = require('react');
+define('MenuItem',['require','exports','module','react','./utils/joinClasses','./utils/classSet','./HitareaMixin'],function (require, exports, module) {var React = require('react');
 var joinClasses = require('./utils/joinClasses');
 var classSet = require('./utils/classSet');
+var HitareaMixin = require('./HitareaMixin');
 
 var MenuItem = React.createClass({displayName: "MenuItem",
+  mixins: [HitareaMixin],
+
   propTypes: {
+    /// Set by DropdownMenu based on state of DropdownButton
+    isOpen:   React.PropTypes.bool,
     header:   React.PropTypes.bool,
     divider:  React.PropTypes.bool,
-    active:  React.PropTypes.bool,
-    disabled:  React.PropTypes.bool,
     checked:  React.PropTypes.bool,
-    href:     React.PropTypes.string,
-    title:    React.PropTypes.string,
-    target:    React.PropTypes.string,
-    onSelect: React.PropTypes.func,
-    eventKey: React.PropTypes.any
+    title:    React.PropTypes.string
   },
 
-  handleClick: function (e) {
-    if (this.props.onSelect) {
-      e.preventDefault();
-      this.props.onSelect(this.props.eventKey, this.props.href, this.props.target);
+  renderHitarea: function () {
+    var validatedProps = this.getValidatedHitareaProps(this.props, true);
+    var HitareaComponent = validatedProps.componentClass;
+
+    var hitareaClasses = {
+      'hitarea': true
+    };
+
+    // Remove menu-item class if it's present
+    if (validatedProps.className) {
+      validatedProps.className = validatedProps.className.replace('menu-item', '');
     }
-  },
 
-  renderAnchor: function () {
     return (
-      React.createElement("a", {onClick: this.handleClick, href: this.props.href, target: this.props.target, title: this.props.title, tabIndex: "-1", 
-         className: this.props.disabled ? "hitarea disabled" : "hitarea"}, 
+      React.createElement(HitareaComponent, React.__spread({
+        onClick: this.handleClick},        
+        validatedProps, 
+        {className: joinClasses(validatedProps.className, classSet(hitareaClasses)), 
+        active: null, 
+        divider: null, 
+        checked: null, 
+        tabIndex: this.props.isOpen ? '0' : '-1', 
+        // TODO: Change ref to 'hitarea' (breaking change)
+        ref: "anchor"}), 
         this.props.children
       )
     );
   },
 
   render: function () {
-    var classes = {
-        'menu-item': true,
-        'dropdown-header': this.props.header,
-        'divider': this.props.divider,
-        'active': this.props.active,
-        'checked': this.props.checked
-      };
-
     var children = null;
+
     if (this.props.header) {
       children = this.props.children;
     } else if (!this.props.divider) {
-      children = this.renderAnchor();
+      children = this.renderHitarea();
     }
 
+    var itemClasses = {
+      'menu-item': true,
+      'dropdown-header': this.props.header,
+      'divider': this.props.divider,
+      'active': this.props.active,
+      'checked': this.props.checked
+    };
+
     return (
-      React.createElement("li", React.__spread({},  this.props, {role: "presentation", title: null, href: null, 
-        className: joinClasses(this.props.className, classSet(classes))}), 
+      React.createElement("li", {role: "presentation", 
+          className: joinClasses(this.props.className, classSet(itemClasses))}, 
         children
       )
     );
@@ -4052,140 +5011,30 @@ module.exports = MenuItem;
 
 });
 
-define('Modal',['require','exports','module','react','./utils/joinClasses','./utils/classSet','./WebSkinMixin','./FadeMixin','./utils/EventListener'],function (require, exports, module) {/* global document:false */
+define('Modal',['require','exports','module','react','./utils/joinClasses','./utils/classSet','./DialogMixin','./utils/EventListener'],function (require, exports, module) {/* global document:false */
 
 var React = require('react');
 var joinClasses = require('./utils/joinClasses');
 var classSet = require('./utils/classSet');
-var WebSkinMixin = require('./WebSkinMixin');
-var FadeMixin = require('./FadeMixin');
+var DialogMixin = require('./DialogMixin');
 var EventListener = require('./utils/EventListener');
 
-
-// TODO:
-// - aria-labelledby
-// - Add `modal-body` div if only one child passed in that doesn't already have it
-// - Tests
-
 var Modal = React.createClass({displayName: "Modal",
-  mixins: [WebSkinMixin, FadeMixin],
+  mixins: [DialogMixin],
 
   propTypes: {
-    title: React.PropTypes.node,
     backdrop: React.PropTypes.oneOf(['static', true, false]),
     backdropClassName: React.PropTypes.string,
-    keyboard: React.PropTypes.bool,
-    closeButton: React.PropTypes.bool,
-    animation: React.PropTypes.bool,
-    onRequestHide: React.PropTypes.func.isRequired,
-    /// The node type for `.modal-content`
-    contentComponentClass: React.PropTypes.node
+    keyboard: React.PropTypes.bool
   },
 
   getDefaultProps: function () {
     return {
-      wsClass: 'modal',
+      dialogType: 'modal',
       backdrop: true,
       keyboard: true,
-      animation: true,
-      closeButton: true,
-      contentComponentClass: 'div'
+      animation: true
     };
-  },
-
-  render: function () {
-    var modalStyle = {display: 'block'};
-    var dialogClasses = this.getWsClassSet();
-    delete dialogClasses.modal;
-    dialogClasses['modal-dialog'] = true;
-
-    var ContentComponent = this.props.contentComponentClass;
-
-    var classes = {
-      'modal': true,
-      'fade': this.props.animation,
-      'slide': this.props.animation,
-      'in': !this.props.animation || !document.querySelectorAll
-    };
-
-    var modal = (
-      React.createElement("div", React.__spread({}, 
-        this.props, 
-        {title: null, 
-        tabIndex: "-1", 
-        role: "dialog", 
-        style: modalStyle, 
-        className: joinClasses(this.props.className, classSet(classes)), 
-        onClick: this.props.backdrop === true ? this.handleBackdropClick : null, 
-        ref: "modal"}), 
-        React.createElement("div", {className: classSet(dialogClasses), role: "document"}, 
-          React.createElement(ContentComponent, {className: "modal-content"}, 
-            this.props.title ? this.renderHeader() : null, 
-            this.props.children
-          )
-        )
-      )
-    );
-
-    return this.props.backdrop ?
-      this.renderBackdrop(modal) : modal;
-  },
-
-  renderBackdrop: function (modal) {
-    var classes = {
-      'backdrop': true,
-      'modal-backdrop': true,
-      /// Required class to get the correct opacity on the backdrop
-      'fade': true
-    };
-
-    classes[this.props.backdropClassName] = this.props.backdropClassName;
-    classes['in'] = !this.props.animation || !document.querySelectorAll;
-
-    var onClick = this.props.backdrop === true ?
-      this.handleBackdropClick : null;
-
-    return (
-      React.createElement("div", null, 
-        React.createElement("div", {className: classSet(classes), ref: "backdrop", onClick: onClick}), 
-        modal
-      )
-    );
-  },
-
-  renderHeader: function () {
-    var closeButton;
-    if (this.props.closeButton) {
-      closeButton = (
-          React.createElement("button", {type: "button", className: "close", onClick: this.props.onRequestHide}, 
-            React.createElement("i", {"aria-hidden": "true"}, "×"), 
-            React.createElement("span", {className: "sr-only"}, "Close")
-          )
-        );
-    }
-
-    var style = this.props.wsStyle;
-    var classes = {
-      'modal-header': true
-    };
-    classes['bg-' + style] = style;
-    classes['text-' + style] = style;
-
-    var className = classSet(classes);
-
-    return (
-      React.createElement("div", {className: className}, 
-        closeButton, 
-        this.renderTitle()
-      )
-    );
-  },
-
-  renderTitle: function () {
-    return (
-      React.isValidElement(this.props.title) ?
-        this.props.title : React.createElement("h4", {className: "modal-title"}, this.props.title)
-    );
   },
 
   iosClickHack: function () {
@@ -4196,12 +5045,23 @@ var Modal = React.createClass({displayName: "Modal",
     this.refs.backdrop.getDOMNode().onclick = function () {};
   },
 
+  disableContainerScroll: function () {
+    var container = this.getContainerDOMNode();
+
+    container.className += container.className.length ? ' modal-open' : 'modal-open';
+  },
+
+  enableContainerScroll: function () {
+    var container = this.getContainerDOMNode();
+
+    container.className = container.className.replace(/ ?modal-open/, '');
+  },
+
   componentDidMount: function () {
     this._onDocumentKeyupListener =
       EventListener.listen(document, 'keyup', this.handleDocumentKeyUp);
 
-    var container = (this.props.container && this.props.container.getDOMNode()) || document.body;
-    container.className += container.className.length ? ' modal-open' : 'modal-open';
+    this.disableContainerScroll();
 
     if (this.props.backdrop) {
       this.iosClickHack();
@@ -4216,20 +5076,20 @@ var Modal = React.createClass({displayName: "Modal",
 
   componentWillUnmount: function () {
     this._onDocumentKeyupListener.remove();
-    var container = (this.props.container && this.props.container.getDOMNode()) || document.body;
-    container.className = container.className.replace(/ ?modal-open/, '');
+
+    this.enableContainerScroll();
   },
 
-  handleBackdropClick: function (e) {
-    if (e.target !== e.currentTarget) {
+  handleBackdropClick: function (event) {
+    if (event.target !== event.currentTarget) {
       return;
     }
 
     this.props.onRequestHide();
   },
 
-  handleDocumentKeyUp: function (e) {
-    if (this.props.keyboard && e.keyCode === 27) {
+  handleDocumentKeyUp: function (event) {
+    if (this.props.keyboard && event.keyCode === 27) {
       this.props.onRequestHide();
     }
   }
@@ -4255,7 +5115,7 @@ var Nav = React.createClass({displayName: "Nav",
   mixins: [WebSkinMixin, CollapsibleMixin],
 
   propTypes: {
-    wsStyle: React.PropTypes.oneOf(['tabs','pills']),
+    wsStyle: React.PropTypes.oneOf(['tabs','pills', null, false]),
     stacked: React.PropTypes.bool,
     justified: React.PropTypes.bool,
     onSelect: React.PropTypes.func,
@@ -4516,32 +5376,42 @@ module.exports = Navbar;
 
 });
 
-define('NavItem',['require','exports','module','react','./utils/joinClasses','./utils/classSet','./WebSkinMixin'],function (require, exports, module) {var React = require('react');
+define('NavItem',['require','exports','module','react','./utils/joinClasses','./utils/classSet','./WebSkinMixin','./HitareaMixin'],function (require, exports, module) {var React = require('react');
 var joinClasses = require('./utils/joinClasses');
 var classSet = require('./utils/classSet');
 var WebSkinMixin = require('./WebSkinMixin');
+var HitareaMixin = require('./HitareaMixin');
 
 var NavItem = React.createClass({displayName: "NavItem",
-  mixins: [WebSkinMixin],
+  mixins: [WebSkinMixin, HitareaMixin],
 
   propTypes: {
-    onSelect: React.PropTypes.func,
-    active: React.PropTypes.bool,
     /// Used in nav-wizard nav variation to display a checkmark icon
     completed: React.PropTypes.bool,
-    disabled: React.PropTypes.bool,
-    href: React.PropTypes.string,
     title: React.PropTypes.string,
-    eventKey: React.PropTypes.any,
-    target: React.PropTypes.string,
     children: React.PropTypes.any
   },
 
-  getDefaultProps: function () {
-    return {
-      disabled: null,
-      active: false
-    }
+  renderHitarea: function () {
+    var validatedProps = this.getValidatedHitareaProps(this.props, true);
+    var HitareaComponent = validatedProps.componentClass;
+
+    var hitareaClasses = {
+      'hitarea': true
+    };
+
+    return (
+      React.createElement(HitareaComponent, React.__spread({
+        onClick: this.handleClick},        
+        validatedProps, 
+        {className: joinClasses(validatedProps.className, classSet(hitareaClasses)), 
+        active: null, 
+        completed: null, 
+        // TODO: Change ref to 'hitarea' (breaking change)
+        ref: "anchor"}), 
+        this.props.children
+      )
+    );
   },
 
   render: function () {
@@ -4551,20 +5421,7 @@ var NavItem = React.createClass({displayName: "NavItem",
       className: this.props.className
     };
 
-    this.props.className = 'hitarea';
-
-    var HitareaComponent = 'button';
-
-    if (this.props.href || this.props.target || this.props.onSelect) {
-      HitareaComponent = 'a';
-      this.props.className = this.props.disabled ? 'hitarea disabled' : 'hitarea';
-
-      if (this.props.href === '#') {
-        this.props.role = 'button';
-      }
-    }
-
-    var classes = {
+    var itemClasses = {
       'nav-item': true,
       'active': itemProps.active,
       'completed': itemProps.completed
@@ -4573,28 +5430,12 @@ var NavItem = React.createClass({displayName: "NavItem",
     var wizardArrow = this.props.wizard ? React.createElement("div", {className: "wizard-inner", "aria-hidden": "true"}, React.createElement("i", {className: "wizard-arrow"})) : null;
 
     return (
-      React.createElement("li", React.__spread({},  itemProps, {className: joinClasses(itemProps.className, classSet(classes))}), 
-        React.createElement(HitareaComponent, React.__spread({}, 
-          this.props, 
-          {active: null, 
-          completed: null, 
-          onClick: this.handleClick, 
-          ref: "anchor"}), 
-          this.props.children
-        ), 
+      React.createElement("li", {role: "presentation", 
+          className: joinClasses(itemProps.className, classSet(itemClasses))}, 
+        this.renderHitarea(), 
         wizardArrow
       )
     );
-  },
-
-  handleClick: function (e) {
-    if (this.props.onSelect) {
-      e.preventDefault();
-
-      if (!this.props.disabled) {
-        this.props.onSelect(this.props.eventKey, this.props.href, this.props.target);
-      }
-    }
   }
 });
 
@@ -4602,92 +5443,12 @@ module.exports = NavItem;
 
 });
 
-define('utils/CustomPropTypes',['require','exports','module','react'],function (require, exports, module) {var React = require('react');
-
-var ANONYMOUS = '<<anonymous>>';
-
-var CustomPropTypes = {
-  /**
-   * Checks whether a prop provides a DOM element
-   *
-   * The element can be provided in two forms:
-   * - Directly passed
-   * - Or passed an object which has a `getDOMNode` method which will return the required DOM element
-   *
-   * @param props
-   * @param propName
-   * @param componentName
-   * @returns {Error|undefined}
-   */
-  mountable: createMountableChecker()
-};
-
-/**
- * Create chain-able isRequired validator
- *
- * Largely copied directly from:
- *  https://github.com/facebook/react/blob/0.11-stable/src/core/ReactPropTypes.js#L94
- */
-function createChainableTypeChecker(validate) {
-  function checkType(isRequired, props, propName, componentName) {
-    componentName = componentName || ANONYMOUS;
-    if (props[propName] == null) {
-      if (isRequired) {
-        return new Error(
-          'Required prop `' + propName + '` was not specified in ' +
-            '`' + componentName + '`.'
-        );
-      }
-    } else {
-      return validate(props, propName, componentName);
-    }
-  }
-
-  var chainedCheckType = checkType.bind(null, false);
-  chainedCheckType.isRequired = checkType.bind(null, true);
-
-  return chainedCheckType;
-}
-
-function createMountableChecker() {
-  function validate(props, propName, componentName) {
-    if (typeof props[propName] !== 'object' ||
-      typeof props[propName].getDOMNode !== 'function' && props[propName].nodeType !== 1) {
-      return new Error(
-        'Invalid prop `' + propName + '` supplied to ' +
-          '`' + componentName + '`, expected a DOM element or an object that has a `getDOMNode` method'
-      );
-    }
-  }
-
-  return createChainableTypeChecker(validate);
-}
-
-module.exports = CustomPropTypes;
-});
-
-define('OverlayMixin',['require','exports','module','react','./utils/CustomPropTypes'],function (require, exports, module) {var React = require('react');
+define('OverlayMixin',['require','exports','module','react','./OverlayContainerMixin','./utils/CustomPropTypes'],function (require, exports, module) {var React = require('react');
+var OverlayContainerMixin = require('./OverlayContainerMixin');
 var CustomPropTypes = require('./utils/CustomPropTypes');
 
 module.exports = {
-  propTypes: {
-    container: CustomPropTypes.mountable
-  },
-
-  getDefaultProps: function () {
-    return {
-      container: {
-        // Provide `getDOMNode` fn mocking a React component API. The `document.body`
-        // reference needs to be contained within this function so that it is not accessed
-        // in environments where it would not be defined, e.g. nodejs. Equally this is needed
-        // before the body is defined where `document.body === null`, this ensures
-        // `document.body` is only accessed after componentDidMount.
-        getDOMNode: function getDOMNode() {
-          return document.body;
-        }
-      }
-    };
-  },
+  mixins: [OverlayContainerMixin],
 
   componentWillUnmount: function () {
     this._unrenderOverlay();
@@ -4743,13 +5504,72 @@ module.exports = {
     }
 
     return null;
-  },
-
-  getContainerDOMNode: function () {
-    return this.props.container.getDOMNode ?
-      this.props.container.getDOMNode() : this.props.container;
   }
 };
+
+});
+
+define('DialogTrigger',['require','exports','module','react','./OverlayMixin','./utils/cloneWithProps','./utils/createChainedFunction'],function (require, exports, module) {var React = require('react');
+var OverlayMixin = require('./OverlayMixin');
+var cloneWithProps = require('./utils/cloneWithProps');
+var createChainedFunction = require('./utils/createChainedFunction');
+
+var DialogTrigger = React.createClass({displayName: "DialogTrigger",
+  mixins: [OverlayMixin],
+
+  propTypes: {
+    dialog: React.PropTypes.node.isRequired
+  },
+
+  getInitialState: function () {
+    return {
+      isOverlayShown: false
+    };
+  },
+
+  show: function () {
+    this.setState({
+      isOverlayShown: true
+    });
+  },
+
+  hide: function () {
+    this.setState({
+      isOverlayShown: false
+    });
+  },
+
+  toggle: function () {
+    this.setState({
+      isOverlayShown: !this.state.isOverlayShown
+    });
+  },
+
+  renderOverlay: function () {
+    if (!this.state.isOverlayShown) {
+      return React.createElement("span", null);
+    }
+
+    return cloneWithProps(
+      this.props.dialog,
+      {
+        onRequestHide: this.hide
+      }
+    );
+  },
+
+  render: function () {
+    var child = React.Children.only(this.props.children);
+    return cloneWithProps(
+      child,
+      {
+        onClick: createChainedFunction(child.props.onClick, this.toggle)
+      }
+    );
+  }
+});
+
+module.exports = DialogTrigger;
 
 });
 
@@ -4817,10 +5637,12 @@ var ModalTrigger = React.createClass({displayName: "ModalTrigger",
 module.exports = ModalTrigger;
 });
 
-define('OverlayTrigger',['require','exports','module','react','./OverlayMixin','./utils/domUtils','./utils/cloneWithProps','./utils/createChainedFunction','./utils/Object.assign'],function (require, exports, module) {var React = require('react');
+define('OverlayTrigger',['require','exports','module','react','./utils/EventListener','./OverlayMixin','./utils/domUtils','./utils/cloneWithProps','./utils/isNodeInRoot','./utils/createChainedFunction','./utils/Object.assign'],function (require, exports, module) {var React = require('react');
+var EventListener = require('./utils/EventListener');
 var OverlayMixin = require('./OverlayMixin');
 var domUtils = require('./utils/domUtils');
 var cloneWithProps = require('./utils/cloneWithProps');
+var isNodeInRoot = require('./utils/isNodeInRoot');
 
 var createChainedFunction = require('./utils/createChainedFunction');
 var assign = require('./utils/Object.assign');
@@ -4871,23 +5693,31 @@ var OverlayTrigger = React.createClass({displayName: "OverlayTrigger",
     };
   },
 
-  show: function () {
+  setOverlayState: function (newState, onStateChangeComplete) {
+    if (this.props.trigger === 'focus') {
+      if (newState) {
+        this.bindRootCloseHandlers();
+      } else {
+        this.unbindRootCloseHandlers();
+      }
+    }
+
     this.setState({
-      isOverlayShown: true
-    }, function() {
-      this.updateOverlayPosition();
-    });
+      isOverlayShown: newState
+    }, onStateChangeComplete);
   },
 
-  hide: function () {
-    this.setState({
-      isOverlayShown: false
-    });
+  show: function (e) {
+    this.setOverlayState(true, this.updateOverlayPosition);
   },
 
-  toggle: function () {
+  hide: function (e) {
+    this.setOverlayState(false);
+  },
+
+  toggle: function (e) {
     this.state.isOverlayShown ?
-      this.hide() : this.show();
+      this.hide(e) : this.show(e);
   },
 
   renderOverlay: function () {
@@ -4922,7 +5752,7 @@ var OverlayTrigger = React.createClass({displayName: "OverlayTrigger",
       props.onMouseOut = createChainedFunction(this.handleDelayedHide, this.props.onMouseOut);
     }
 
-    if (isOneOf('focus', this.props.trigger)) {
+    if (this.props.trigger === 'focus') {
       props.onFocus = createChainedFunction(this.handleDelayedShow, this.props.onFocus);
       props.onBlur = createChainedFunction(this.handleDelayedHide, this.props.onBlur);
     }
@@ -4933,8 +5763,71 @@ var OverlayTrigger = React.createClass({displayName: "OverlayTrigger",
     );
   },
 
+  handleFocusChange: function (e) {
+    var elementToReceiveFocusNext = e.relatedTarget;
+    var elementWithinPopoverIsNotFocused = !elementToReceiveFocusNext || !isNodeInRoot(elementToReceiveFocusNext, this.getOverlayDOMNode());
+    var elementTriggerIsNotFocused = elementToReceiveFocusNext !== this.getDOMNode();
+
+    if (elementTriggerIsNotFocused && elementWithinPopoverIsNotFocused) {
+      // User tabbed out of overlay... close it
+      this.hide(e);
+    }
+  },
+
+  handleDocumentKeyDown: function (e) {
+    // TAB
+    if (isNodeInRoot(document.activeElement, this.getOverlayDOMNode())) {
+      this._onFocusChangeListener = EventListener.listen(document.activeElement, 'focusout', this.handleFocusChange);
+    }
+  },
+
+  handleDocumentKeyUp: function (e) {
+    // ESC
+    if (e.keyCode === 27) {
+      this.hide(e);
+    }
+  },
+
+  handleDocumentClick: function (e) {
+    // If the click originated from within this component
+    // don't do anything.
+    if (e.target === this.getDOMNode() || isNodeInRoot(e.target, this.getOverlayDOMNode())) {
+      return;
+    }
+
+    this.hide(e);
+  },
+
+  bindRootCloseHandlers: function () {
+    this._onDocumentClickListener =
+      EventListener.listen(document, 'click', this.handleDocumentClick);
+    this._onDocumentKeyupListener =
+      EventListener.listen(document, 'keyup', this.handleDocumentKeyUp);
+    this._onDocumentKeydownListener =
+      EventListener.listen(document, 'keydown', this.handleDocumentKeyDown);
+  },
+
+  unbindRootCloseHandlers: function () {
+    if (this._onDocumentClickListener) {
+      this._onDocumentClickListener.remove();
+    }
+
+    if (this._onDocumentKeyupListener) {
+      this._onDocumentKeyupListener.remove();
+    }
+
+    if (this._onDocumentKeydownListener) {
+      this._onDocumentKeydownListener.remove();
+    }
+
+    if (this._onFocusChangeListener) {
+      this._onFocusChangeListener.remove();
+    }
+  },
+
   componentWillUnmount: function() {
     clearTimeout(this._hoverDelay);
+    this.unbindRootCloseHandlers();
   },
 
   componentDidMount: function() {
@@ -4943,7 +5836,7 @@ var OverlayTrigger = React.createClass({displayName: "OverlayTrigger",
     }
   },
 
-  handleDelayedShow: function () {
+  handleDelayedShow: function (e) {
     var self = this;
 
     if (this._hoverDelay != null) {
@@ -4966,8 +5859,16 @@ var OverlayTrigger = React.createClass({displayName: "OverlayTrigger",
     }, delay);
   },
 
-  handleDelayedHide: function () {
+  handleDelayedHide: function (e) {
     var self = this;
+
+    if (this.props.trigger === 'focus') {
+      // If the currently focused elem is within this component
+      // don't do anything.
+      if (isNodeInRoot(e.relatedTarget, this.getOverlayDOMNode())) {
+        return;
+      }
+    }
 
     if (this._hoverDelay != null) {
       clearTimeout(this._hoverDelay);
@@ -5236,7 +6137,7 @@ var Panel = React.createClass({displayName: "Panel",
     }
 
     var headingProps = {
-      'data-toggle': this.props.collapsible,
+      'data-toggle': this.props.collapsible ? true : null,
       'onClick': this.props.collapsible ? this.handleSelect : null
     };
 
@@ -5675,7 +6576,8 @@ var SplitButton = React.createClass({displayName: "SplitButton",
     var dropdownButton = (
       React.createElement(Button, React.__spread({}, 
         this.props, 
-        {ref: "dropdownButton", 
+        {isOpen: this.state.open, 
+        ref: "dropdownButton", 
         className: joinClasses(this.props.className, 'dropdown-toggle'), 
         onClick: this.handleDropdownClick, 
         pullRight: null, 
@@ -5696,6 +6598,7 @@ var SplitButton = React.createClass({displayName: "SplitButton",
         button, 
         dropdownButton, 
         React.createElement(DropdownMenu, {
+          isOpen: this.state.open, 
           ref: "menu", 
           onSelect: this.handleOptionSelect, 
           "aria-labelledby": this.props.id, 
@@ -5907,7 +6810,7 @@ var TabbedArea = React.createClass({displayName: "TabbedArea",
   getDefaultProps: function () {
     return {
       wsStyle: "tabs",
-      animation: true
+      animation: false
     };
   },
 
@@ -6061,9 +6964,14 @@ var classSet = require('./utils/classSet');
 var TransitionEvents = require('./utils/TransitionEvents');
 
 var TabPane = React.createClass({displayName: "TabPane",
+  propTypes: {
+    active:          React.PropTypes.bool,
+    animation:       React.PropTypes.bool,
+    onAnimateOutEnd: React.PropTypes.func
+  },
   getDefaultProps: function () {
     return {
-      animation: true
+      animation: false
     };
   },
 
@@ -6114,18 +7022,26 @@ var TabPane = React.createClass({displayName: "TabPane",
         animateOut: false
       });
 
-      if (typeof this.props.onAnimateOutEnd === 'function') {
+      if (this.props.onAnimateOutEnd) {
         this.props.onAnimateOutEnd();
       }
+    }
+  },
+
+  _shouldAddInCssClass: function () {
+    if (this.props.animation) {
+      return this.props.active && !this.state.animateIn;
+    } else {
+      return this.props.active;
     }
   },
 
   render: function () {
     var classes = {
       'tab-pane': true,
-      'fade': true,
+      'fade': this.props.animation,
       'active': this.props.active || this.state.animateOut,
-      'in': this.props.active && !this.state.animateIn
+      'in': this._shouldAddInCssClass()
     };
 
     return (
@@ -6137,6 +7053,7 @@ var TabPane = React.createClass({displayName: "TabPane",
 });
 
 module.exports = TabPane;
+
 });
 
 define('Tooltip',['require','exports','module','react','./utils/joinClasses','./utils/classSet','./WebSkinMixin'],function (require, exports, module) {var React = require('react');
@@ -6223,7 +7140,7 @@ module.exports = Well;
 
 /*global define */
 
-define('web-skin-react',['require','./Accordion','./Affix','./AffixMixin','./Alert','./WebSkinMixin','./WebSkinAlertStyles','./WebSkinAlertMixin','./Badge','./Button','./ButtonGroup','./ButtonToolbar','./Carousel','./CarouselItem','./Col','./CollapsibleNav','./CollapsibleMixin','./DropdownButton','./DropdownMenu','./DropdownStateMixin','./FadeMixin','./Glyphicon','./Grid','./Input','./Interpolate','./Jumbotron','./Label','./ListGroup','./ListGroupItem','./MenuItem','./Modal','./Nav','./Navbar','./NavItem','./ModalTrigger','./OverlayTrigger','./OverlayMixin','./PageHeader','./Panel','./PanelGroup','./PageItem','./Pager','./Popover','./ProgressBar','./Row','./SplitButton','./SubNav','./TabbedArea','./Table','./TabPane','./Tooltip','./Well'],function (require) {
+define('web-skin-react',['require','./Accordion','./Affix','./AffixMixin','./Alert','./WebSkinMixin','./WebSkinAlertStyles','./WebSkinAlertMixin','./Badge','./Button','./ButtonGroup','./ButtonToolbar','./Carousel','./CarouselItem','./Col','./CollapsibleNav','./CollapsibleMixin','./DialogMixin','./Dialog','./DropdownButton','./DropdownMenu','./DropdownStateMixin','./FadeMixin','./Glyphicon','./Grid','./HitareaMixin','./Input','./Interpolate','./Jumbotron','./Label','./ListGroup','./ListGroupItem','./MenuItem','./Modal','./Nav','./Navbar','./NavItem','./DialogTrigger','./ModalTrigger','./OverlayTrigger','./OverlayMixin','./OverlayContainerMixin','./PageHeader','./Panel','./PanelGroup','./PageItem','./Pager','./Popover','./ProgressBar','./Row','./SplitButton','./SubNav','./TabbedArea','./Table','./TabPane','./Tooltip','./Well'],function (require) {
   
 
   return {
@@ -6243,12 +7160,15 @@ define('web-skin-react',['require','./Accordion','./Affix','./AffixMixin','./Ale
     Col: require('./Col'),
     CollapsibleNav: require('./CollapsibleNav'),
     CollapsibleMixin: require('./CollapsibleMixin'),
+    DialogMixin: require('./DialogMixin'),
+    Dialog: require('./Dialog'),
     DropdownButton: require('./DropdownButton'),
     DropdownMenu: require('./DropdownMenu'),
     DropdownStateMixin: require('./DropdownStateMixin'),
     FadeMixin: require('./FadeMixin'),
     Glyphicon: require('./Glyphicon'),
     Grid: require('./Grid'),
+    HitareaMixin: require('./HitareaMixin'),
     Input: require('./Input'),
     Interpolate: require('./Interpolate'),
     Jumbotron: require('./Jumbotron'),
@@ -6260,9 +7180,11 @@ define('web-skin-react',['require','./Accordion','./Affix','./AffixMixin','./Ale
     Nav: require('./Nav'),
     Navbar: require('./Navbar'),
     NavItem: require('./NavItem'),
+    DialogTrigger: require('./DialogTrigger'),
     ModalTrigger: require('./ModalTrigger'),
     OverlayTrigger: require('./OverlayTrigger'),
     OverlayMixin: require('./OverlayMixin'),
+    OverlayContainerMixin: require('./OverlayContainerMixin'),
     PageHeader: require('./PageHeader'),
     Panel: require('./Panel'),
     PanelGroup: require('./PanelGroup'),
