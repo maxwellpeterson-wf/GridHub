@@ -24,6 +24,7 @@ class _RepoContainer extends react.Component {
       return {
           'actions': null,
           'globalActiveKey': '1',
+          'openState': true,
           'repo': null,
       };
   }
@@ -53,6 +54,7 @@ class _RepoContainer extends react.Component {
   render() {
       Repository repo = this.props['repo'];
       var activeKey = this.state['activeKey'];
+      var openState = this.props['openState'];
       var repoName = repo != null ? repo.name : 'Test Repo';
       var title = react.h3({}, [
           Octicon({'icon': 'repo'}),
@@ -81,10 +83,10 @@ class _RepoContainer extends react.Component {
                   TagsPane({'repo': repo})
               ]),
               TabPane({'eventKey': '3', 'tab': issueIcon, 'key': repoName + 'issuePane'}, [
-                  IssuesPane({'repo': repo})
+                  IssuesPane({'repo': repo, 'openState': openState})
               ]),
               TabPane({'eventKey': '4', 'tab': pullRequestIcon, 'key': repoName + 'pullPane'}, [
-                  IssuesPane({'repo': repo, 'pullRequests': true})
+                  IssuesPane({'repo': repo, 'pullRequests': true, 'openState': openState})
               ]),
               TabPane({'eventKey': '5', 'tab': unreleasedIcon, 'key': repoName + 'unreleasedPane'}, [
                   UnreleasedPane({'repo': repo})

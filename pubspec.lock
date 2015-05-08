@@ -29,15 +29,15 @@ packages:
     version: "0.5.0"
   web_skin:
     description:
-      ref: "1.0.4"
-      resolved-ref: dcc77bd69403efbe41cf3151c8c71e9e9ce15856
+      ref: "1.0.5"
+      resolved-ref: a1e657fc4b7826cea11c70a9bde9dcd0e3cf6571
       url: "git@github.com:Workiva/web-skin.git"
     source: git
-    version: "1.0.4"
+    version: "1.0.5"
   web_skin_react:
     description:
-      ref: "2.0.2"
-      resolved-ref: c68da4a0b992f93c2f7ff9c3c564822a3943dd0f
+      ref: "2.1.2"
+      resolved-ref: f78f24f91bd0ef4743020945117b1d2941fe7885
       url: "git@github.com:Workiva/web-skin-react.git"
     source: git
-    version: "2.0.2"
+    version: "2.1.2"
