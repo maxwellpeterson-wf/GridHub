@@ -20,6 +20,7 @@ class _GridHubApp<GridHubActions, GridHubStores> extends FluxComponent {
 
     String get currentPage => this.state['currentPage'];
     String get globalActiveKey => this.state['globalActiveKey'];
+    bool get openState => this.state['openState'];
     List<String> get pageNames => this.state['pageNames'];
     List<Repository> get repos => this.state['repos'];
 
@@ -27,6 +28,7 @@ class _GridHubApp<GridHubActions, GridHubStores> extends FluxComponent {
         return {
             'currentPage': '',
             'globalActiveKey': '1',
+            'openState': true,
             'pageNames': [],
             'repos': []
         };
@@ -42,6 +44,7 @@ class _GridHubApp<GridHubActions, GridHubStores> extends FluxComponent {
         this.setState({
             'repos': store.currentPageRepos,
             'currentPage': store.currentPage,
+            'openState': store.openState,
             'pageNames': store.pageNames
         });
     }
@@ -61,7 +64,13 @@ class _GridHubApp<GridHubActions, GridHubStores> extends FluxComponent {
         repos.forEach((Repository repo) {
             rowItems.add(
                 Col({'sm': 4, 'key': '${currentPage}-col-${colKey++}'}, [
-                    RepoContainer({'actions': actions, 'repo': repo, 'globalActiveKey': globalActiveKey, 'key': '${repo.name}-container'})
+                    RepoContainer({
+                        'actions': actions,
+                        'repo': repo,
+                        'globalActiveKey': globalActiveKey,
+                        'key': '${repo.name}-container',
+                        'openState': openState
+                    })
                 ])
             );
             if (rowItems.length == 3) {

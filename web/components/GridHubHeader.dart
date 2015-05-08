@@ -31,7 +31,7 @@ class _GridHubHeader extends react.Component {
 
     getInitialState() {
         return {
-            'editPageName': '',
+            'editPageName': null,
             'githubUsername': storage.githubUsername,
             'githubAccessToken': storage.githubAccessToken,
             'newPageName': '',
@@ -95,10 +95,20 @@ class _GridHubHeader extends react.Component {
         }
     }
 
+    onOpenState(event) {
+        event.preventDefault();
+        actions.repoActions.globalOpenState.dispatch(true);
+    }
+
+    onCloseState(event) {
+        event.preventDefault();
+        actions.repoActions.globalOpenState.dispatch(false);
+    }
+
     render() {
         var currentPage = this.props['currentPage'];
         var editPageName = this.state['editPageName'];
-        if (editPageName == '') {
+        if (editPageName == null) {
             editPageName = currentPage;
         }
         var globalButtonClickHandler = this.props['globalButtonClickHandler'];
@@ -211,6 +221,11 @@ class _GridHubHeader extends react.Component {
                 NavItem({'onSelect': globalButtonClickHandler('4'), 'key': 'pull-icon-nav-item'}, pullRequestIcon),
                 NavItem({'onSelect': globalButtonClickHandler('5'), 'key': 'unreleased-icon-nav-item'}, unreleasedIcon),
                 NavItem({'onSelect': globalButtonClickHandler('6'), 'key': 'milestone-icon-nav-item'}, milestonesIcon),
+
+                react.li({'className': 'nav-item nav-item-text-button', 'onClick': onOpenState},
+                    Button({'wsSize': 'xsmall', 'wsStyle': null, 'className': 'hitarea'}, 'Open')),
+                react.li({'className': 'nav-item nav-item-text-button', 'onClick': onCloseState},
+                    Button({'wsSize': 'xsmall', 'wsStyle': null, 'className': 'hitarea'}, 'Closed')),
 
                 // SETTINGS BUTTON
                 // TODO Could not get this popover to work in its own component file. fix this

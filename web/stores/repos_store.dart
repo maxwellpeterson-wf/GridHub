@@ -6,8 +6,10 @@ class ReposStore extends Store {
     // Private data
     Map<String, List<Repository>> _allRepos;
     RepoGridData _storage;
+    bool _openState;
 
     // Public data
+    bool get openState => _openState;
     String get currentPage => _storage.currentPage;
     List<Repository> get currentPageRepos => _allRepos[currentPage];
     List<String> get pageNames => _storage.pageNames;
@@ -19,6 +21,7 @@ class ReposStore extends Store {
         _actions = actions.repoActions;
         _storage = storage;
         _allRepos = {};
+        _openState = true;
 
         initializeCurrentPageRepos();
 
@@ -33,6 +36,7 @@ class ReposStore extends Store {
         _actions.editPage.listen(onEditPage);
         _actions.refreshPage.listen(onRefreshPage);
         _actions.switchPage.listen(onSwitchPage);
+        _actions.globalOpenState.listen(onGlobalOpenState);
     }
 
     Future initializeCurrentPageRepos() {
@@ -116,6 +120,11 @@ class ReposStore extends Store {
         } else {
             trigger();
         }
+    }
+
+    onGlobalOpenState(bool open) {
+        _openState = open;
+        trigger();
     }
 
     _getPayload(toCall) {
