@@ -137,13 +137,13 @@ class _GridHubHeader extends react.Component {
             }
             if (currentPage == pageName) {
                 var title = react.span({}, [
-                    react.span({}, 'Edit Page'),
-                    react.a({'className': 'pull-right', 'style': {'color': '#f03e3c'}, 'onClick': this.deletePage}, trashIcon)
+                    react.span({'key': 'title'}, 'Edit Page'),
+                    react.a({'className': 'pull-right', 'style': {'color': '#f03e3c'}, 'onClick': this.deletePage, 'key': 'link'}, trashIcon)
                 ]);
-                pageButtons.add(NavItem({'active': true, 'key': pageName + '-nav-item'}, [
+                pageButtons.add(NavItem({'active': true, 'key': pageName + '-nav-item'},
                     OverlayTrigger({'trigger': 'click', 'placement': 'bottom', 'overlay': Popover(
-                        {'className': 'inner', 'title': title}, [
-                            react.form({'onSubmit': this.editPage}, [
+                        {'className': 'inner', 'title': title},
+                            react.form({'onSubmit': this.editPage},
                                 Input({
                                     'type': 'text',
                                     'id': 'edit-page-name',
@@ -151,55 +151,55 @@ class _GridHubHeader extends react.Component {
                                     'value': editPageName,
                                     'onChange': this.onEditPageNameChange,
                                 })
-                            ])
-                        ])},
+                            )
+                        )},
                     react.span({'style': {'cursor': 'pointer'}}, pageName)
-                    ),
-                ]));
+                    )
+                ));
 
             } else {
-                pageButtons.add(react.li({'className': 'nav-item', 'key': pageName + '-nav-item'}, [
+                pageButtons.add(react.li({'className': 'nav-item', 'key': pageName + '-nav-item'},
                     react.a({'className': 'hitarea', 'onClick': pageSwitch}, pageName)
-                ]));
+                ));
             }
 
         });
 
         // ADD NEW PAGE BUTTON
         if (pageButtons.length > 0) {
-            pageButtons.add(react.li({'className': 'nav-item', 'key': 'new-page-button-nav-item'}, [
+            pageButtons.add(react.li({'className': 'nav-item', 'key': 'new-page-button-nav-item'},
                 OverlayTrigger({'trigger': 'click', 'placement': 'right', 'overlay': Popover(
-                    {'className': 'inner add-page-popover', 'arrowOffsetTop': 18, 'title': 'Add Page'}, [
-                        react.form({'onSubmit': this.addPage}, [
+                    {'className': 'inner add-page-popover', 'arrowOffsetTop': 18, 'title': 'Add Page'},
+                        react.form({'onSubmit': this.addPage},
                             Input({
                                 'type': 'text',
                                 'id': 'new-page-name',
                                 'label': 'Page Name',
                                 'value': newPageName,
                                 'onChange': this.onNewPageNameChange,
-                            }),
-                        ])
-                    ])},
+                            })
+                        )
+                    )},
                 react.a({'className': 'hitarea', 'onClick': null}, addIcon)
-                ),
-            ]));
+                )
+            ));
         }
 
-        pageButtons.add(react.li({'className': 'nav-item', 'key': 'refresh-button-nav-item'}, [
+        pageButtons.add(react.li({'className': 'nav-item', 'key': 'refresh-button-nav-item'},
             react.a({'className': 'hitarea', 'onClick': refreshPage}, refreshIcon)
-        ]));
+        ));
 
         var brand = react.h4({'style': {'display': 'inline', 'marginTop': '2px', 'fontWeight': 'bold', 'paddingLeft': '0'}}, 'GridHub');
         var navBarStyle = {'borderWidth': '0 0 1px', 'borderRadius': 0, 'paddingRight': '3px', 'paddingLeft': '12px'};
         return Navbar({'fixedTop': true, 'fluid': true, 'brand': brand, 'style': navBarStyle}, [
-            Nav({}, pageButtons),
-            Nav({'className': 'pull-right'}, [
+            Nav({'key': 'page-buttons'}, pageButtons),
+            Nav({'className': 'pull-right', 'key': 'right-buttons'}, [
 
                 // ADD REPO BUTTON
                 NavItem({'style': {'marginRight': '20px'}, 'key': 'add-repo-button-nav-item'},
                     OverlayTrigger({'trigger': 'click', 'placement': 'left', 'overlay': Popover(
                         {'className': 'inner add-repo-popover', 'arrowOffsetTop': 18, 'title': 'Add Repository'},
-                            react.form({'onSubmit': this.addRepo}, [
+                            react.form({'onSubmit': this.addRepo},
                                 Input({
                                     'type': 'text',
                                     'id': 'new-repo-name',
@@ -207,8 +207,8 @@ class _GridHubHeader extends react.Component {
                                     'placeholder': 'Workiva/wGulp',
                                     'value': newRepoName,
                                     'onChange': this.onNewRepoNameChange,
-                                }),
-                            ])
+                                })
+                            )
                         )},
                         react.span({}, addIcon2)
                     )
@@ -222,9 +222,9 @@ class _GridHubHeader extends react.Component {
                 NavItem({'onSelect': globalButtonClickHandler('5'), 'key': 'unreleased-icon-nav-item'}, unreleasedIcon),
                 NavItem({'onSelect': globalButtonClickHandler('6'), 'key': 'milestone-icon-nav-item'}, milestonesIcon),
 
-                react.li({'className': 'nav-item nav-item-text-button', 'onClick': onOpenState},
+                react.li({'className': 'nav-item nav-item-text-button', 'onClick': onOpenState, 'key': 'open-button-nav-item'},
                     Button({'wsSize': 'xsmall', 'wsStyle': null, 'className': 'hitarea'}, 'Open')),
-                react.li({'className': 'nav-item nav-item-text-button', 'onClick': onCloseState},
+                react.li({'className': 'nav-item nav-item-text-button', 'onClick': onCloseState, 'key': 'closed-button-nav-item'},
                     Button({'wsSize': 'xsmall', 'wsStyle': null, 'className': 'hitarea'}, 'Closed')),
 
                 // SETTINGS BUTTON

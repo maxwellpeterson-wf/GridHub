@@ -63,7 +63,7 @@ class _GridHubApp<GridHubActions, GridHubStores> extends FluxComponent {
 
         repos.forEach((Repository repo) {
             rowItems.add(
-                Col({'sm': 4, 'key': '${currentPage}-col-${colKey++}'}, [
+                Col({'sm': 4, 'key': '${currentPage}-col-${colKey++}'},
                     RepoContainer({
                         'actions': actions,
                         'repo': repo,
@@ -71,7 +71,7 @@ class _GridHubApp<GridHubActions, GridHubStores> extends FluxComponent {
                         'key': '${repo.name}-container',
                         'openState': openState
                     })
-                ])
+                )
             );
             if (rowItems.length == 3) {
                 rows.add(Row({'key': '${currentPage}-row-${rowKey++}'}, rowItems));
@@ -88,9 +88,10 @@ class _GridHubApp<GridHubActions, GridHubStores> extends FluxComponent {
                 'actions': actions,
                 'currentPage': currentPage,
                 'globalButtonClickHandler': this.globalButtonClicked,
-                'pageNames': pageNames
+                'pageNames': pageNames,
+                'key': 'header'
             }),
-            react.div({'style': {'marginTop': '45px'}}, rows),
+            react.div({'style': {'marginTop': '45px'}, 'key': 'main-content'}, rows),
         ]);
     }
 }

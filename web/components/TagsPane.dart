@@ -40,28 +40,26 @@ class _TagsPane extends react.Component {
                 var header = react.a({'href': release['html_url'], 'target': repo.name}, release['name']);
 
                 String relativeDate = getRelativeDate(DateTime.parse(release['published_at']));
-                var body = react.span({}, [
+                var body = react.span({},
                     react.div({}, [
-                        AuthorLink({'author': release['author'], 'includePicture': true}),
-                        react.span({'className': 'text-muted'}, ' released this ${relativeDate}')
-                    ]),
-                    react.div({}, [
-//                        react.span({}, release['body'])
+                        AuthorLink({'author': release['author'], 'includePicture': true, 'key': 'author-link'}),
+                        react.span({'className': 'text-muted', 'key': 'text'}, ' released this ${relativeDate}')
                     ])
-                ]);
+//                    react.div({}, [
+//                        react.span({}, release['body'])
+//                    ])
+                );
 
                 listItems.add(
-                    FancyListGroupItem({'header': header}, [body])
+                    FancyListGroupItem({'header': header, 'key': 'tag-${tag['name']}'}, body)
                 );
             }
             else {
                 var href = repo.url + '/releases/tag/' + tag['name'];
-                var header = [
-                    react.a({'href': href, 'target': repo.name}, 'No release! Tag: ' + tag['name'])
-                ];
+                var header = react.a({'href': href, 'target': repo.name}, 'No release! Tag: ' + tag['name']);
 
                 listItems.add(
-                    FancyListGroupItem({'header': header})
+                    FancyListGroupItem({'header': header, 'key': 'tag-${tag['name']}'})
                 );
             }
 
@@ -69,9 +67,9 @@ class _TagsPane extends react.Component {
 
         var content;
         if (listItems.length > 0) {
-            content = react.div({'className': 'scrollable-pane'}, [
+            content = react.div({'className': 'scrollable-pane'},
                 ListGroup({}, listItems)
-            ]);
+            );
         }
         else if (repo.dataInitialized != true) {
             content = ContentLoading({});

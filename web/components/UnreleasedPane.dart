@@ -42,7 +42,7 @@ class _UnreleasedPane extends react.Component {
             // If there are no tags yet, include all merged PRs
             if (prNumbers[issue['number'].toString()] == true || (tags.length == 0 && issue['merged_at'] != null)) {
                 listItems.add(
-                    IssueListItem({'repo': repo, 'issue': issue, 'pullRequests': true})
+                    IssueListItem({'repo': repo, 'issue': issue, 'pullRequests': true, 'key': 'pr-${issue['number']}'})
                 );
             }
         });

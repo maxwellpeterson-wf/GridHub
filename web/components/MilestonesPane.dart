@@ -83,7 +83,7 @@ class _MilestonesPane extends react.Component {
             ]);
 
             listItems.add(
-                FancyListGroupItem({}, [
+                FancyListGroupItem({'key': 'milestone-${milestone['title']}'}, [
                     title,
                     progress
                 ])
