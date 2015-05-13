@@ -293,17 +293,17 @@ Sy:{
 "^":"jR;Q,a,b,c,d,e",
 Ww:function(){var z,y,x,w
 z=this.Q.p(0,"author")
-y=J.mG(this.Q.p(0,"includePicture"),!0)?$.Fa.$1(P.B(["height",20,"width",20,"src",J.Tf(z,"avatar_url")],null,null)):null
+y=J.mG(this.Q.p(0,"includePicture"),!0)?$.Fa.$1(P.B(["height",20,"width",20,"src",J.Tf(z,"avatar_url"),"key","author-pic"],null,null)):null
 x=J.U6(z)
 w=C.xB.g("https://github.com/",x.p(z,"login"))
-return $.Q.$2(P.B(["className","github-author","href",w,"target","github-author"],null,null),[y,$.mO.$2(P.A(null,null)," "),$.mO.$2(P.A(null,null),x.p(z,"login"))])}}}],["","",,N,{
+return $.Q.$2(P.B(["className","github-author","href",w,"target","github-author"],null,null),[y,$.mO.$2(P.B(["key","author-name"],null,null)," "+H.d(x.p(z,"login")))])}}}],["","",,N,{
 "^":"",
 W6o:{
 "^":"r:0;",
 $0:[function(){return new N.OJ(null,null,null,P.A(null,null),null,null)},null,null,0,0,null,"call"]},
 OJ:{
 "^":"jR;Q,a,b,c,d,e",
-Ww:function(){return $.ov.$2(P.B(["className","empty-results"],null,null),[$.Gq.$1(P.B(["className","progress-spinner progress-spinner-huge"],null,null))])}}}],["","",,Q,{
+Ww:function(){return $.ov.$2(P.B(["className","empty-results"],null,null),$.Gq.$1(P.B(["className","progress-spinner progress-spinner-huge"],null,null)))}}}],["","",,Q,{
 "^":"",
 MdQ:{
 "^":"r:0;",
@@ -354,7 +354,7 @@ z.a=0
 z.b=0
 J.kH(this.c.p(0,"repos"),new T.Qg(z,this,y))
 if(z.Q.length>0)y.push($.EJ().$2(P.B(["key",H.d(this.c.p(0,"currentPage"))+"-row-"+z.b++],null,null),z.Q))
-return $.ov.$2(P.B(["className","container-fluid"],null,null),[$.Nw().$1(P.B(["actions",this.Q.p(0,"actions"),"currentPage",this.c.p(0,"currentPage"),"globalButtonClickHandler",this.gkU(),"pageNames",this.c.p(0,"pageNames")],null,null)),$.ov.$2(P.B(["style",P.B(["marginTop","45px"],null,null)],null,null),y)])}},
+return $.ov.$2(P.B(["className","container-fluid"],null,null),[$.Nw().$1(P.B(["actions",this.Q.p(0,"actions"),"currentPage",this.c.p(0,"currentPage"),"globalButtonClickHandler",this.gkU(),"pageNames",this.c.p(0,"pageNames"),"key","header"],null,null)),$.ov.$2(P.B(["style",P.B(["marginTop","45px"],null,null),"key","main-content"],null,null),y)])}},
 Rj:{
 "^":"r:3;Q,a",
 $3:[function(a,b,c){this.Q.I3(P.B(["globalActiveKey",this.a],null,null))},null,null,6,0,null,2,3,4,"call"]},
@@ -363,7 +363,7 @@ Qg:{
 $1:[function(a){var z,y
 z=this.Q
 y=this.a
-z.Q.push($.z7().$2(P.B(["sm",4,"key",H.d(y.c.p(0,"currentPage"))+"-col-"+z.a++],null,null),[$.m6().$1(P.B(["actions",y.Q.p(0,"actions"),"repo",a,"globalActiveKey",y.c.p(0,"globalActiveKey"),"key",H.d(J.C9(a))+"-container","openState",y.c.p(0,"openState")],null,null))]))
+z.Q.push($.z7().$2(P.B(["sm",4,"key",H.d(y.c.p(0,"currentPage"))+"-col-"+z.a++],null,null),$.m6().$1(P.B(["actions",y.Q.p(0,"actions"),"repo",a,"globalActiveKey",y.c.p(0,"globalActiveKey"),"key",H.d(J.C9(a))+"-container","openState",y.c.p(0,"openState")],null,null))))
 if(z.Q.length===3){this.b.push($.EJ().$2(P.B(["key",H.d(y.c.p(0,"currentPage"))+"-row-"+z.b++],null,null),z.Q))
 z.Q=[]}},null,null,2,0,null,5,"call"]}}],["","",,B,{
 "^":"",
@@ -465,11 +465,11 @@ h=$.p0().$1(P.B(["icon","plus"],null,null))
 g=$.p0().$1(P.B(["icon","sync"],null,null))
 f=[]
 J.kH(r,new B.WN(z,this,y,j,f))
-if(f.length>0)f.push($.Uf.$2(P.B(["className","nav-item","key","new-page-button-nav-item"],null,null),[$.Us().$2(P.B(["trigger","click","placement","right","overlay",$.cl().$2(P.B(["className","inner add-page-popover","arrowOffsetTop",18,"title","Add Page"],null,null),[$.MB.$2(P.B(["onSubmit",this.gPB()],null,null),[$.Yw().$1(P.B(["type","text","id","new-page-name","label","Page Name","value",t,"onChange",this.gRj()],null,null))])])],null,null),$.Q.$2(P.B(["className","hitarea","onClick",null],null,null),i))]))
-f.push($.Uf.$2(P.B(["className","nav-item","key","refresh-button-nav-item"],null,null),[$.Q.$2(P.B(["className","hitarea","onClick",this.gwt()],null,null),g)]))
+if(f.length>0)f.push($.Uf.$2(P.B(["className","nav-item","key","new-page-button-nav-item"],null,null),$.Us().$2(P.B(["trigger","click","placement","right","overlay",$.cl().$2(P.B(["className","inner add-page-popover","arrowOffsetTop",18,"title","Add Page"],null,null),$.MB.$2(P.B(["onSubmit",this.gPB()],null,null),$.Yw().$1(P.B(["type","text","id","new-page-name","label","Page Name","value",t,"onChange",this.gRj()],null,null))))],null,null),$.Q.$2(P.B(["className","hitarea","onClick",null],null,null),i))))
+f.push($.Uf.$2(P.B(["className","nav-item","key","refresh-button-nav-item"],null,null),$.Q.$2(P.B(["className","hitarea","onClick",this.gwt()],null,null),g)))
 e=$.Po.$2(P.B(["style",P.B(["display","inline","marginTop","2px","fontWeight","bold","paddingLeft","0"],null,null)],null,null),"GridHub")
 d=P.B(["borderWidth","0 0 1px","borderRadius",0,"paddingRight","3px","paddingLeft","12px"],null,null)
-return $.W5().$2(P.B(["fixedTop",!0,"fluid",!0,"brand",e,"style",d],null,null),[$.LB().$2(P.A(null,null),f),$.LB().$2(P.B(["className","pull-right"],null,null),[$.UC().$2(P.B(["style",P.B(["marginRight","20px"],null,null),"key","add-repo-button-nav-item"],null,null),$.Us().$2(P.B(["trigger","click","placement","left","overlay",$.cl().$2(P.B(["className","inner add-repo-popover","arrowOffsetTop",18,"title","Add Repository"],null,null),$.MB.$2(P.B(["onSubmit",this.gcV()],null,null),[$.Yw().$1(P.B(["type","text","id","new-repo-name","label","Repo Path","placeholder","Workiva/wGulp","value",s,"onChange",this.gja()],null,null))]))],null,null),$.mO.$2(P.A(null,null),h))),$.UC().$2(P.B(["onSelect",w.$1("1"),"key","readme-icon-nav-item"],null,null),q),$.UC().$2(P.B(["onSelect",w.$1("2"),"key","tag-icon-nav-item"],null,null),p),$.UC().$2(P.B(["onSelect",w.$1("3"),"key","issue-icon-nav-item"],null,null),o),$.UC().$2(P.B(["onSelect",w.$1("4"),"key","pull-icon-nav-item"],null,null),n),$.UC().$2(P.B(["onSelect",w.$1("5"),"key","unreleased-icon-nav-item"],null,null),m),$.UC().$2(P.B(["onSelect",w.$1("6"),"key","milestone-icon-nav-item"],null,null),l),$.Uf.$2(P.B(["className","nav-item nav-item-text-button","onClick",this.gyj()],null,null),$.f4().$2(P.B(["wsSize","xsmall","wsStyle",null,"className","hitarea"],null,null),"Open")),$.Uf.$2(P.B(["className","nav-item nav-item-text-button","onClick",this.gQM()],null,null),$.f4().$2(P.B(["wsSize","xsmall","wsStyle",null,"className","hitarea"],null,null),"Closed")),$.UC().$2(P.B(["style",P.B(["marginLeft","20px"],null,null),"key","settings-button-nav-item"],null,null),$.Us().$2(P.B(["trigger","click","placement","left","overlay",$.cl().$2(P.B(["title","Settings","arrowOffsetTop",18,"className","inner settings-popover"],null,null),[$.Yw().$1(P.B(["type","text","id","github-user-name","label","Github Username","value",v,"onChange",this.gd6(),"key","settings-input-username"],null,null)),$.Yw().$1(P.B(["type","password","id","github-access-token","label","Github Access Token","value",u,"onChange",this.gPu(),"key","settings-input-accesstoken"],null,null))])],null,null),k))])])}},
+return $.W5().$2(P.B(["fixedTop",!0,"fluid",!0,"brand",e,"style",d],null,null),[$.LB().$2(P.B(["key","page-buttons"],null,null),f),$.LB().$2(P.B(["className","pull-right","key","right-buttons"],null,null),[$.UC().$2(P.B(["style",P.B(["marginRight","20px"],null,null),"key","add-repo-button-nav-item"],null,null),$.Us().$2(P.B(["trigger","click","placement","left","overlay",$.cl().$2(P.B(["className","inner add-repo-popover","arrowOffsetTop",18,"title","Add Repository"],null,null),$.MB.$2(P.B(["onSubmit",this.gcV()],null,null),$.Yw().$1(P.B(["type","text","id","new-repo-name","label","Repo Path","placeholder","Workiva/wGulp","value",s,"onChange",this.gja()],null,null))))],null,null),$.mO.$2(P.A(null,null),h))),$.UC().$2(P.B(["onSelect",w.$1("1"),"key","readme-icon-nav-item"],null,null),q),$.UC().$2(P.B(["onSelect",w.$1("2"),"key","tag-icon-nav-item"],null,null),p),$.UC().$2(P.B(["onSelect",w.$1("3"),"key","issue-icon-nav-item"],null,null),o),$.UC().$2(P.B(["onSelect",w.$1("4"),"key","pull-icon-nav-item"],null,null),n),$.UC().$2(P.B(["onSelect",w.$1("5"),"key","unreleased-icon-nav-item"],null,null),m),$.UC().$2(P.B(["onSelect",w.$1("6"),"key","milestone-icon-nav-item"],null,null),l),$.Uf.$2(P.B(["className","nav-item nav-item-text-button","onClick",this.gyj(),"key","open-button-nav-item"],null,null),$.f4().$2(P.B(["wsSize","xsmall","wsStyle",null,"className","hitarea"],null,null),"Open")),$.Uf.$2(P.B(["className","nav-item nav-item-text-button","onClick",this.gQM(),"key","closed-button-nav-item"],null,null),$.f4().$2(P.B(["wsSize","xsmall","wsStyle",null,"className","hitarea"],null,null),"Closed")),$.UC().$2(P.B(["style",P.B(["marginLeft","20px"],null,null),"key","settings-button-nav-item"],null,null),$.Us().$2(P.B(["trigger","click","placement","left","overlay",$.cl().$2(P.B(["title","Settings","arrowOffsetTop",18,"className","inner settings-popover"],null,null),[$.Yw().$1(P.B(["type","text","id","github-user-name","label","Github Username","value",v,"onChange",this.gd6(),"key","settings-input-username"],null,null)),$.Yw().$1(P.B(["type","password","id","github-access-token","label","Github Access Token","value",u,"onChange",this.gPu(),"key","settings-input-accesstoken"],null,null))])],null,null),k))])])}},
 Dn:{
 "^":"r:0;",
 $0:[function(){},null,null,0,0,null,"call"]},
@@ -480,8 +480,8 @@ z=this.a
 y=J.Qc(a)
 x=this.d
 if(J.mG(this.b,a)){w=$.mO
-v=w.$2(P.A(null,null),[w.$2(P.A(null,null),"Edit Page"),$.Q.$2(P.B(["className","pull-right","style",P.B(["color","#f03e3c"],null,null),"onClick",z.gBh()],null,null),this.c)])
-x.push($.UC().$2(P.B(["active",!0,"key",y.g(a,"-nav-item")],null,null),[$.Us().$2(P.B(["trigger","click","placement","bottom","overlay",$.cl().$2(P.B(["className","inner","title",v],null,null),[$.MB.$2(P.B(["onSubmit",z.geP()],null,null),[$.Yw().$1(P.B(["type","text","id","edit-page-name","label","Page Name","value",this.Q.Q,"onChange",z.gfZ()],null,null))])])],null,null),$.mO.$2(P.B(["style",P.B(["cursor","pointer"],null,null)],null,null),a))]))}else x.push($.Uf.$2(P.B(["className","nav-item","key",y.g(a,"-nav-item")],null,null),[$.Q.$2(P.B(["className","hitarea","onClick",new B.P6(z,a)],null,null),a)]))},null,null,2,0,null,7,"call"]},
+v=w.$2(P.A(null,null),[w.$2(P.B(["key","title"],null,null),"Edit Page"),$.Q.$2(P.B(["className","pull-right","style",P.B(["color","#f03e3c"],null,null),"onClick",z.gBh(),"key","link"],null,null),this.c)])
+x.push($.UC().$2(P.B(["active",!0,"key",y.g(a,"-nav-item")],null,null),$.Us().$2(P.B(["trigger","click","placement","bottom","overlay",$.cl().$2(P.B(["className","inner","title",v],null,null),$.MB.$2(P.B(["onSubmit",z.geP()],null,null),$.Yw().$1(P.B(["type","text","id","edit-page-name","label","Page Name","value",this.Q.Q,"onChange",z.gfZ()],null,null))))],null,null),$.mO.$2(P.B(["style",P.B(["cursor","pointer"],null,null)],null,null),a))))}else x.push($.Uf.$2(P.B(["className","nav-item","key",y.g(a,"-nav-item")],null,null),$.Q.$2(P.B(["className","hitarea","onClick",new B.P6(z,a)],null,null),a)))},null,null,2,0,null,7,"call"]},
 P6:{
 "^":"r:1;Q,a",
 $1:[function(a){var z=this.Q.Q.p(0,"actions").ghl().r.a
@@ -558,7 +558,7 @@ u=x===!0?"Pull Requests:":"Issues:"
 J.kH(z.ghY(),new S.Gm(y,x,w))
 C.Nm.aN(w,new S.Pb(z,v))
 t=new S.Yr(this,y)
-s=$.ov.$2(P.B(["style",P.B(["borderBottom","#dedede 2px solid"],null,null)],null,null),[$.dM.$2(P.B(["className","pane-header"],null,null),u),$.ne().$2(P.B(["className","no-radius"],null,null),[$.f4().$2(P.B(["wsSize","xsmall","wsStyle",null,"active",y,"className","open-issues","onClick",t],null,null),"Open"),$.f4().$2(P.B(["wsSize","xsmall","wsStyle",null,"active",y!==!0,"className","closed-issues","onClick",t],null,null),"Closed")])])
+s=$.ov.$2(P.B(["style",P.B(["borderBottom","#dedede 2px solid"],null,null)],null,null),[$.dM.$2(P.B(["className","pane-header"],null,null),u),$.ne().$2(P.B(["className","no-radius"],null,null),[$.f4().$2(P.B(["wsSize","xsmall","wsStyle",null,"active",y,"className","open-issues","onClick",t,"key","open-button"],null,null),"Open"),$.f4().$2(P.B(["wsSize","xsmall","wsStyle",null,"active",y!==!0,"className","closed-issues","onClick",t,"key","close-button"],null,null),"Closed")])])
 if(v.length>0)r=$.ov.$2(P.B(["className","scrollable-pane","style",P.B(["height","271px"],null,null)],null,null),[$.zL().$2(P.A(null,null),v)])
 else r=!z.gyZ()?$.Jz().$1(P.A(null,null)):$.r0().$1(P.A(null,null))
 return $.ov.$2(P.B(["className","issues-pane"],null,null),[s,r])}},
@@ -595,7 +595,7 @@ else x=!z.gyZ()?$.Jz().$1(P.A(null,null)):$.r0().$1(P.A(null,null))
 return x}},
 vk:{
 "^":"r:1;Q,a",
-$1:[function(a){var z,y,x,w,v,u,t,s,r,q,p,o,n,m,l
+$1:[function(a){var z,y,x,w,v,u,t,s,r,q,p,o,n,m,l,k
 z=J.U6(a)
 y=z.p(a,"due_on")
 if(y==null)x=$.mO.$2(P.B(["className","text-muted"],null,null),"No due date")
@@ -607,19 +607,19 @@ s=z.p(a,"open_issues")
 r=z.p(a,"closed_issues")
 q=J.WB(s,r)
 p=J.vU(q,0)?C.CD.yu(Math.ceil(J.x4(r,q)*100)):0
-z=$.ov
-o=P.B(["className","milestone-progress"],null,null)
-n=$.Os().$1(P.B(["wsStyle","success","now",p],null,null))
-m=$.mO
-l=z.$2(o,[n,m.$2(P.A(null,null),[m.$2(P.B(["className","text-bold"],null,null),""+p+"%"),$.mO.$2(P.B(["className","text-muted"],null,null)," complete")]),$.mO.$2(P.B(["style",P.B(["marginLeft","15px"],null,null)],null,null),[$.mO.$2(P.B(["className","text-bold"],null,null),H.d(s)),$.mO.$2(P.B(["className","text-muted"],null,null)," open")]),$.mO.$2(P.B(["style",P.B(["marginLeft","15px"],null,null)],null,null),[$.mO.$2(P.B(["className","text-bold"],null,null),H.d(r)),$.mO.$2(P.B(["className","text-muted"],null,null)," closed")])])
-this.a.push($.DM().$2(P.A(null,null),[t,l]))},null,null,2,0,null,11,"call"]}}],["","",,K,{
+o=$.ov
+n=P.B(["className","milestone-progress"],null,null)
+m=$.Os().$1(P.B(["wsStyle","success","now",p],null,null))
+l=$.mO
+k=o.$2(n,[m,l.$2(P.A(null,null),[l.$2(P.B(["className","text-bold"],null,null),""+p+"%"),$.mO.$2(P.B(["className","text-muted"],null,null)," complete")]),$.mO.$2(P.B(["style",P.B(["marginLeft","15px"],null,null)],null,null),[$.mO.$2(P.B(["className","text-bold"],null,null),H.d(s)),$.mO.$2(P.B(["className","text-muted"],null,null)," open")]),$.mO.$2(P.B(["style",P.B(["marginLeft","15px"],null,null)],null,null),[$.mO.$2(P.B(["className","text-bold"],null,null),H.d(r)),$.mO.$2(P.B(["className","text-muted"],null,null)," closed")])])
+this.a.push($.DM().$2(P.B(["key","milestone-"+H.d(z.p(a,"title"))],null,null),[t,k]))},null,null,2,0,null,11,"call"]}}],["","",,K,{
 "^":"",
 zOQ:{
 "^":"r:0;",
 $0:[function(){return new K.M7(null,null,null,P.A(null,null),null,null)},null,null,0,0,null,"call"]},
 M7:{
 "^":"jR;Q,a,b,c,d,e",
-Ww:function(){return $.ov.$2(P.B(["className","empty-results"],null,null),[$.p0().$1(P.B(["icon","gift","style",P.B(["fontSize","28px"],null,null)],null,null)),$.ov.$2(P.A(null,null),"Nothing to show!")])}}}],["","",,M,{
+Ww:function(){return $.ov.$2(P.B(["className","empty-results"],null,null),[$.p0().$1(P.B(["icon","gift","style",P.B(["fontSize","28px","key","icon"],null,null)],null,null)),$.ov.$2(P.B(["key","description"],null,null),"Nothing to show!")])}}}],["","",,M,{
 "^":"",
 DO:{
 "^":"r:0;",
@@ -762,7 +762,7 @@ z=this.Q.p(0,"repo")
 y=this.c.p(0,"activeKey")
 x=this.Q.p(0,"openState")
 w=z!=null?J.C9(z):"Test Repo"
-v=$.Wk.$2(P.A(null,null),[$.p0().$1(P.B(["icon","repo"],null,null)),$.Q.$2(P.B(["href",J.Nl(z),"target",w],null,null),w),$.mO.$2(P.B(["className","pull-right"],null,null),[$.Q.$2(P.B(["className","remove-repo","onClick",this.gJH()],null,null),$.ct().$1(P.B(["glyph","trash"],null,null)))])])
+v=$.Wk.$2(P.A(null,null),[$.p0().$1(P.B(["icon","repo","key","icon"],null,null)),$.Q.$2(P.B(["href",J.Nl(z),"target",w,"key","link"],null,null),w),$.mO.$2(P.B(["className","pull-right","key","actions"],null,null),$.Q.$2(P.B(["className","remove-repo","onClick",this.gJH()],null,null),$.ct().$1(P.B(["glyph","trash"],null,null))))])
 u=$.p0().$1(P.B(["icon",$.wK,"title","README"],null,null))
 t=$.p0().$1(P.B(["icon",$.eN,"title","Tags/Releases"],null,null))
 s=$.p0().$1(P.B(["icon",$.ei,"title","Issues"],null,null))
@@ -770,7 +770,7 @@ r=$.p0().$1(P.B(["icon",$.Sl,"title","Pull Requests"],null,null))
 q=$.p0().$1(P.B(["icon",$.jP,"title","Unreleased PRs (PRs merged since last tag)"],null,null))
 p=$.p0().$1(P.B(["icon",$.Xo,"title","Milestones"],null,null))
 o=J.Qc(w)
-return $.QN().$2(P.B(["header",v,"className","repo-panel","key",w],null,null),[$.nF().$2(P.B(["activeKey",y,"className","tabs-right","animation",!1,"onSelect",this.gTp()],null,null),[$.vA().$2(P.B(["eventKey","1","tab",u,"key",o.g(w,"readmePane")],null,null),[$.pU().$1(P.B(["repo",z],null,null))]),$.vA().$2(P.B(["eventKey","2","tab",t,"key",o.g(w,"tagPane")],null,null),[$.UR().$1(P.B(["repo",z],null,null))]),$.vA().$2(P.B(["eventKey","3","tab",s,"key",o.g(w,"issuePane")],null,null),[$.J8().$1(P.B(["repo",z,"openState",x],null,null))]),$.vA().$2(P.B(["eventKey","4","tab",r,"key",o.g(w,"pullPane")],null,null),[$.J8().$1(P.B(["repo",z,"pullRequests",!0,"openState",x],null,null))]),$.vA().$2(P.B(["eventKey","5","tab",q,"key",o.g(w,"unreleasedPane")],null,null),[$.Yi().$1(P.B(["repo",z],null,null))]),$.vA().$2(P.B(["eventKey","6","tab",p,"key",o.g(w,"milestonePane")],null,null),[$.oO().$1(P.B(["repo",z],null,null))])])])}}}],["","",,V,{
+return $.QN().$2(P.B(["header",v,"className","repo-panel","key",w],null,null),$.nF().$2(P.B(["activeKey",y,"className","tabs-right","animation",!1,"onSelect",this.gTp()],null,null),[$.vA().$2(P.B(["eventKey","1","tab",u,"key",o.g(w,"readmePane")],null,null),$.pU().$1(P.B(["repo",z],null,null))),$.vA().$2(P.B(["eventKey","2","tab",t,"key",o.g(w,"tagPane")],null,null),$.UR().$1(P.B(["repo",z],null,null))),$.vA().$2(P.B(["eventKey","3","tab",s,"key",o.g(w,"issuePane")],null,null),$.J8().$1(P.B(["repo",z,"openState",x],null,null))),$.vA().$2(P.B(["eventKey","4","tab",r,"key",o.g(w,"pullPane")],null,null),$.J8().$1(P.B(["repo",z,"pullRequests",!0,"openState",x],null,null))),$.vA().$2(P.B(["eventKey","5","tab",q,"key",o.g(w,"unreleasedPane")],null,null),$.Yi().$1(P.B(["repo",z],null,null))),$.vA().$2(P.B(["eventKey","6","tab",p,"key",o.g(w,"milestonePane")],null,null),$.oO().$1(P.B(["repo",z],null,null)))]))}}}],["","",,V,{
 "^":"",
 w0:{
 "^":"r:0;",
@@ -785,7 +785,7 @@ x=P.A(null,null)
 J.kH(z.gl3(),new V.iA(x))
 w=[]
 J.kH(y,new V.Ba(z,x,w))
-if(w.length>0)v=$.ov.$2(P.B(["className","scrollable-pane"],null,null),[$.zL().$2(P.A(null,null),w)])
+if(w.length>0)v=$.ov.$2(P.B(["className","scrollable-pane"],null,null),$.zL().$2(P.A(null,null),w))
 else v=!z.gyZ()?$.Jz().$1(P.A(null,null)):$.r0().$1(P.A(null,null))
 return v}},
 iA:{
@@ -798,16 +798,16 @@ z=J.U6(a)
 y=this.a.p(0,z.p(a,"name"))
 x=this.Q
 w=this.b
-if(y!=null){z=J.U6(y)
-v=$.Q.$2(P.B(["href",z.p(y,"html_url"),"target",J.C9(x)],null,null),z.p(y,"name"))
-u=N.iW(P.Gl(z.p(y,"published_at")))
-t=$.mO.$2(P.A(null,null),[$.ov.$2(P.A(null,null),[$.uB().$1(P.B(["author",z.p(y,"author"),"includePicture",!0],null,null)),$.mO.$2(P.B(["className","text-muted"],null,null)," released this "+u)]),$.ov.$2(P.A(null,null),[])])
-w.push($.DM().$2(P.B(["header",v],null,null),[t]))}else{s=J.RE(x)
-r=s.gO3(x)
+if(y!=null){v=J.U6(y)
+u=$.Q.$2(P.B(["href",v.p(y,"html_url"),"target",J.C9(x)],null,null),v.p(y,"name"))
+t=N.iW(P.Gl(v.p(y,"published_at")))
+s=$.mO.$2(P.A(null,null),$.ov.$2(P.A(null,null),[$.uB().$1(P.B(["author",v.p(y,"author"),"includePicture",!0,"key","author-link"],null,null)),$.mO.$2(P.B(["className","text-muted","key","text"],null,null)," released this "+t)]))
+w.push($.DM().$2(P.B(["header",u,"key","tag-"+H.d(z.p(a,"name"))],null,null),s))}else{v=J.RE(x)
+r=v.gO3(x)
 if(r==null)return r.g()
 q=C.xB.g(r+"/releases/tag/",z.p(a,"name"))
-z=$.Q.$2(P.B(["href",q,"target",s.goc(x)],null,null),C.xB.g("No release! Tag: ",z.p(a,"name")))
-w.push($.DM().$1(P.B(["header",[z]],null,null)))}},null,null,2,0,null,19,"call"]}}],["","",,D,{
+u=$.Q.$2(P.B(["href",q,"target",v.goc(x)],null,null),C.xB.g("No release! Tag: ",z.p(a,"name")))
+w.push($.DM().$1(P.B(["header",u,"key","tag-"+H.d(z.p(a,"name"))],null,null)))}},null,null,2,0,null,19,"call"]}}],["","",,D,{
 "^":"",
 YJG:{
 "^":"r:0;",
@@ -837,10 +837,11 @@ if(1>=y.length)return H.e(y,1)
 this.Q.q(0,y[1],!0)}},null,null,2,0,null,20,"call"]},
 rj:{
 "^":"r:1;Q,a,b,c",
-$1:[function(a){var z=J.U6(a)
-if(this.c.p(0,J.Lz(z.p(a,"number")))!==!0)z=J.mG(J.wS(this.a),0)&&z.p(a,"merged_at")!=null
-else z=!0
-if(z)this.b.push($.ES().$1(P.B(["repo",this.Q,"issue",a,"pullRequests",!0],null,null)))},null,null,2,0,null,10,"call"]}}],["","",,H,{
+$1:[function(a){var z,y
+z=J.U6(a)
+if(this.c.p(0,J.Lz(z.p(a,"number")))!==!0)y=J.mG(J.wS(this.a),0)&&z.p(a,"merged_at")!=null
+else y=!0
+if(y)this.b.push($.ES().$1(P.B(["repo",this.Q,"issue",a,"pullRequests",!0,"key","pr-"+H.d(z.p(a,"number"))],null,null)))},null,null,2,0,null,10,"call"]}}],["","",,H,{
 "^":"",
 Lt:{
 "^":"a;Q"}}],["","",,J,{
