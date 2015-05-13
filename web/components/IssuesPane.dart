@@ -76,8 +76,23 @@ class _IssuesPane extends react.Component {
         var openClosedButtons = react.div({'style': {'borderBottom': '#dedede 2px solid'}}, [
             react.h6({'className': 'pane-header'}, headerText),
             ButtonGroup({'className': 'no-radius'}, [
-                Button({'wsSize': 'xsmall', 'wsStyle': null, 'active': opened, 'className': 'open-issues', 'onClick': openClosedHandler}, 'Open'),
-                Button({'wsSize': 'xsmall', 'wsStyle': null, 'active': !opened, 'className': 'closed-issues', 'onClick': openClosedHandler}, 'Closed')
+                Button({
+                    'wsSize': 'xsmall',
+                    'wsStyle': null,
+                    'active': opened,
+                    'className': 'open-issues',
+                    'onClick': openClosedHandler,
+                    'key': 'open-button'},
+                'Open'),
+                Button({
+                    'wsSize':
+                    'xsmall',
+                    'wsStyle': null,
+                    'active': !opened,
+                    'className': 'closed-issues',
+                    'onClick': openClosedHandler,
+                    'key': 'close-button'},
+                'Closed')
             ])
         ]);
 

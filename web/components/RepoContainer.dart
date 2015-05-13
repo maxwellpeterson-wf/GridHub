@@ -58,11 +58,11 @@ class _RepoContainer extends react.Component {
       var openState = this.props['openState'];
       var repoName = repo != null ? repo.name : 'Test Repo';
       var title = react.h3({}, [
-          Octicon({'icon': 'repo'}),
-          react.a({'href': repo.url, 'target': repoName}, repoName),
-          react.span({'className': 'pull-right'}, [
+          Octicon({'icon': 'repo', 'key': 'icon'}),
+          react.a({'href': repo.url, 'target': repoName, 'key': 'link'}, repoName),
+          react.span({'className': 'pull-right', 'key': 'actions'},
               react.a({'className': 'remove-repo', 'onClick': this.removeRepo}, Glyphicon({'glyph': 'trash'}))
-          ])
+          )
       ]);
 
       var readmeIcon = Octicon({'icon': CONSTANTS.readmeIcon, 'title': 'README'});
@@ -72,30 +72,30 @@ class _RepoContainer extends react.Component {
       var unreleasedIcon = Octicon({'icon': CONSTANTS.unreleasedIcon, 'title': 'Unreleased PRs (PRs merged since last tag)'});
       var milestonesIcon = Octicon({'icon': CONSTANTS.milestonesIcon, 'title': 'Milestones'});
 
-      return Panel({'header': title, 'className': 'repo-panel', 'key': repoName}, [
+      return Panel({'header': title, 'className': 'repo-panel', 'key': repoName},
           TabbedArea({
               'activeKey': activeKey, 'className': 'tabs-right',
               'animation': false, 'onSelect': this.paneSelected
           }, [
-              TabPane({'eventKey': '1', 'tab': readmeIcon, 'key': repoName + 'readmePane'}, [
+              TabPane({'eventKey': '1', 'tab': readmeIcon, 'key': repoName + 'readmePane'},
                   ReadmePane({'repo': repo})
-              ]),
-              TabPane({'eventKey': '2', 'tab': tagIcon, 'key': repoName + 'tagPane'}, [
+              ),
+              TabPane({'eventKey': '2', 'tab': tagIcon, 'key': repoName + 'tagPane'},
                   TagsPane({'repo': repo})
-              ]),
-              TabPane({'eventKey': '3', 'tab': issueIcon, 'key': repoName + 'issuePane'}, [
+              ),
+              TabPane({'eventKey': '3', 'tab': issueIcon, 'key': repoName + 'issuePane'},
                   IssuesPane({'repo': repo, 'openState': openState})
-              ]),
-              TabPane({'eventKey': '4', 'tab': pullRequestIcon, 'key': repoName + 'pullPane'}, [
+              ),
+              TabPane({'eventKey': '4', 'tab': pullRequestIcon, 'key': repoName + 'pullPane'},
                   IssuesPane({'repo': repo, 'pullRequests': true, 'openState': openState})
-              ]),
-              TabPane({'eventKey': '5', 'tab': unreleasedIcon, 'key': repoName + 'unreleasedPane'}, [
+              ),
+              TabPane({'eventKey': '5', 'tab': unreleasedIcon, 'key': repoName + 'unreleasedPane'},
                   UnreleasedPane({'repo': repo})
-              ]),
-              TabPane({'eventKey': '6', 'tab': milestonesIcon, 'key': repoName + 'milestonePane'}, [
+              ),
+              TabPane({'eventKey': '6', 'tab': milestonesIcon, 'key': repoName + 'milestonePane'},
                   MilestonesPane({'repo': repo})
-              ])
+              )
           ])
-      ]);
+      );
   }
 }

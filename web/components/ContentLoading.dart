@@ -7,8 +7,8 @@ var ContentLoading = react.registerComponent(() => new _ContentLoading());
 class _ContentLoading extends react.Component {
 
     render() {
-        return react.div({'className': 'empty-results'}, [
+        return react.div({'className': 'empty-results'},
             react.i({'className': 'progress-spinner progress-spinner-huge'})
-        ]);
+        );
     }
 }
