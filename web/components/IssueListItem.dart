@@ -108,8 +108,9 @@ class _IssueListItem extends react.Component {
 
         var number = issue['number'];
         var body = react.span({'className': 'text-muted text-md'}, [
-            react.span({}, '#${number} ${actionVerb} ${relativeDate} by '),
+            react.span({}, '#$number by '),
             AuthorLink({'author': issue['user']}),
+            react.span({}, ' - $actionVerb $relativeDate'),
             milestone,
             react.span({}, labels)
         ]);
