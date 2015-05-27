@@ -526,7 +526,7 @@ l=v.p(x,"labels")!=null?v.p(x,"labels"):[]
 J.kH(l,new D.fK(p))
 k=v.p(x,"milestone")!=null?$.mO.$2(P.B(["className","milestone-label"],null,null),[$.p0().$1(P.B(["icon","milestone"],null,null)),$.mO.$2(P.B(["className","text-muted"],null,null),J.Tf(v.p(x,"milestone"),"title"))]):""
 j=v.p(x,"number")
-i=$.mO.$2(P.B(["className","text-muted text-md"],null,null),[$.mO.$2(P.A(null,null),"#"+H.d(j)+" "+s+" "+n+" by "),$.uB().$1(P.B(["author",v.p(x,"user")],null,null)),k,$.mO.$2(P.A(null,null),p)])
+i=$.mO.$2(P.B(["className","text-muted text-md"],null,null),[$.mO.$2(P.A(null,null),"#"+H.d(j)+" by "),$.uB().$1(P.B(["author",v.p(x,"user")],null,null)),$.mO.$2(P.A(null,null)," - "+s+" "+n),k,$.mO.$2(P.A(null,null),p)])
 return $.DM().$2(P.B(["header",[o,r],"className",z.Q],null,null),[i])}},
 kT:{
 "^":"r:1;Q",
