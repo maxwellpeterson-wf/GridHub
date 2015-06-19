@@ -4,6 +4,7 @@ import 'package:flux/flux.dart';
 import 'package:react/react.dart' as react;
 import 'package:web_skin_react/web_skin_react.dart';
 
+import '../actions/actions.dart';
 import '../models/repo.dart';
 import '../stores/stores.dart';
 
@@ -16,7 +17,7 @@ import 'GridHubHeader.dart';
  * The GridHub Application component
  */
 var GridHubApp = react.registerComponent(() => new _GridHubApp());
-class _GridHubApp<GridHubActions, GridHubStores> extends FluxComponent {
+class _GridHubApp extends FluxComponent<GridHubActions, GridHubStores> {
 
     String get currentPage => this.state['currentPage'];
     String get globalActiveKey => this.state['globalActiveKey'];
@@ -34,24 +35,25 @@ class _GridHubApp<GridHubActions, GridHubStores> extends FluxComponent {
         };
     }
 
-    globalButtonClicked(activeKey) {
-        return (eventKey, href, target) {
-            this.setState({'globalActiveKey': activeKey});
-        };
+    _globalStateStoreUpdated(GlobalStateStore store) {
+        this.setState({
+            'globalActiveKey': store.activePaneKey,
+            'openState': store.openState
+        });
     }
 
     _repoStoreUpdated(ReposStore store) {
         this.setState({
             'repos': store.currentPageRepos,
             'currentPage': store.currentPage,
-            'openState': store.openState,
             'pageNames': store.pageNames
         });
     }
 
     getStoreHandlers() {
         return {
-            stores.reposStore: _repoStoreUpdated
+            stores.reposStore: _repoStoreUpdated,
+            stores.globalStateStore: _globalStateStoreUpdated
         };
     }
 
@@ -87,7 +89,6 @@ class _GridHubApp<GridHubActions, GridHubStores> extends FluxComponent {
             GridHubHeader({
                 'actions': actions,
                 'currentPage': currentPage,
-                'globalButtonClickHandler': this.globalButtonClicked,
                 'pageNames': pageNames,
                 'key': 'header'
             }),
