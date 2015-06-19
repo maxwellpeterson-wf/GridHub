@@ -40,21 +40,25 @@ class ReposStore extends Store {
     }
 
     Future initializeCurrentPageRepos() {
-        var currentPageRepos = _storage.getRepos(_storage.currentPage);
+        return initializePageRepos(_storage.currentPage);
+    }
+
+    Future initializePageRepos(String pageName) {
+        var repoNames = _storage.getRepos(pageName);
         List<Future> futures = [];
         List<Repository> repos = [];
-        currentPageRepos.forEach((repoName) {
+        repoNames.forEach((repoName) {
             var repo = new Repository(repoName, _actions);
             repos.add(repo);
             futures.add(repo.initializeData());
         });
         // Trigger immediately, and also when the data is done loading
-        _allRepos[_storage.currentPage] = repos;
-        trigger();
+        _allRepos[pageName] = repos;
+        if (pageName == _storage.currentPage) trigger();
 
         return Future.wait(futures).then((futures) {
-            _allRepos[_storage.currentPage] = repos;
-            trigger();
+            _allRepos[pageName] = repos;
+            if (pageName == _storage.currentPage) trigger();
         });
     }
 
@@ -104,8 +108,14 @@ class ReposStore extends Store {
         trigger();
     }
 
-    onRefreshPage(String pageName) {
-        initializeCurrentPageRepos();
+    onRefreshPage(String pageName) async {
+        await initializeCurrentPageRepos();
+        for (int i=0; i < pageNames.length; i++) {
+            String name = pageNames[i];
+            if (name != _storage.currentPage)  {
+                await initializePageRepos(name);
+            }
+        }
     }
 
     onAddPage(String pageName) {
