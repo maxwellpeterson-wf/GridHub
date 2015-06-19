@@ -28,6 +28,7 @@ class RepoActions {
   /// Payload is the page name to switch to
   final Action<String> switchPage = new Action<String>();
 
-  /// Payload is whether or not the global open state is open or closed
-  final Action<bool> globalOpenState = new Action<bool>();
+  /// Payload is the page index to switch to
+  final Action<int> switchPageByIndex = new Action<int>();
+
 }

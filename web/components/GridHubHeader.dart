@@ -24,7 +24,6 @@ class _GridHubHeader extends react.Component {
         return {
             'actions': null,
             'currentPage': '',
-            'globalButtonClickHandler': (){},
             'pageNames': []
         };
     }
@@ -97,12 +96,18 @@ class _GridHubHeader extends react.Component {
 
     onOpenState(event) {
         event.preventDefault();
-        actions.repoActions.globalOpenState.dispatch(true);
+        actions.globalStateActions.globalOpenState.dispatch(true);
     }
 
     onCloseState(event) {
         event.preventDefault();
-        actions.repoActions.globalOpenState.dispatch(false);
+        actions.globalStateActions.globalOpenState.dispatch(false);
+    }
+
+    onSwitchActivePane(String key) {
+        return (event, href, target) {
+            actions.globalStateActions.switchActivePaneKey.dispatch(key);
+        };
     }
 
     render() {
@@ -111,7 +116,6 @@ class _GridHubHeader extends react.Component {
         if (editPageName == null) {
             editPageName = currentPage;
         }
-        var globalButtonClickHandler = this.props['globalButtonClickHandler'];
         var githubUsername = this.state['githubUsername'];
         var githubAccessToken = this.state['githubAccessToken'];
         var newPageName = this.state['newPageName'];
@@ -215,12 +219,12 @@ class _GridHubHeader extends react.Component {
                 ),
 
                 // GLOBAL STATE BUTTONS
-                NavItem({'onSelect': globalButtonClickHandler('1'), 'key': 'readme-icon-nav-item'}, readmeIcon),
-                NavItem({'onSelect': globalButtonClickHandler('2'), 'key': 'tag-icon-nav-item'}, tagIcon),
-                NavItem({'onSelect': globalButtonClickHandler('3'), 'key': 'issue-icon-nav-item'}, issueIcon),
-                NavItem({'onSelect': globalButtonClickHandler('4'), 'key': 'pull-icon-nav-item'}, pullRequestIcon),
-                NavItem({'onSelect': globalButtonClickHandler('5'), 'key': 'unreleased-icon-nav-item'}, unreleasedIcon),
-                NavItem({'onSelect': globalButtonClickHandler('6'), 'key': 'milestone-icon-nav-item'}, milestonesIcon),
+                NavItem({'onSelect': onSwitchActivePane('1'), 'key': 'readme-icon-nav-item'}, readmeIcon),
+                NavItem({'onSelect': onSwitchActivePane('2'), 'key': 'tag-icon-nav-item'}, tagIcon),
+                NavItem({'onSelect': onSwitchActivePane('3'), 'key': 'issue-icon-nav-item'}, issueIcon),
+                NavItem({'onSelect': onSwitchActivePane('4'), 'key': 'pull-icon-nav-item'}, pullRequestIcon),
+                NavItem({'onSelect': onSwitchActivePane('5'), 'key': 'unreleased-icon-nav-item'}, unreleasedIcon),
+                NavItem({'onSelect': onSwitchActivePane('6'), 'key': 'milestone-icon-nav-item'}, milestonesIcon),
 
                 react.li({'className': 'nav-item nav-item-text-button', 'onClick': onOpenState, 'key': 'open-button-nav-item'},
                     Button({'wsSize': 'xsmall', 'wsStyle': null, 'className': 'hitarea'}, 'Open')),

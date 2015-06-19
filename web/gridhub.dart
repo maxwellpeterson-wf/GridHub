@@ -7,6 +7,7 @@ import 'actions/actions.dart';
 import 'components/GridHubApp.dart' show GridHubApp;
 import 'services/localStorageService.dart' as localStorageService;
 import 'stores/stores.dart';
+import 'utils/keyboard_shortcuts.dart';
 
 
 void main() {
@@ -16,16 +17,19 @@ void main() {
     reactClient.setClientConfiguration();
 
     // Initialize actions
-    GridHubActions actions = new GridHubActions(
-        new RepoActions()
-    );
+    GridHubActions actions = new GridHubActions();
 
     // Initialize data layer and stores
     var storage = new localStorageService.RepoGridData();
     GridHubStores stores = new GridHubStores(
-      new ReposStore(actions, storage)
+      new ReposStore(actions, storage),
+      new GlobalStateStore(actions)
     );
 
     // Render the application
     react.render(GridHubApp({'actions': actions, 'stores': stores}), domContainer);
+
+    document.onKeyDown.listen((KeyboardEvent event) {
+        handleKeyDown(event, actions);
+    });
 }
