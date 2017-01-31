@@ -1,5 +1,6 @@
 bower_components
 build
+.packages
 packages
 web/bower_components
 web/packages

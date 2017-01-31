@@ -36,11 +36,16 @@ class _TagsPane extends react.Component {
       if (release != null) {
         var header = react.a({'href': release['html_url'], 'target': repo.name}, release['name']);
 
-        String relativeDate = getRelativeDate(DateTime.parse(release['published_at']));
+        String relativeDate;
+        if (release['published_at'] != null) {
+          relativeDate = getRelativeDate(DateTime.parse(release['published_at']));
+        } else {
+          relativeDate = 'draft';
+        }
         var body = react.span({},
         react.div({}, [
           AuthorLink({'author': release['author'], 'includePicture': true, 'key': 'author-link'}),
-          react.span({'className': 'text-muted', 'key': 'text'}, ' released this ${relativeDate}')
+          react.span({'className': 'text-muted', 'key': 'text'}, ' published this ${relativeDate}')
         ])
 //                    react.div({}, [
 //                        react.span({}, release['body'])
