@@ -5,7 +5,7 @@ Currently hosted at [http://gridhub.club](http://gridhub.club). Uses local stora
 
 _Will need a Github username and access token to access private repositories. The access token only needs the default access permissions (repo, public_repo, user)._
 
-![screenshot](https://www.dropbox.com/s/9duh4v49mm4dedo/Screenshot%202015-01-30%2013.46.05.png?dl=1)
+![screenshot](https://www.dropbox.com/s/g4ma331a10u6tax/Screenshot%202015-06-22%2015.42.19.png?dl=1)
 
 ## Keyboard Shortcuts
 

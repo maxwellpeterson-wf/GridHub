@@ -1,7 +1,5 @@
 library gridhub.actions;
 
-import 'package:flux/flux.dart';
-
 import 'package:gridhub/src/actions/global_state_actions.dart';
 import 'package:gridhub/src/actions/repo_actions.dart';
 

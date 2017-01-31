@@ -9,6 +9,7 @@ build/web/packages/pubsub/docs
 
 CNAME
 
+.packages
 packages
 web/bower_components
 web/packages
